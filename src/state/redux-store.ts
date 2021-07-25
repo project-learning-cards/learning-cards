@@ -11,6 +11,8 @@ import {
 } from "../components/enterNewPassword/enter-new-password-reducer";
 import {actionsProfileType, profileReducer} from "../components/profile/profile-reducer";
 import {actionsRegistrationType, registrationReducer} from "../components/registration/regidtration-reducer";
+import {actionPacksListType, packsListReducer} from "../components/packsList/packsList-reducer";
+import {actionCardsListType, cardsListReducer} from "../components/cardsList/cardsList-reducer";
 
 
 export const rootReducer = combineReducers({
@@ -19,6 +21,8 @@ export const rootReducer = combineReducers({
     newPassword: setNewPasswordReducer,
     profile: profileReducer,
     registration: registrationReducer,
+    packsList: packsListReducer,
+    cardsList: cardsListReducer,
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -30,6 +34,8 @@ type AppActionsType = actionsSetNewPasswordType
     | actionsPasswordRecoveryType
     | actionsProfileType
     | actionsRegistrationType
+    | actionPacksListType
+    | actionCardsListType
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType,
     AppStateType,
