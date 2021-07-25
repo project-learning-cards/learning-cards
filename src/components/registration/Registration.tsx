@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './Registration.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../state/redux-store";
-import {setRegistration, setRegistrationAC, setServerErrorMessageRegistration} from "./registration-reducer";
+import {setRegistration, setRegistrationAC, setServerErrorMessageRegistration} from "./regidtration-reducer";
 import {Redirect} from 'react-router-dom';
 import {InputContainer} from "../../common/InputContainer/InputContainer";
 import {emailValidation} from "../../common/validation/EmailValidation";

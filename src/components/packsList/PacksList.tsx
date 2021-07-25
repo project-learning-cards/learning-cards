@@ -5,7 +5,7 @@ import {addPack, deletePack, getPackList, setPackNameAC, setPageNumberAC, update
 import {AppStateType} from "../../state/redux-store";
 import {cardsPackType, getPacksAPIParamsType} from "../../api/api";
 import {NavLink, Redirect} from "react-router-dom";
-import {AuthUser} from "../Login/login-reducer";
+import {AuthUser} from "../login/login-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import {Pagination} from "../../common/Pagination/Pagination";
 import {ManagePacksButton} from './ManagePacksButton';

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../state/redux-store";
-import s from "../Profile/PersonalIngormation.module.scss";
+import s from "./PersonalInformation.module.scss";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
 import {updateProfile} from "./profile-reducer";
 import {InputContainer} from "../../common/InputContainer/InputContainer";

@@ -3,11 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../state/redux-store";
 import {AuthUser, logOutUser} from "../login/login-reducer";
-import s from "../Profile/Profile.module.scss";
+import s from "./Profile.module.scss";
 import {PersonalInformation} from "./PersonalInformation";
 import {profileResponseType} from "./profile-reducer";
 import {PacksList} from "../packsList/PacksList";
-import {getPackList} from "../PacksList/packsList-reducer";
+import {getPackList} from "../packsList/packsList-reducer";
 import {getPacksAPIParamsType} from "../../api/api";
 
 

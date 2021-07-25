@@ -7,7 +7,7 @@ import {
 } from "../../api/api";
 import {AppThunkType, GetAppStateType} from "../../state/redux-store";
 import {Dispatch} from "redux";
-import {actionPacksListType, GetPacksListAC} from "../PacksList/packsList-reducer";
+import {actionPacksListType, GetPacksListAC} from "../packsList/packsList-reducer";
 
 const initialState = {
     arrayCard: [] as Array<cardType>,

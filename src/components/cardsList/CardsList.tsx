@@ -5,9 +5,9 @@ import {addCard, deleteCard, getCardsList} from "./cardsList-reducer";
 import {AppStateType} from "../../state/redux-store";
 import {cardType} from "../../api/api";
 import {Redirect, useParams} from "react-router-dom";
-import {AuthUser} from "../Login/login-reducer";
+import {AuthUser} from "../login/login-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
-import {addPack} from "../PacksList/packsList-reducer";
+import {addPack} from "../packsList/packsList-reducer";
 import {ManageCardsButton} from "./ManageCardsButton";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
 

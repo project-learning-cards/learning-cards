@@ -1,9 +1,9 @@
 import {ModalWindow} from "./ModalWindow";
 import {InputContainer} from "../InputContainer/InputContainer";
-import s from "../../components/PacksList/PacksList.module.scss";
+import s from "../../components/packsList/PacksList.module.scss";
 import {MainActionButton} from "../MainActionButton/MainActionButton";
 import React, {ChangeEvent, useState} from "react";
-import {addPack} from "../../components/PacksList/packsList-reducer";
+import {addPack} from "../../components/packsList/packsList-reducer";
 import {useDispatch} from "react-redux";
 
 export type ModalWindowPropsType = {

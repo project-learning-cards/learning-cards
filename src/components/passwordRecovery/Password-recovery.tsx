@@ -4,7 +4,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess} from "./password-recovery-reducer";
 
-import s from "../Login/Login.module.scss";
+import s from "../login/Login.module.scss";
 import {InputContainer} from "../../common/InputContainer/InputContainer";
 import {emailValidation} from "../../common/validation/EmailValidation";
 import {HeaderEnterApp} from "../../common/HeaderEnterApp/HeaderEnterApp";
