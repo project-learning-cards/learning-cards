@@ -6,10 +6,11 @@ import {passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess} from "
 
 import s from "../login/Login.module.scss";
 import {InputContainer} from "../../common/InputContainer/InputContainer";
-import {emailValidation} from "../../common/validation/EmailValidation";
 import {HeaderEnterApp} from "../../common/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
 import {AppStateType} from "../../state/redux-store";
+import { emailValidation } from "../../utils/validation";
+import { RoutePath } from "../navbar/Navbar";
 
 export const PasswordRecovery = () => {
     const [email, setEmail] = useState<string>('hardtruenew39@gmail.com')
@@ -71,7 +72,7 @@ export const PasswordRecovery = () => {
                     />
                 </div>
                 <p className={s.DifferentAccountBtn}>Did you remember your password?</p>
-                <NavLink to="/login" className={s.footerBtn}>Try logging in</NavLink>
+                <NavLink to={RoutePath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
             </div>
         </div>
     )

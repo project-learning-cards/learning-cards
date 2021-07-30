@@ -13,6 +13,7 @@ import {InputContainer} from "../../common/InputContainer/InputContainer";
 import {ModalWindowAdd} from "../../common/ModalWindow/ModalWindowAdd";
 import {ModalWindowUpdate} from "../../common/ModalWindow/ModalWindowUpdate";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
+import { RoutePath } from '../navbar/Navbar';
 
 export const PacksList = (props: { user_id?: string }) => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -76,7 +77,7 @@ export const PacksList = (props: { user_id?: string }) => {
     }
 
     if (!isAuth) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={RoutePath.LOGIN}/>
     }
 
     if (!success) {

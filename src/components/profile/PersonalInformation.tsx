@@ -6,6 +6,7 @@ import s from "./PersonalInformation.module.scss";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
 import {updateProfile} from "./profile-reducer";
 import {InputContainer} from "../../common/InputContainer/InputContainer";
+import { RoutePath } from "../navbar/Navbar";
 
 type PersonalInformationPropsType = {
     onClick: () => void
@@ -49,7 +50,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
         }
     }
 
-    if (!isAuth) return <Redirect to={'/login'}/>
+    if (!isAuth) return <Redirect to={RoutePath.LOGIN}/>
 
     return (
         <div className={s.profilePageContainer}>

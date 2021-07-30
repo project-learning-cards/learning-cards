@@ -10,6 +10,7 @@ import {Preloader} from "../../common/Preloader/Preloader";
 import {addPack} from "../packsList/packsList-reducer";
 import {ManageCardsButton} from "./ManageCardsButton";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
+import { RoutePath } from '../navbar/Navbar';
 
 export const CardsList = () => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -37,7 +38,7 @@ export const CardsList = () => {
     }
 
     if (!isAuth) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={RoutePath.LOGIN}/>
     }
 
     if (!success) {

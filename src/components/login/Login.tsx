@@ -5,10 +5,10 @@ import {setServerErrorMessageLogin, loginUserTC, logIn} from "./login-reducer";
 import {AppStateType} from "../../state/redux-store";
 import {NavLink, Redirect} from "react-router-dom";
 import {InputContainer} from "../../common/InputContainer/InputContainer";
-import {emailValidation} from "../../common/validation/EmailValidation";
 import {HeaderEnterApp} from "../../common/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
-import {PasswordValidation} from "../../common/validation/passwordValidation";
+import { emailValidation, PasswordValidation } from "../../utils/validation";
+import { RoutePath } from "../navbar/Navbar";
 
 export const Login = () => {
     const [emailValue, setEmailValue] = useState<string>('')
@@ -51,7 +51,7 @@ export const Login = () => {
 
 
     if (isLogIn) {
-        return <Redirect to={'/profile'}/>
+        return <Redirect to={RoutePath.PROFILE}/>
     }
     const disabledBtnSubmit = !emailValue || !passwordValue
 
@@ -90,7 +90,7 @@ export const Login = () => {
                     />
                 </div>
                 <p className={s.DifferentAccountBtn}>Don't have an account</p>
-                <NavLink to="/registration" className={s.footerBtn}>Sing Up</NavLink>
+                <NavLink to={RoutePath.REGISTRATION} className={s.footerBtn}>Sing Up</NavLink>
             </div>
         </div>
     )

@@ -9,6 +9,7 @@ import {profileResponseType} from "./profile-reducer";
 import {PacksList} from "../packsList/PacksList";
 import {getPackList} from "../packsList/packsList-reducer";
 import {getPacksAPIParamsType} from "../../api/api";
+import { RoutePath } from "../navbar/Navbar";
 
 
 export const Profile = () => {
@@ -35,7 +36,7 @@ export const Profile = () => {
         dispatch(logOutUser())
     }
 
-    if (!isAuth) return <Redirect to={'/login'}/>
+    if (!isAuth) return <Redirect to={RoutePath.LOGIN}/>
 
     return (
         <div className={s.profilePageContainer}>

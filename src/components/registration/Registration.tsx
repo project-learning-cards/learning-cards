@@ -5,10 +5,10 @@ import {AppStateType} from "../../state/redux-store";
 import {setRegistration, setRegistrationAC, setServerErrorMessageRegistration} from "./regidtration-reducer";
 import {Redirect} from 'react-router-dom';
 import {InputContainer} from "../../common/InputContainer/InputContainer";
-import {emailValidation} from "../../common/validation/EmailValidation";
-import {PasswordValidation} from "../../common/validation/passwordValidation";
 import {HeaderEnterApp} from "../../common/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
+import { emailValidation, PasswordValidation } from '../../utils/validation';
+import { RoutePath } from '../navbar/Navbar';
 
 export const Registration = () => {
     const [email, setEmail] = useState<string>('')
@@ -63,7 +63,7 @@ export const Registration = () => {
     }, [])
 
     if (isRegistration) {
-        return <Redirect to={'/login'}/>
+        return <Redirect to={RoutePath.LOGIN}/>
     }
 
     const goBack = () => {

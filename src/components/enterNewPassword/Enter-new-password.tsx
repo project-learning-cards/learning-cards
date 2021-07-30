@@ -5,9 +5,10 @@ import {Redirect, useParams} from "react-router-dom";
 import {setServerErrorMessage, setNewPasswordThunk} from "./enter-new-password-reducer";
 import {HeaderEnterApp} from "../../common/HeaderEnterApp/HeaderEnterApp";
 import {InputContainer} from "../../common/InputContainer/InputContainer";
-import {PasswordValidation} from "../../common/validation/passwordValidation";
 import {MainActionButton} from "../../common/MainActionButton/MainActionButton";
 import {AppStateType} from "../../state/redux-store";
+import { PasswordValidation } from "../../utils/validation";
+import { RoutePath } from "../navbar/Navbar";
 
 export const EnterNewPassword = () => {
     const [password, setPassword] = useState<string>('')
@@ -34,7 +35,7 @@ export const EnterNewPassword = () => {
     }
 
     if (successResponse) {
-        return <Redirect to={"/login"}/>
+        return <Redirect to={RoutePath.LOGIN}/>
     }
 
     return (
