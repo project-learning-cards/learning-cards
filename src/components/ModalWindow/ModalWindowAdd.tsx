@@ -26,7 +26,7 @@ export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
     const changeGrade = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(null)
         if (Number(e.target.value) > 5 || Number(e.target.value) < 0) {
-            setError('Enter a value between 0 and 5')
+            setError("Enter a value between 0 and 5")
         } else {
             setGradeTitle(Number(e.target.value))
         }
@@ -34,7 +34,7 @@ export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
     const changeRating = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(null)
         if (Number(e.target.value) > 5 || Number(e.target.value) < 0) {
-            setError('Enter a value between 0 and 5')
+            setError("Enter a value between 0 and 5")
         } else {
             setRatingTitle(Number(e.target.value))
         }

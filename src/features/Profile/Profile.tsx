@@ -5,11 +5,9 @@ import {AppStateType} from "../../App/redux-store";
 import {AuthUser, logOutUser} from "../Login/login-reducer";
 import s from "./Profile.module.scss";
 import {PersonalInformation} from "./PersonalInformation";
-import {profileResponseType} from "./profile-reducer";
+import {ProfileResponseType} from "./profile-reducer";
 import {PacksList} from "../PacksList/PacksList";
-import {getPackList} from "../PacksList/packsList-reducer";
-import {getPacksAPIParamsType} from "../../api/api";
-import { RoutePath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Navbar";
 
 
 export const Profile = () => {
@@ -19,7 +17,7 @@ export const Profile = () => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const profile = useSelector<AppStateType, profileResponseType>(state => state.profile.profile)
+    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const dispatch = useDispatch()
 
     const closeModelWindow = () => setEditModeProfile(false)
@@ -36,7 +34,7 @@ export const Profile = () => {
         dispatch(logOutUser())
     }
 
-    if (!isAuth) return <Redirect to={RoutePath.LOGIN}/>
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
 
     return (
         <div className={s.profilePageContainer}>

@@ -2,7 +2,7 @@ import s from './PacksList.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
 import {AppStateType} from "../../App/redux-store";
-import {cardsPackType, getPacksAPIParamsType} from "../../api/api";
+import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
 import {NavLink, Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {Preloader} from "../../components/Preloader/Preloader";
@@ -11,7 +11,7 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {ModalWindowUpdate} from "../../components/ModalWindow/ModalWindowUpdate";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
-import { RoutePath } from '../Navbar/Navbar';
+import { UrlPath } from '../Navbar/Navbar';
 import { ManagePacksButton } from './ManagePacksButton';
 import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
 
@@ -28,11 +28,11 @@ export const PacksList = (props: { user_id?: string }) => {
 
     const {
         page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
-    } = useSelector<AppStateType, getPacksAPIParamsType>(state => state.packsList.packsParams);
+    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
 
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
 
-    const packsList = useSelector<AppStateType, Array<cardsPackType>>(state => state.packsList.cardPacks)
+    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
@@ -77,7 +77,7 @@ export const PacksList = (props: { user_id?: string }) => {
     }
 
     if (!isAuth) {
-        return <Redirect to={RoutePath.LOGIN}/>
+        return <Redirect to={UrlPath.LOGIN}/>
     }
 
     if (!success) {
@@ -95,10 +95,10 @@ export const PacksList = (props: { user_id?: string }) => {
                 <div className={s.search}>
                     <div className={s.containerInputSearch}>
                         <InputContainer
-                            placeholder={'Search'}
+                            placeholder={"Search"}
                             changeValue={changeSearch}
-                            errorMessage={''}
-                            typeInput={'text'}
+                            errorMessage={""}
+                            typeInput={"text"}
                             value={searchTitle}
                         />
                         <button onClick={() => {

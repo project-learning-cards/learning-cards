@@ -1,21 +1,21 @@
 import {
-    addCardsPackDataType,
-    cardsPackType,
-    getPacksAPIParamsType,
+    AddCardsPackDataType,
+    CardsPackType,
+    GetPacksAPIParamsType,
     PacksListAPI,
 } from "../../api/api";
 import {AppThunkType, GetAppStateType} from "../../App/redux-store";
 import {Dispatch} from "redux";
 
 type InitialStateType = {
-    cardPacks:cardsPackType[]
-    packsParams:getPacksAPIParamsType
+    cardPacks:CardsPackType[]
+    packsParams:GetPacksAPIParamsType
     cardPacksTotalCount: number
     success: boolean
 }
 
 export const initialState: InitialStateType = {
-    cardPacks: [] as cardsPackType[],
+    cardPacks: [] as CardsPackType[],
     packsParams: {
         min: 0,
         max: 20,
@@ -30,27 +30,27 @@ export const initialState: InitialStateType = {
 
 //types
 type GetPacksListAT = ReturnType<typeof GetPacksListAC>
-type setPageNumber = ReturnType<typeof setPageNumberAC>
-type setTotalPacksCountAC = ReturnType<typeof setTotalPacksCountAC>
-type setPageCountAC = ReturnType<typeof setPageCountAC>
-type setPackNameAT = ReturnType<typeof setPackNameAC>
+type SetPageNumber = ReturnType<typeof setPageNumberAC>
+type SetTotalPacksCountAC = ReturnType<typeof setTotalPacksCountAC>
+type SetPageCountAC = ReturnType<typeof setPageCountAC>
+type SetPackNameAT = ReturnType<typeof setPackNameAC>
 type SetSuccessAT = ReturnType<typeof SetSuccessAC>
 // type AddPackAT = ReturnType<typeof AddPackAC>
 
-export type actionPacksListType = GetPacksListAT | SetSuccessAT | setPageNumber | setTotalPacksCountAC | setPackNameAT | setPageCountAC
+export type ActionPacksListType = GetPacksListAT | SetSuccessAT | SetPageNumber | SetTotalPacksCountAC | SetPackNameAT | SetPageCountAC
 
 //actionC
-export const GetPacksListAC = (packs: Array<cardsPackType>) => ({type: 'packList/GET-PACKSLIST', packs} as const)
-export const setPageNumberAC =  (page:number) => ({type:'packList/SET-PAGE-NUMBER' , page} as const)
-export const setTotalPacksCountAC = (cardPacksTotalCount: number)  => ({type: 'packList/SET-PACKS-TOTAL-COUNT', cardPacksTotalCount} as const)
-export const setPageCountAC = (pageCount: number) => ({type: `packList/SET-PAGE-COUNT`, pageCount} as const)
-export const setPackNameAC = (packName: string) => ({type: `packList/SET-PACK-NAME`, packName} as const)
-export const SetSuccessAC = (success: boolean) => ({type: 'packList/SET-SUCCESS', success} as const)
+export const GetPacksListAC = (packs: Array<CardsPackType>) => ({type: "packList/GET-PACKSLIST", packs} as const)
+export const setPageNumberAC =  (page:number) => ({type:"packList/SET-PAGE-NUMBER" , page} as const)
+export const setTotalPacksCountAC = (cardPacksTotalCount: number)  => ({type: "packList/SET-PACKS-TOTAL-COUNT", cardPacksTotalCount} as const)
+export const setPageCountAC = (pageCount: number) => ({type: "packList/SET-PAGE-COUNT", pageCount} as const)
+export const setPackNameAC = (packName: string) => ({type: "packList/SET-PACK-NAME", packName} as const)
+export const SetSuccessAC = (success: boolean) => ({type: "packList/SET-SUCCESS", success} as const)
 
 
 //export const AddPackAC = (payload: addCardsPackDataType) => ({type: "packList/ADD-PACK", payload} as const)
 
-export const packsListReducer = (state = initialState, action: actionPacksListType): InitialStateType => {
+export const packsListReducer = (state = initialState, action: ActionPacksListType): InitialStateType => {
     switch (action.type) {
         case "packList/GET-PACKSLIST":
             return ({
@@ -63,13 +63,13 @@ export const packsListReducer = (state = initialState, action: actionPacksListTy
                 packsParams: {...state.packsParams, page: action.page}
             })
         }
-        case 'packList/SET-PACKS-TOTAL-COUNT': {
+        case "packList/SET-PACKS-TOTAL-COUNT": {
             return ({
                 ...state,
                 cardPacksTotalCount: action.cardPacksTotalCount
             })
         }
-        case 'packList/SET-PAGE-COUNT': {
+        case "packList/SET-PAGE-COUNT": {
             return ({
                 ...state,
                 packsParams: {...state.packsParams, pageCount: action.pageCount}
@@ -89,7 +89,8 @@ export const packsListReducer = (state = initialState, action: actionPacksListTy
 }
 
 //thunkC
-export const getPackList = (params: getPacksAPIParamsType): AppThunkType => async (dispatch: Dispatch<actionPacksListType>, getStore: GetAppStateType) => {
+export let moreDetails = ", more details in the console"
+export const getPackList = (params: GetPacksAPIParamsType): AppThunkType => async (dispatch: Dispatch<ActionPacksListType>, getStore: GetAppStateType) => {
     const {page} = getStore().packsList.packsParams
     try {
         const response = await PacksListAPI.getPacks({...params,page})
@@ -99,13 +100,13 @@ export const getPackList = (params: getPacksAPIParamsType): AppThunkType => asyn
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console');
+            : (e.message + moreDetails);
         dispatch(SetSuccessAC(false))
     } finally {
     }
 }
 
-export const addPack = (data: addCardsPackDataType): AppThunkType => async (dispatch: Dispatch<actionPacksListType>,getState:GetAppStateType) => {
+export const addPack = (data: AddCardsPackDataType): AppThunkType => async (dispatch: Dispatch<ActionPacksListType>,getState:GetAppStateType) => {
     const {sortPacks, min, max, page, user_id, pageCount, packName} = getState().packsList.packsParams
     try {
         const responseAdd = await PacksListAPI.addCardsPack(data)
@@ -114,12 +115,12 @@ export const addPack = (data: addCardsPackDataType): AppThunkType => async (disp
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console');
+            : (e.message + moreDetails);
     } finally {
     }
 }
 
-export const deletePack = (params: {id: string}): AppThunkType => async (dispatch: Dispatch<actionPacksListType>,getState:GetAppStateType) => {
+export const deletePack = (params: {id: string}): AppThunkType => async (dispatch: Dispatch<ActionPacksListType>,getState:GetAppStateType) => {
     const {sortPacks, min, max, page, pageCount, packName} = getState().packsList.packsParams
     const _id = getState().profile.profile._id
     try {
@@ -129,12 +130,12 @@ export const deletePack = (params: {id: string}): AppThunkType => async (dispatc
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console');
+            : (e.message + moreDetails);
     } finally {
     }
 }
 
-export const updatePack = (data: { cardsPack: { _id: string, name?: string } }): AppThunkType => async (dispatch: Dispatch<actionPacksListType>,getState:GetAppStateType) => {
+export const updatePack = (data: { cardsPack: { _id: string, name?: string } }): AppThunkType => async (dispatch: Dispatch<ActionPacksListType>,getState:GetAppStateType) => {
     const {sortPacks, min, max, page, user_id, pageCount, packName} = getState().packsList.packsParams
     const _id = getState().profile.profile._id
     try {
@@ -144,7 +145,7 @@ export const updatePack = (data: { cardsPack: { _id: string, name?: string } }):
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console');
+            : (e.message + moreDetails);
     } finally {
     }
 }

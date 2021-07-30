@@ -7,37 +7,37 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import { emailValidation, PasswordValidation } from "../../utils/validation";
-import { RoutePath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Navbar";
 import { loginUserTC, setServerErrorMessageLogin } from "./login-reducer";
 
 export const Login = () => {
-    const [emailValue, setEmailValue] = useState<string>('')
-    const [passwordValue, setPasswordValue] = useState<string>('')
+    const [emailValue, setEmailValue] = useState<string>("")
+    const [passwordValue, setPasswordValue] = useState<string>("")
 
     const dispatch = useDispatch()
     const loadingStatus = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const isLogIn = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const serverErrorMessage = useSelector<AppStateType, string>(state => state.login.error)
 
-    const [errorEmailMessage, setErrorEmailMessage] = useState<string>('')
-    const [errorPasswordMessage, setErrorPasswordMessage] = useState<string>('')
+    const [errorEmailMessage, setErrorEmailMessage] = useState<string>("")
+    const [errorPasswordMessage, setErrorPasswordMessage] = useState<string>("")
 
     const changeEmailValue = (e: ChangeEvent<HTMLInputElement>) => {
         setEmailValue(e.currentTarget.value)
-        setErrorEmailMessage('')
-        serverErrorMessage && dispatch(setServerErrorMessageLogin(''))
+        setErrorEmailMessage("")
+        serverErrorMessage && dispatch(setServerErrorMessageLogin(""))
     }
     const changePasswordValue = (e: ChangeEvent<HTMLInputElement>) => {
         setPasswordValue(e.currentTarget.value)
-        serverErrorMessage && dispatch(setServerErrorMessageLogin(''))
-        setErrorPasswordMessage('')
+        serverErrorMessage && dispatch(setServerErrorMessageLogin(""))
+        setErrorPasswordMessage("")
     }
 
     const checkLoginUser = () => {
         if (!emailValidation(emailValue)) {
-            setErrorEmailMessage('Incorrect email')
+            setErrorEmailMessage("Incorrect email")
         } else if (!PasswordValidation(passwordValue)) {
-            setErrorPasswordMessage('Minimum 8 characters')
+            setErrorPasswordMessage("Minimum 8 characters")
         } else {
             dispatch(loginUserTC(emailValue, passwordValue))
         }
@@ -51,32 +51,32 @@ export const Login = () => {
 
 
     if (isLogIn) {
-        return <Redirect to={RoutePath.PROFILE}/>
+        return <Redirect to={UrlPath.PROFILE}/>
     }
     const disabledBtnSubmit = !emailValue || !passwordValue
 
     return (
         <div className={s.authPageContainer}>
-            <HeaderEnterApp title={'Sign In'}/>
+            <HeaderEnterApp title={"Sign In"}/>
 
             <div className={s.emailPasswordLoginContainer}>
                 <InputContainer
-                    title={'Email'}
-                    typeInput={'email'}
+                    title={"Email"}
+                    typeInput={"email"}
                     value={emailValue}
                     changeValue={changeEmailValue}
                     errorMessage={errorEmailMessage}
                 />
                 <InputContainer
-                    title={'Password'}
-                    typeInput={'password'}
+                    title={"Password"}
+                    typeInput={"password"}
                     value={passwordValue}
                     changeValue={changePasswordValue}
                     errorMessage={errorPasswordMessage}
                 />
 
                 <div className={s.forgotPasswordBtn}>
-                    <NavLink to="/password-recovery">Forgot Password</NavLink>
+                    <NavLink to={UrlPath.PASSWORD_RECOVERY}>Forgot Password</NavLink>
                 </div>
             </div>
 
@@ -86,11 +86,11 @@ export const Login = () => {
                     <MainActionButton actionClick={checkLoginUser}
                                 disabledBtnSubmit={disabledBtnSubmit}
                                 loadingStatus={loadingStatus}
-                                title={'login'}
+                                title={"login"}
                     />
                 </div>
                 <p className={s.DifferentAccountBtn}>Don't have an account</p>
-                <NavLink to={RoutePath.REGISTRATION} className={s.footerBtn}>Sing Up</NavLink>
+                <NavLink to={UrlPath.REGISTRATION} className={s.footerBtn}>Sing Up</NavLink>
             </div>
         </div>
     )

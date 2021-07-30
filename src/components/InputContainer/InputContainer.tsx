@@ -6,7 +6,7 @@ type InputContainerPropsType = {
     value: string
     changeValue: (e: ChangeEvent<HTMLInputElement>) => void,
     errorMessage: string
-    typeInput: 'email' | 'password' | 'text'
+    typeInput: "email" | "password" | "text"
     placeholder?: string
     onBlur?: (e: FocusEvent<HTMLInputElement>) => void
 }
@@ -14,8 +14,8 @@ export const InputContainer = (props: InputContainerPropsType) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const typeShowInput = () => {
-        if (props.typeInput === 'password') {
-            return showPassword ? 'text' : 'password'
+        if (props.typeInput === "password") {
+            return showPassword ? "text" : "password"
         }
         return props.typeInput
     }
@@ -30,10 +30,10 @@ export const InputContainer = (props: InputContainerPropsType) => {
                 placeholder={props.placeholder}
                 onBlur={props.onBlur}
             />
-            {props.typeInput === 'password'
+            {props.typeInput === "password"
             &&
-            <img alt={'your password'}
-                 src={showPassword ? 'https://snipp.ru/demo/495/no-view.svg' : 'https://snipp.ru/demo/495/view.svg'}
+            <img alt={"your password"}
+                 src={showPassword ? "https://snipp.ru/demo/495/no-view.svg" : "https://snipp.ru/demo/495/view.svg"}
                  className={s.passwordControl} onClick={() => {setShowPassword(!showPassword)}}/>
             }
             <span className={s.errorEmailPasswordMessage}>{props.errorMessage}</span>

@@ -6,7 +6,7 @@ import s from "./PersonalInformation.module.scss";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {updateProfile} from "./profile-reducer";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
-import { RoutePath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Navbar";
 
 type PersonalInformationPropsType = {
     onClick: () => void
@@ -41,16 +41,16 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
     const onSaveInformation = () => {
         debugger
         if (!newName) {
-            setErrorNickName('Incorrect nick name')
+            setErrorNickName("Incorrect nick name")
         } else if (!urlAvatar) {
-            setErrorUrlAvatar('Incorrect url address')
+            setErrorUrlAvatar("Incorrect url address")
         } else {
             dispatch(updateProfile(urlAvatar, newName));
             closeModelWindow();
         }
     }
 
-    if (!isAuth) return <Redirect to={RoutePath.LOGIN}/>
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
 
     return (
         <div className={s.profilePageContainer}>
@@ -60,18 +60,18 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                 <div className={s.modalMessage}>
                     <div className={s.modalMessageContainer}>
                         <h2>Personal information</h2>
-                        <img src={urlAvatar && urlAvatar ? urlAvatar : ''} alt="user_photo"/>
+                        <img src={urlAvatar && urlAvatar ? urlAvatar : ""} alt="user_photo"/>
                         <div className={s.inputFields}>
                             <InputContainer
-                                title={'Nick name'}
-                                typeInput={'text'}
+                                title={"Nick name"}
+                                typeInput={"text"}
                                 value={newName}
                                 changeValue={onChangeName}
                                 errorMessage={errorNickName}
                             />
                             <InputContainer
-                                title={'URL photo'}
-                                typeInput={'text'}
+                                title={"URL photo"}
+                                typeInput={"text"}
                                 value={urlAvatar}
                                 changeValue={onChangeAvatar}
                                 errorMessage={errorUrlAvatar}
@@ -83,7 +83,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                                 <MainActionButton
                                     actionClick={onSaveInformation}
                                     disabledBtnSubmit={disabledBtnSubmit}
-                                    title={'Save'}
+                                    title={"Save"}
                                     loadingStatus={loadingStatus}
                                 />
                             </div>

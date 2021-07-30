@@ -14,18 +14,18 @@ const initialStateProfile = {
         isAdmin: false,
         verified: false,
         rememberMe: false,
-    } as profileResponseType,
+    } as ProfileResponseType,
     loadingRequest: false
 }
 
-export const profileReducer = (state: initialProfileType = initialStateProfile, action: actionsProfileType) => {
+export const profileReducer = (state: InitialProfileType = initialStateProfile, action: ActionsProfileType) => {
     switch (action.type) {
-        case 'PROFILE/SET_PROFILE_DATA': {
+        case "PROFILE/SET_PROFILE_DATA": {
             return {...state, ...action.payload}
         }
-        case 'PROFILE/LOADING-REQUEST':
+        case "PROFILE/LOADING-REQUEST":
             return {...state, ...action.payload}
-        case 'PROFILE/UPDATE-PROFILE':
+        case "PROFILE/UPDATE-PROFILE":
             return {
                 ...state,
                 profile: {...state.profile, ...action.payload}
@@ -36,7 +36,7 @@ export const profileReducer = (state: initialProfileType = initialStateProfile, 
 }
 
 //actionC
-export const setProfileAC = (profile: profileResponseType) => {
+export const setProfileAC = (profile: ProfileResponseType) => {
     return {
         type: "PROFILE/SET_PROFILE_DATA",
         payload: {profile}
@@ -44,18 +44,18 @@ export const setProfileAC = (profile: profileResponseType) => {
 }
 const loadingRequestAC = (loadingRequest: boolean) => {
     return {
-        type: 'PROFILE/LOADING-REQUEST',
+        type: "PROFILE/LOADING-REQUEST",
         payload: {loadingRequest}
     } as const
 }
 export const updateProfileAC = (avatar: string, name: string) => ({
-    type: 'PROFILE/UPDATE-PROFILE',
+    type: "PROFILE/UPDATE-PROFILE",
     payload: {avatar, name}
 } as const)
 
 
 //thunkC
-export const updateProfile = (avatar: string, name: string): AppThunkType => async (dispatch: Dispatch<actionsProfileType>) => {
+export const updateProfile = (avatar: string, name: string): AppThunkType => async (dispatch: Dispatch<ActionsProfileType>) => {
     dispatch(loadingRequestAC(true))
     try {
         const response = await authAPI.updateProfile(avatar, name)
@@ -71,7 +71,7 @@ export const updateProfile = (avatar: string, name: string): AppThunkType => asy
     }
 }
 
-export const setProfile = (): AppThunkType => async (dispatch: Dispatch<actionsProfileType>) => {
+export const setProfile = (): AppThunkType => async (dispatch: Dispatch<ActionsProfileType>) => {
     try {
         const response = await authAPI.me()
         dispatch(setProfileAC(response.data))
@@ -80,14 +80,14 @@ export const setProfile = (): AppThunkType => async (dispatch: Dispatch<actionsP
 }
 
 //types
-type initialProfileType = typeof initialStateProfile
+type InitialProfileType = typeof initialStateProfile
 
-export type actionsProfileType =
+export type ActionsProfileType =
     | ReturnType<typeof loadingRequestAC>
     | ReturnType<typeof updateProfileAC>
     | ReturnType<typeof setProfileAC>
 
-export type profileResponseType = {
+export type ProfileResponseType = {
     _id: string
     email: string
     name: string

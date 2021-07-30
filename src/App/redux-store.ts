@@ -1,18 +1,18 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk, {ThunkAction} from 'redux-thunk';
-import {actionsLoginType, loginReducer} from "../features/Login/login-reducer";
+import {ActionsLoginType, loginReducer} from "../features/Login/login-reducer";
 import {
-    actionsPasswordRecoveryType,
+    ActionsPasswordRecoveryType,
     passwordRecoveryReducer
 } from "../features/PasswordRecovery/password-recovery-reducer";
 import {
-    actionsSetNewPasswordType,
+    ActionsSetNewPasswordType,
     setNewPasswordReducer
 } from "../features/EnterNewPassword/enter-new-password-reducer";
-import {actionsProfileType, profileReducer} from "../features/Profile/profile-reducer";
-import {actionsRegistrationType, registrationReducer} from "../features/Registration/regidtration-reducer";
-import {actionPacksListType, packsListReducer} from "../features/PacksList/packsList-reducer";
-import {actionCardsListType, cardsListReducer} from "../features/CardsList/cardsList-reducer";
+import {ActionsProfileType, profileReducer} from "../features/Profile/profile-reducer";
+import {ActionsRegistrationType, registrationReducer} from "../features/Registration/regidtration-reducer";
+import {ActionPacksListType, packsListReducer} from "../features/PacksList/packsList-reducer";
+import {ActionCardsListType, cardsListReducer} from "../features/CardsList/cardsList-reducer";
 
 
 export const rootReducer = combineReducers({
@@ -29,13 +29,13 @@ export type AppStateType = ReturnType<typeof rootReducer>
 
 export type GetAppStateType = () => AppStateType;
 
-type AppActionsType = actionsSetNewPasswordType
-    | actionsLoginType
-    | actionsPasswordRecoveryType
-    | actionsProfileType
-    | actionsRegistrationType
-    | actionPacksListType
-    | actionCardsListType
+type AppActionsType = ActionsSetNewPasswordType
+    | ActionsLoginType
+    | ActionsPasswordRecoveryType
+    | ActionsProfileType
+    | ActionsRegistrationType
+    | ActionPacksListType
+    | ActionCardsListType
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType,
     AppStateType,

@@ -2,29 +2,29 @@ import axios from 'axios'
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'https://neko-back.herokuapp.com/2.0/'
+    baseURL: "https://neko-back.herokuapp.com/2.0/"
 })
 
 
 //API
 export const loginAPI = {
     logIn(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post<loginResponseType>('auth/login', {email, password, rememberMe})
+        return instance.post<LoginResponseType>("auth/login", {email, password, rememberMe})
     }
 }
 export const PasswordRecoveryAPI = {
     forgot(email: string) {
-        return instance.post<PasswordRecoveryDataType>('/auth/forgot', {
+        return instance.post<PasswordRecoveryDataType>("/auth/forgot", {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
             message: `<div style="background-color: lime; padding: 15px">password recovery link: 
-                        <a href='https://IvanStupchyk.github.io/learning-cards#/new-password/$token$'>link</a></div>`
+                        <a href="https://IvanStupchyk.github.io/learning-cards#/new-password/$token$">link</a></div>`
         })
     }
 }
 export const registrationAPI = {
     register(email: string, password: string) {
-        return instance.post<registrationResponseType>('auth/register', {email, password})
+        return instance.post<RegistrationResponseType>("auth/register", {email, password})
     }
 }
 export const SetNewPasswordAPI = {
@@ -37,73 +37,73 @@ export const SetNewPasswordAPI = {
 }
 export const authAPI = {
     me() {
-        return instance.post<loginResponseType>('auth/me', {})
+        return instance.post<LoginResponseType>("auth/me", {})
     },
     updateProfile(avatar: string, name: string) {
-        return instance.put<profileResponseType>('auth/me', {avatar, name})
+        return instance.put<ProfileResponseType>("auth/me", {avatar, name})
     },
     logOut() {
-        return instance.delete<logOutType>('auth/me')
+        return instance.delete<LogOutType>("auth/me")
     }
 }
 export const PacksListAPI = {
-    getPacks(params: getPacksAPIParamsType) {
+    getPacks(params: GetPacksAPIParamsType) {
         const {page,max,min,packName,pageCount,user_id} = params
         const user__id = user_id !== undefined ? `&user_id=${user_id}` : ''
-        return instance.get<resultGetPacksAPIType>(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
+        return instance.get<ResultGetPacksAPIType>(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
     },
-    addCardsPack(data: addCardsPackDataType) {
-        return instance.post<Array<cardsPackType>>('/cards/pack', data)
+    addCardsPack(data: AddCardsPackDataType) {
+        return instance.post<Array<CardsPackType>>("/cards/pack", data)
     },
     deleteCardsPack(params: { id: string }) {
-        return instance.delete<Array<cardsPackType>>('/cards/pack', {params})
+        return instance.delete<Array<CardsPackType>>("/cards/pack", {params})
     },
     changeCardsPack(data: { cardsPack:{ _id: string, name?: string } }) {
-        return instance.put<Array<cardsPackType>>('/cards/pack', data)
+        return instance.put<Array<CardsPackType>>("/cards/pack", data)
     },
 }
 export const CardsListAPI = {
-    getCards(params: getCardsAPIParamsType) {
-        return instance.get<resultGetCardsAPIType>(`/cards/card?cardsPack_id=${params.cardPack_id}`
+    getCards(params: GetCardsAPIParamsType) {
+        return instance.get<ResultGetCardsAPIType>(`/cards/card?cardsPack_id=${params.cardPack_id}`
             + "&pageCount=50")
     },
-    addCard(data: addCardDataType) {
-        return instance.post<Array<cardType>>('/cards/card', data)
+    addCard(data: AddCardDataType) {
+        return instance.post<Array<CardType>>("/cards/card", data)
     },
     deleteCard(params: { id: string }) {
-        return instance.delete<Array<cardType>>('/cards/card', {params})
+        return instance.delete<Array<CardType>>("/cards/card", {params})
     },
     changeCard(data: { card: { _id: string, question?: string, answer?: string, comments?: string } }) {
-        return instance.put<Array<cardType>>('/cards/card', data)
+        return instance.put<Array<CardType>>("/cards/card", data)
     },
 }
 
 //TYPES=====
 
 //loginAPI
-export type loginResponseType = {
+export type LoginResponseType = {
     _id: string
     email: string
     name: string
     avatar: string
     publicCardPacksCount: number
-    created: ''
-    updated: ''
+    created: ""
+    updated: ""
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
 }
 
 //profileAPI
-export type profileResponseType={
-    updatedUser: loginResponseType
+export type ProfileResponseType={
+    updatedUser: LoginResponseType
     error?: string
     token: string
     tokenDeathTime: number
 }
 
 //authAPI
-type logOutType = {
+type LogOutType = {
     info: string,
     error: string
 }
@@ -120,11 +120,11 @@ export type SetNewPasswordDataType = {
 }
 
 //registrationAPI
-type registrationResponseType = {
-    addedUser: addedUserType
+type RegistrationResponseType = {
+    addedUser: AddedUserType
     error?: string
 }
-type addedUserType = {
+type AddedUserType = {
     _id: string,
     email: string,
     rememberMe: boolean,
@@ -138,8 +138,8 @@ type addedUserType = {
 }
 
 //PacksListAPI
-type cardAndPackType = "pack" | "folder" | "card"
-export type cardsPackType = {
+type CardAndPackType = "pack" | "folder" | "card"
+export type CardsPackType = {
     _id: string
     user_id: string
     user_name: string
@@ -149,12 +149,12 @@ export type cardsPackType = {
     grade?: number
     shots?: number
     rating?: number
-    type?: cardAndPackType
+    type?: CardAndPackType
     created: string
     updated: string
     __v?: number
 }
-export type getPacksAPIParamsType = {
+export type GetPacksAPIParamsType = {
     packName?: string
     min?: number
     max?: number
@@ -163,14 +163,14 @@ export type getPacksAPIParamsType = {
     pageCount?: number
     user_id?: string
 }
-export type resultGetPacksAPIType = {
-    cardPacks: Array<cardsPackType>
+export type ResultGetPacksAPIType = {
+    cardPacks: Array<CardsPackType>
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number
     page: number
 }
-export type addCardsPackDataType = {
+export type AddCardsPackDataType = {
     cardsPack: {
         name?: string
         path?: string
@@ -184,20 +184,20 @@ export type addCardsPackDataType = {
 }
 
 //CardsListAPI
-export type cardType = {
+export type CardType = {
     answer: string
     question: string
     cardsPack_id: string
     grade: number
     shots: number
     rating?: number
-    type?: cardAndPackType
+    type?: CardAndPackType
     created: string
     updated: string
     __v?: number
     _id: string
 }
-export type getCardsAPIParamsType = {
+export type GetCardsAPIParamsType = {
     cardAnswer?: string
     cardQuestion?: string
     cardPack_id: string
@@ -207,8 +207,8 @@ export type getCardsAPIParamsType = {
     page?: number
     pageCount?: number
 }
-export type resultGetCardsAPIType = {
-    cards: Array<cardType>
+export type ResultGetCardsAPIType = {
+    cards: Array<CardType>
     cardsTotalCount: number
     maxGrade: number
     minGrade: number
@@ -216,7 +216,7 @@ export type resultGetCardsAPIType = {
     pageCount: number
     packUserId: string
 }
-export type addCardDataType = {
+export type AddCardDataType = {
     card: {
         cardsPack_id: string
         question?: string
@@ -227,6 +227,6 @@ export type addCardDataType = {
         answerImg?: string
         questionImg?: string
         questionVideo?: string
-        type?: cardAndPackType
+        type?: CardAndPackType
     }
 }

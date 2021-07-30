@@ -1,28 +1,30 @@
 import {SetNewPasswordAPI} from "../../api/api";
 import { AppThunkType } from "../../App/redux-store";
+import { moreDetails } from "../PacksList/packsList-reducer";
 
 const initialStateSetNewPassword = {
-    error: '',
+    error: "",
     loadingRequest: false,
     success: false,
 }
 
-export const setNewPasswordReducer = (state: initialSetNewPasswordType = initialStateSetNewPassword, action: actionsSetNewPasswordType): initialSetNewPasswordType => {
+
+export const setNewPasswordReducer = (state: InitialSetNewPasswordType = initialStateSetNewPassword, action: ActionsSetNewPasswordType): InitialSetNewPasswordType => {
     switch (action.type) {
-        case 'SET-NEW-PASSWORD/SET-ERROR':
+        case "SET-NEW-PASSWORD/SET-ERROR":
             return {...state, ...action.payload}
-        case 'SET-NEW-PASSWORD/SET-LOADING':
+        case "SET-NEW-PASSWORD/SET-LOADING":
             return {...state, ...action.payload}
-        case 'SET-NEW-PASSWORD/SET-SUCCESS':
+        case "SET-NEW-PASSWORD/SET-SUCCESS":
             return {...state, ...action.payload}
         default: return state
     }
 }
 
 //AC
-export const setServerErrorMessage = (error: string) => ({type: 'SET-NEW-PASSWORD/SET-ERROR', payload: {error}} as const)
-const setLoading = (loadingRequest: boolean) => ({type: 'SET-NEW-PASSWORD/SET-LOADING', payload: {loadingRequest}} as const)
-const setSuccess = (success: boolean) => ({type: 'SET-NEW-PASSWORD/SET-SUCCESS', payload: {success}} as const)
+export const setServerErrorMessage = (error: string) => ({type: "SET-NEW-PASSWORD/SET-ERROR", payload: {error}} as const)
+const setLoading = (loadingRequest: boolean) => ({type: "SET-NEW-PASSWORD/SET-LOADING", payload: {loadingRequest}} as const)
+const setSuccess = (success: boolean) => ({type: "SET-NEW-PASSWORD/SET-SUCCESS", payload: {success}} as const)
 
 //TC
 export const setNewPasswordThunk = (password: string, token: string): AppThunkType => async (dispatch) => {
@@ -34,7 +36,7 @@ export const setNewPasswordThunk = (password: string, token: string): AppThunkTy
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console');
+            : (e.message + moreDetails);
         dispatch(setServerErrorMessage(error))
 
         dispatch(setSuccess(false))
@@ -44,7 +46,7 @@ export const setNewPasswordThunk = (password: string, token: string): AppThunkTy
 }
 
 //types
-export type initialSetNewPasswordType = typeof initialStateSetNewPassword
-export type actionsSetNewPasswordType = ReturnType<typeof setServerErrorMessage>
+export type InitialSetNewPasswordType = typeof initialStateSetNewPassword
+export type ActionsSetNewPasswordType = ReturnType<typeof setServerErrorMessage>
     | ReturnType<typeof setLoading>
     | ReturnType<typeof setSuccess>

@@ -1,8 +1,9 @@
-import {authAPI, loginAPI, loginResponseType} from "../../api/api";
+import {authAPI, loginAPI, LoginResponseType} from "../../api/api";
 import {AppThunkType} from "../../App/redux-store";
+import { moreDetails } from "../PacksList/packsList-reducer";
 import {setProfileAC} from "../Profile/profile-reducer";
 
-const initialStateLogin: initialLoginType = {
+const initialStateLogin: InitialLoginType = {
     _id: '',
     email: '',
     name: '',
@@ -18,15 +19,15 @@ const initialStateLogin: initialLoginType = {
     logIn: false
 }
 
-export const loginReducer = (state: initialLoginType = initialStateLogin, action: actionsLoginType): initialLoginType => {
+export const loginReducer = (state: InitialLoginType = initialStateLogin, action: ActionsLoginType): InitialLoginType => {
     switch (action.type) {
-        case 'LOGIN/LOGIN-USER':
+        case "LOGIN/LOGIN-USER":
             return {...state, ...action.payload}
-        case 'LOGIN/SET-ERROR':
+        case "LOGIN/SET-ERROR":
             return {...state, ...action.payload}
-        case 'LOGIN/LOADING-REQUEST':
+        case "LOGIN/LOADING-REQUEST":
             return {...state, ...action.payload}
-        case 'LOGIN/LOG-IN':
+        case "LOGIN/LOG-IN":
             return {...state, ...action.payload}
         default:
             return state
@@ -34,27 +35,27 @@ export const loginReducer = (state: initialLoginType = initialStateLogin, action
 }
 
 //actionC
-export const loginUser = (userData: loginResponseType) => {
+export const loginUser = (userData: LoginResponseType) => {
     return {
-        type: 'LOGIN/LOGIN-USER',
+        type: "LOGIN/LOGIN-USER",
         payload: {...userData}
     } as const
 }
 const loadingRequest = (loadingRequest: boolean) => {
     return {
-        type: 'LOGIN/LOADING-REQUEST',
+        type: "LOGIN/LOADING-REQUEST",
         payload: {loadingRequest}
     } as const
 }
 export const logIn = (logIn: boolean) => {
     return {
-        type: 'LOGIN/LOG-IN',
+        type: "LOGIN/LOG-IN",
         payload: {logIn}
     } as const
 }
 export const setServerErrorMessageLogin = (error: string) => {
     return {
-        type: 'LOGIN/SET-ERROR',
+        type: "LOGIN/SET-ERROR",
         payload: {error}
     } as const
 }
@@ -72,7 +73,7 @@ export const loginUserTC = (emailValue: string, passwordValue: string): AppThunk
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console')
+            : (e.message + moreDetails)
         dispatch(setServerErrorMessageLogin(error))
     } finally {
         dispatch(loadingRequest(false))
@@ -89,7 +90,7 @@ export const AuthUser = (): AppThunkType => async (dispatch) => {
     } catch (e) {
         const error = e.response
             ? e.response.data.error
-            : (e.message + ', more details in the console')
+            : (e.message + moreDetails)
         dispatch(setServerErrorMessageLogin(error))
     } finally {
         dispatch(loadingRequest(false))
@@ -106,7 +107,7 @@ export const logOutUser = (): AppThunkType => async (dispatch) => {
 }
 
 //types
-export type initialLoginType = {
+export type InitialLoginType = {
     _id: string
     email: string
     name: string
@@ -121,7 +122,7 @@ export type initialLoginType = {
     loadingRequest: boolean
     logIn: boolean
 }
-export type actionsLoginType = ReturnType<typeof loginUser>
+export type ActionsLoginType = ReturnType<typeof loginUser>
     | ReturnType<typeof loadingRequest>
     | ReturnType<typeof logIn>
     | ReturnType<typeof setServerErrorMessageLogin>

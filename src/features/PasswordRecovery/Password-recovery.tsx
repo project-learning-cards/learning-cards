@@ -8,12 +8,12 @@ import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {AppStateType} from "../../App/redux-store";
 import { emailValidation } from "../../utils/validation";
-import { RoutePath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Navbar";
 import { passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess } from "./password-recovery-reducer";
 
 export const PasswordRecovery = () => {
-    const [email, setEmail] = useState<string>('hardtruenew39@gmail.com')
-    const [error, setError] = useState<string>('')
+    const [email, setEmail] = useState<string>("hardtruenew39@gmail.com")
+    const [error, setError] = useState<string>("")
     const disabledBtnSubmit = !email
 
     const dispatch = useDispatch()
@@ -23,7 +23,7 @@ export const PasswordRecovery = () => {
 
     const sendLetter = () => {
         !emailValidation(email) ?
-            setError('Incorrect email')
+            setError("Incorrect email")
             :
             dispatch(passwordRecoveryThunk(email))
     }
@@ -31,16 +31,16 @@ export const PasswordRecovery = () => {
     useEffect(() => {
         return () => {
             dispatch(setSuccess(false))
-            dispatch(setServerErrorMessageRecovery(''))
+            dispatch(setServerErrorMessageRecovery(""))
         }
     }, [])
 
     const inputEmail = (event: ChangeEvent<HTMLInputElement>) => {
         setError('')
         setEmail(event.currentTarget.value)
-        serverErrorMessage && dispatch(setServerErrorMessageRecovery(''))
+        serverErrorMessage && dispatch(setServerErrorMessageRecovery(""))
         if (emailValidation(event.currentTarget.value)) {
-            setError('')
+            setError("")
         }
     }
 
@@ -50,12 +50,12 @@ export const PasswordRecovery = () => {
 
     return (
         <div className={st.forgotPasswordContainer}>
-            <HeaderEnterApp title={'Forgot your password?'}/>
+            <HeaderEnterApp title={"Forgot your password?"}/>
             <InputContainer
-                placeholder={'Email'}
+                placeholder={"Email"}
                 changeValue={inputEmail}
                 errorMessage={error}
-                typeInput={'email'}
+                typeInput={"email"}
                 value={email}
             />
             <p className={st.textAction}>Enter your email address and we will send you further instructions</p>
@@ -64,14 +64,14 @@ export const PasswordRecovery = () => {
                 <span className={s.errorMessageContainer}>{serverErrorMessage}</span>
                 <div className={s.blueBtnContainer}>
                     <MainActionButton
-                        title={'Send Instructions'}
+                        title={"Send Instructions"}
                         actionClick={sendLetter}
                         disabledBtnSubmit={disabledBtnSubmit}
                         loadingStatus={loadingStatus}
                     />
                 </div>
                 <p className={s.DifferentAccountBtn}>Did you remember your password?</p>
-                <NavLink to={RoutePath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
+                <NavLink to={UrlPath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
             </div>
         </div>
     )

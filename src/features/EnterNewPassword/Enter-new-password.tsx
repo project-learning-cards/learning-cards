@@ -7,12 +7,12 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {AppStateType} from "../../App/redux-store";
 import { PasswordValidation } from "../../utils/validation";
-import { RoutePath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Navbar";
 import { setNewPasswordThunk, setServerErrorMessage } from "./enter-new-password-reducer";
 
 export const EnterNewPassword = () => {
-    const [password, setPassword] = useState<string>('')
-    const [error, setError] = useState<string>('')
+    const [password, setPassword] = useState<string>("")
+    const [error, setError] = useState<string>("")
     const { token } = useParams<{token: string}>()
 
     const dispatch = useDispatch()
@@ -22,7 +22,7 @@ export const EnterNewPassword = () => {
 
     const setNewPassword = () => {
         if (!PasswordValidation(password)) {
-            setError('Minimum 8 characters')
+            setError("Minimum 8 characters")
         } else {
             dispatch(setNewPasswordThunk(password, token))
         }
@@ -30,24 +30,24 @@ export const EnterNewPassword = () => {
 
     const inputPassword = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.currentTarget.value)
-        setError('')
-        serverErrorMessage && dispatch(setServerErrorMessage(''))
+        setError("")
+        serverErrorMessage && dispatch(setServerErrorMessage(""))
     }
 
     if (successResponse) {
-        return <Redirect to={RoutePath.LOGIN}/>
+        return <Redirect to={UrlPath.LOGIN}/>
     }
 
     return (
         <div className={s.containerNewPassword}>
-            <HeaderEnterApp title={'Create new password'}/>
+            <HeaderEnterApp title={"Create new password"}/>
 
             <InputContainer
-                title={'Password'}
+                title={"Password"}
                 value={password}
                 changeValue={inputPassword}
                 errorMessage={error}
-                typeInput={'password'}
+                typeInput={"password"}
             />
 
             <p className={s.textAction}>Create new password and we will send you further instructions to email</p>
@@ -58,7 +58,7 @@ export const EnterNewPassword = () => {
                         loadingStatus={loadingStatus}
                         actionClick={setNewPassword}
                         disabledBtnSubmit={!password}
-                        title={'Create new password'} />
+                        title={"Create new password"} />
                 </div>
             </div>
         </div>
