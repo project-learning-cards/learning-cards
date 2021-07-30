@@ -1,3 +1,4 @@
+import { isInitializedAC } from './../../App/app-reducer';
 import {authAPI, loginAPI, LoginResponseType} from "../../api/api";
 import {AppThunkType} from "../../App/redux-store";
 import { moreDetails } from "../PacksList/packsList-reducer";
@@ -64,6 +65,7 @@ export const setServerErrorMessageLogin = (error: string) => {
 //thunkC
 export const loginUserTC = (emailValue: string, passwordValue: string): AppThunkType => async (dispatch) => {
     dispatch(loadingRequest(true))
+    
 
     try {
         const response = await loginAPI.logIn(emailValue, passwordValue)
@@ -82,18 +84,22 @@ export const loginUserTC = (emailValue: string, passwordValue: string): AppThunk
 
 export const AuthUser = (): AppThunkType => async (dispatch) => {
     dispatch(loadingRequest(true))
+    dispatch(isInitializedAC("loading"))
     try {
         const response = await authAPI.me()
 
         dispatch(logIn(true))
         dispatch(setProfileAC(response.data))
+        dispatch(isInitializedAC("succeeded"))
     } catch (e) {
         const error = e.response
             ? e.response.data.error
             : (e.message + moreDetails)
         dispatch(setServerErrorMessageLogin(error))
+        dispatch(isInitializedAC("failed"))
     } finally {
         dispatch(loadingRequest(false))
+       
     }
 }
 

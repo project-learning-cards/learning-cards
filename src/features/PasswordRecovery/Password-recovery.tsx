@@ -17,9 +17,9 @@ export const PasswordRecovery = () => {
     const disabledBtnSubmit = !email
 
     const dispatch = useDispatch()
-    const loadingStatus = useSelector<AppStateType, boolean>(state => state.PasswordRecovery.loadingRequest)
-    const success = useSelector<AppStateType, boolean>(state => state.PasswordRecovery.success)
-    const serverErrorMessage = useSelector<AppStateType, string>(state => state.PasswordRecovery.error)
+    const loadingStatus = useSelector<AppStateType, boolean>(state => state.passwordRecovery.loadingRequest)
+    const success = useSelector<AppStateType, boolean>(state => state.passwordRecovery.success)
+    const serverErrorMessage = useSelector<AppStateType, string>(state => state.passwordRecovery.error)
 
     const sendLetter = () => {
         !emailValidation(email) ?

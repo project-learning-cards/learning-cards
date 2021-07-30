@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../App/redux-store";
-import {AuthUser, logOutUser} from "../Login/login-reducer";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { AppStateType } from "../../App/redux-store";
+import { AuthUser, logOutUser } from "../Login/login-reducer";
 import s from "./Profile.module.scss";
-import {PersonalInformation} from "./PersonalInformation";
-import {ProfileResponseType} from "./profile-reducer";
-import {PacksList} from "../PacksList/PacksList";
+import { PersonalInformation } from "./PersonalInformation";
+import { ProfileResponseType } from "./profile-reducer";
+import { PacksList } from "../PacksList/PacksList";
 import { UrlPath } from "../Navbar/Navbar";
 
 
@@ -34,13 +34,12 @@ export const Profile = () => {
         dispatch(logOutUser())
     }
 
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
-
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN} />
     return (
         <div className={s.profilePageContainer}>
             <div className={s.profileContainer}>
                 <div className={s.profileAboutYou}>
-                    <img src={profile.avatar && profile.avatar ? profile.avatar : ''} alt="user_photo"/>
+                    <img src={profile.avatar && profile.avatar ? profile.avatar : ''} alt="user_photo" />
                     <div>{profile.name && profile.name}</div>
                     <div>{profile.email && profile.email}</div>
                     <div>I am Front-end developer</div>
@@ -54,10 +53,13 @@ export const Profile = () => {
             </div>
             <div className={s.profilePacksList}>
                 <h2>My packs list</h2>
-                <PacksList user_id={profile._id && profile._id} />
+                {
+                    profile._id && <PacksList user_id={profile._id} />
+                }
+
             </div>
             {editModeProfile && <PersonalInformation onClick={closeModelWindow} name={profile.name}
-                                                     avatar={profile.avatar}/>
+                avatar={profile.avatar} />
             }
         </div>
     )

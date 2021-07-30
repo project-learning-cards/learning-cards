@@ -11,8 +11,15 @@ import {Navbar, UrlPath} from "../features/Navbar/Navbar";
 import {CheckEmail} from "../features/PasswordRecovery/ChekEmail";
 import {PacksList} from "../features/PacksList/PacksList";
 import { CardsList } from '../features/CardsList/CardsList';
+import { useSelector } from 'react-redux';
+import {AppStateType} from "./redux-store"
+import { AppStatusType } from './app-reducer';
+import { PreloaderForApp } from '../components/Preloader/Preloader';
 
 function App() {
+  const initialization = useSelector<AppStateType, AppStatusType>(state => state.app.appStatus)
+
+  if(initialization === "loading") return <PreloaderForApp />
   return (
       <div className="App">
         <Navbar />

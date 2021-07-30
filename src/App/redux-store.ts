@@ -13,11 +13,13 @@ import {ActionsProfileType, profileReducer} from "../features/Profile/profile-re
 import {ActionsRegistrationType, registrationReducer} from "../features/Registration/regidtration-reducer";
 import {ActionPacksListType, packsListReducer} from "../features/PacksList/packsList-reducer";
 import {ActionCardsListType, cardsListReducer} from "../features/CardsList/cardsList-reducer";
+import { appReducer, IsInitializedType } from "./app-reducer";
 
 
 export const rootReducer = combineReducers({
+    app: appReducer,
     login: loginReducer,
-    PasswordRecovery: passwordRecoveryReducer,
+    passwordRecovery: passwordRecoveryReducer,
     newPassword: setNewPasswordReducer,
     profile: profileReducer,
     registration: registrationReducer,
@@ -36,6 +38,7 @@ type AppActionsType = ActionsSetNewPasswordType
     | ActionsRegistrationType
     | ActionPacksListType
     | ActionCardsListType
+    | IsInitializedType
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType,
     AppStateType,
@@ -50,3 +53,6 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
+
+//@ts-ignore
+window.store = store;

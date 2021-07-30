@@ -1,16 +1,15 @@
 import s from './PacksList.module.scss'
-import {useDispatch, useSelector} from "react-redux";
-import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
-import {AppStateType} from "../../App/redux-store";
-import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
-import {NavLink, Redirect} from "react-router-dom";
-import {AuthUser} from "../Login/login-reducer";
-import {Preloader} from "../../components/Preloader/Preloader";
-import {Pagination} from "../../components/Pagination/Pagination";
-import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
-import {ModalWindowUpdate} from "../../components/ModalWindow/ModalWindowUpdate";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
+import { useDispatch, useSelector } from "react-redux";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { AppStateType } from "../../App/redux-store";
+import { CardsPackType, GetPacksAPIParamsType } from "../../api/api";
+import { NavLink, Redirect } from "react-router-dom";
+import { AuthUser } from "../Login/login-reducer";
+import { PreloaderForApp } from "../../components/Preloader/Preloader";
+import { Pagination } from "../../components/Pagination/Pagination";
+import { InputContainer } from "../../components/InputContainer/InputContainer";
+import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
+import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
 import { UrlPath } from '../Navbar/Navbar';
 import { ManagePacksButton } from './ManagePacksButton';
 import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
@@ -23,7 +22,6 @@ export const PacksList = (props: { user_id?: string }) => {
     const [searchTitle, setSearchTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
-    const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const dispatch = useDispatch();
 
     const {
@@ -65,31 +63,31 @@ export const PacksList = (props: { user_id?: string }) => {
     }
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({id: pack_id}))
+        dispatch(deletePack({ id: pack_id }))
     }
 
     const getPrivatePacks = () => {
         if (props.user_id) {
-            dispatch(getPackList({pageCount, min, max, page, packName, user_id: props.user_id}))
+            dispatch(getPackList({ pageCount, min, max, page, packName, user_id: props.user_id }))
         } else {
-            dispatch(getPackList({pageCount, min, max, page, packName}))
+            dispatch(getPackList({ pageCount, min, max, page, packName }))
         }
     }
 
     if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN}/>
+        return <Redirect to={UrlPath.LOGIN} />
     }
 
     if (!success) {
-        return <Preloader/>
+        return <PreloaderForApp />
     }
-
+    debugger
     return (
         <>
             <div className={s.flex}>
                 {props.user_id && <div className={s.private}>
                     <input type="checkbox" className="toggle_input" onChange={getPrivatePacks}
-                           checked={false}/>
+                        checked={false} />
                     <label>private</label>
                 </div>}
                 <div className={s.search}>
@@ -118,7 +116,7 @@ export const PacksList = (props: { user_id?: string }) => {
                         <th className={s.tableHeader}>{"UPDATED"}</th>
                         {props.user_id && <th>
                             <MainActionButton actionClick={() => setShowModalAdd(true)}
-                                              title={"ADD"}/>
+                                title={"ADD"} />
                         </th>}
                     </tr>
                     {packsList.map((pack) => (
@@ -137,10 +135,10 @@ export const PacksList = (props: { user_id?: string }) => {
                     ))}
                 </table>
                 <Pagination totalItemsCount={cardPacksTotalCount}
-                            pageSize={pageCount}
-                            portionSize={10}
-                            currentPage={page}
-                            onPageChanged={onPageChangedHandler}
+                    pageSize={pageCount}
+                    portionSize={10}
+                    currentPage={page}
+                    onPageChanged={onPageChangedHandler}
                 />
             </div>
             <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd} />
