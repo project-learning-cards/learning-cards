@@ -1,24 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.78fd7ca2.chunk.css",
-    "main.js": "/static/js/main.9c9dafa7.chunk.js",
-    "main.js.map": "/static/js/main.9c9dafa7.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.7191f7e6.js",
-    "runtime-main.js.map": "/static/js/runtime-main.7191f7e6.js.map",
-    "static/js/2.07e05568.chunk.js": "/static/js/2.07e05568.chunk.js",
-    "static/js/2.07e05568.chunk.js.map": "/static/js/2.07e05568.chunk.js.map",
-    "static/js/3.69921c8c.chunk.js": "/static/js/3.69921c8c.chunk.js",
-    "static/js/3.69921c8c.chunk.js.map": "/static/js/3.69921c8c.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.78fd7ca2.chunk.css.map": "/static/css/main.78fd7ca2.chunk.css.map",
-    "static/js/2.07e05568.chunk.js.LICENSE.txt": "/static/js/2.07e05568.chunk.js.LICENSE.txt",
-    "static/media/checkEmail.bc3a4042.svg": "/static/media/checkEmail.bc3a4042.svg",
-    "static/media/loadingBtn.8c4b4840.svg": "/static/media/loadingBtn.8c4b4840.svg"
+    "main.css": "/learning-cards/static/css/main.7c8c3c9f.chunk.css",
+    "main.js": "/learning-cards/static/js/main.33a28bb8.chunk.js",
+    "main.js.map": "/learning-cards/static/js/main.33a28bb8.chunk.js.map",
+    "runtime-main.js": "/learning-cards/static/js/runtime-main.e7acceba.js",
+    "runtime-main.js.map": "/learning-cards/static/js/runtime-main.e7acceba.js.map",
+    "static/js/2.92a02c92.chunk.js": "/learning-cards/static/js/2.92a02c92.chunk.js",
+    "static/js/2.92a02c92.chunk.js.map": "/learning-cards/static/js/2.92a02c92.chunk.js.map",
+    "static/js/3.69921c8c.chunk.js": "/learning-cards/static/js/3.69921c8c.chunk.js",
+    "static/js/3.69921c8c.chunk.js.map": "/learning-cards/static/js/3.69921c8c.chunk.js.map",
+    "index.html": "/learning-cards/index.html",
+    "static/css/main.7c8c3c9f.chunk.css.map": "/learning-cards/static/css/main.7c8c3c9f.chunk.css.map",
+    "static/js/2.92a02c92.chunk.js.LICENSE.txt": "/learning-cards/static/js/2.92a02c92.chunk.js.LICENSE.txt",
+    "static/media/Spinner.31c2669a.gif": "/learning-cards/static/media/Spinner.31c2669a.gif",
+    "static/media/checkEmail.bc3a4042.svg": "/learning-cards/static/media/checkEmail.bc3a4042.svg",
+    "static/media/loadingBtn.8c4b4840.svg": "/learning-cards/static/media/loadingBtn.8c4b4840.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.7191f7e6.js",
-    "static/js/2.07e05568.chunk.js",
-    "static/css/main.78fd7ca2.chunk.css",
-    "static/js/main.9c9dafa7.chunk.js"
+    "static/js/runtime-main.e7acceba.js",
+    "static/js/2.92a02c92.chunk.js",
+    "static/css/main.7c8c3c9f.chunk.css",
+    "static/js/main.33a28bb8.chunk.js"
   ]
 }
