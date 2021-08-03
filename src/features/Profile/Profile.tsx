@@ -28,7 +28,7 @@ export const Profile = () => {
                 dispatch(AuthUser())
             }
         }
-    }, [idUser])
+    }, [dispatch, idUser, loadingRequest])
 
     const logOut = () => {
         dispatch(logOutUser())
