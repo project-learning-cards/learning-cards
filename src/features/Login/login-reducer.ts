@@ -99,16 +99,18 @@ export const AuthUser = (): AppThunkType => async (dispatch) => {
         dispatch(isInitializedAC("failed"))
     } finally {
         dispatch(loadingRequest(false))
-       
     }
 }
 
 export const logOutUser = (): AppThunkType => async (dispatch) => {
+    dispatch(loadingRequest(true))
     try {
         const response = await authAPI.logOut()
         dispatch(logIn(false))
     } catch (e) {
         console.log(e)
+    } finally {
+        dispatch(loadingRequest(false))
     }
 }
 

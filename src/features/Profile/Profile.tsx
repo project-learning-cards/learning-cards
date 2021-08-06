@@ -8,6 +8,10 @@ import {PersonalInformation} from "./PersonalInformation";
 import {ProfileResponseType} from "./profile-reducer";
 import {PacksList} from "../PacksList/PacksList";
 import {UrlPath} from "../Navbar/Header";
+import {Avatar, Button} from 'antd';
+import {UserOutlined} from '@ant-design/icons';
+import { PoweroffOutlined } from '@ant-design/icons';
+
 
 
 export const Profile = () => {
@@ -19,6 +23,7 @@ export const Profile = () => {
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const dispatch = useDispatch()
+
 
     const closeModelWindow = () => setEditModeProfile(false)
 
@@ -34,19 +39,22 @@ export const Profile = () => {
         dispatch(logOutUser())
     }
 
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN} />
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
     return (
-       <div className={s.profilePageContainer}>
+        <div className={s.profilePageContainer}>
             <div className={s.profileContainer}>
                 <div className={s.profileAboutYou}>
-                    <img src={profile.avatar && profile.avatar ? profile.avatar : ''} alt="user_photo" />
-                    <div>{profile.name && profile.name}</div>
-                    <div>{profile.email && profile.email}</div>
-                    <div>I am Front-end developer</div>
-                    <div>public card packs count: {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
                     <div>
-                        <button className={s.btnEdit} onClick={() => setEditModeProfile(true)}>Edit profile</button>
-                        <button className={s.btnLogout} onClick={logOut}>log out</button>
+                        <Avatar size={100} src={profile.avatar} icon={<UserOutlined/>}/>
+                    </div>
+                    <div style={{float: 'left'}}>
+                    <div><b>Name:</b> {profile.name && profile.name}</div>
+                    <div><b>Email:</b> {profile.email && profile.email}</div>
+                    <div><b>public card packs count:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
+                    </div>
+                    <div>
+                        <Button type="primary" size="middle" onClick={() => setEditModeProfile(true)} >Edit profile</Button>
+                        <Button type="primary" size="middle" danger onClick={logOut} icon={<PoweroffOutlined />} loading={loadingRequest}>log out</Button>
                     </div>
                 </div>
                 <div className={s.numberOfCards}>Number of cards</div>
@@ -54,12 +62,12 @@ export const Profile = () => {
             <div className={s.profilePacksList}>
                 <h2>My packs list</h2>
                 {
-                    profile._id && <PacksList user_id={profile._id} />
+                    profile._id && <PacksList user_id={profile._id}/>
                 }
 
             </div>
             {editModeProfile && <PersonalInformation onClick={closeModelWindow} name={profile.name}
-                avatar={profile.avatar} />
+                                                     avatar={profile.avatar}/>
             }
         </div>
     )

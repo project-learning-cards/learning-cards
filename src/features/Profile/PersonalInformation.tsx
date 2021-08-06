@@ -61,6 +61,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                     <div className={s.modalMessageContainer}>
                         <h2>Personal information</h2>
                         <img src={urlAvatar && urlAvatar ? urlAvatar : ""} alt="user_photo"/>
+
                         <div className={s.inputFields}>
                             <InputContainer
                                 title={"Nick name"}
