@@ -10,7 +10,7 @@ import { Pagination } from "../../components/Pagination/Pagination";
 import { InputContainer } from "../../components/InputContainer/InputContainer";
 import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
 import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { UrlPath } from '../Navbar/Navbar';
+import { UrlPath } from '../Navbar/Header';
 import { ManagePacksButton } from './ManagePacksButton';
 import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
 
@@ -81,7 +81,7 @@ export const PacksList = (props: { user_id?: string }) => {
     if (!success) {
         return <PreloaderForApp />
     }
-    debugger
+
     return (
         <>
             <div className={s.flex}>

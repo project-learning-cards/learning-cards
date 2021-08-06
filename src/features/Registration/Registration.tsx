@@ -8,7 +8,7 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import { emailValidation, PasswordValidation } from '../../utils/validation';
-import { UrlPath } from '../Navbar/Navbar';
+import { UrlPath } from '../Navbar/Header';
 
 export const Registration = () => {
     const [email, setEmail] = useState<string>("")

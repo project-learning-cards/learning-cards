@@ -6,7 +6,7 @@ import s from "./PersonalInformation.module.scss";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {updateProfile} from "./profile-reducer";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
-import { UrlPath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Header";
 
 type PersonalInformationPropsType = {
     onClick: () => void
