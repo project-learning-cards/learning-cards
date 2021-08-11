@@ -13,13 +13,18 @@ import { MainActionButton } from "../../components/MainActionButton/MainActionBu
 import { UrlPath } from '../Navbar/Header';
 import { ManagePacksButton } from './ManagePacksButton';
 import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
+import { Input } from 'antd';
+import Search from "../search/Search";
+import {setSearchValueAC} from "../search/search-reducer";
 
 export const PacksList = (props: { user_id?: string }) => {
+    const { Search } = Input;
+
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const [searchTitle, setSearchTitle] = useState<string>("")
+    const [searchTitle, setSearchTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
     const dispatch = useDispatch();
@@ -46,10 +51,10 @@ export const PacksList = (props: { user_id?: string }) => {
         }
     }, [dispatch, page, pageCount, sortPacks, min, max, packName])
 
-    const changeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+   /* const changeSearch = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(null)
         setSearchTitle(e.currentTarget.value)
-    }
+    }*/
 
     const setSearch = () => {
         const trimmedSearch = searchTitle.trim()
@@ -82,6 +87,7 @@ export const PacksList = (props: { user_id?: string }) => {
         return <PreloaderForApp />
     }
 
+
     return (
         <>
             <div className={s.flex}>
@@ -90,7 +96,9 @@ export const PacksList = (props: { user_id?: string }) => {
                         checked={false} />
                     <label>private</label>
                 </div>}
-                <div className={s.search}>
+
+
+                {/*  <div className={s.search}>
                     <div className={s.containerInputSearch}>
                         <InputContainer
                             placeholder={"Search"}
@@ -105,7 +113,16 @@ export const PacksList = (props: { user_id?: string }) => {
                         </button>
                     </div>
                     <button onClick={setSearch}>SEARCH</button>
-                </div>
+                </div>*/}
+
+                <Search />
+
+
+
+
+
+
+
                 <table className={s.table}>
                     <tr className={s.tableRow}>
                         <th className={s.tableHeader}>{"NAME"}</th>
