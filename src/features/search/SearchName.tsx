@@ -1,21 +1,22 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {AppStateType} from "../../App/redux-store";
+import {Input} from 'antd';
 
 
 type SearchPropsType = {
     setSearch: (value: string) => void
 }
 
-const Search: React.FC<SearchPropsType> = (props) => {
-
+export const SearchName: React.FC<SearchPropsType>= ({setSearch}) => {
+    const {Search} = Input;
     const search = useSelector<AppStateType, string>(state => state.search.search)
     const [searchValue, setSearchValue] = useState(search);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => props.setSearch(searchValue), 500)
+        const timeoutId = setTimeout(() => setSearch(searchValue), 500)
         return () => clearTimeout(timeoutId)
-    }, [props.setSearch, searchValue])
+    }, [setSearch, searchValue])
 
 
     const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +25,14 @@ const Search: React.FC<SearchPropsType> = (props) => {
     }
 
     return (
-        <div>
-          {/*  <Search value={searchValue}
+        <div>         
+            <Search placeholder="input search text"
+                    enterButton="Search"
+                    size="large"
                     onChange={onSearchChange}
-                    placeholder="input search text"
-                    enterButton="Search" size="large"
-                    loading={loadingRequest} />*/}
+                    value={searchValue}/>
         </div>
     )
 }
 
-export default Search;
+export default SearchName;

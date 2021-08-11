@@ -1,31 +1,28 @@
 import s from './PacksList.module.scss'
-import { useDispatch, useSelector } from "react-redux";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { AppStateType } from "../../App/redux-store";
-import { CardsPackType, GetPacksAPIParamsType } from "../../api/api";
-import { NavLink, Redirect } from "react-router-dom";
-import { AuthUser } from "../Login/login-reducer";
-import { PreloaderForApp } from "../../components/Preloader/Preloader";
-import { Pagination } from "../../components/Pagination/Pagination";
-import { InputContainer } from "../../components/InputContainer/InputContainer";
-import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { UrlPath } from '../Navbar/Header';
-import { ManagePacksButton } from './ManagePacksButton';
-import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
-import { Input } from 'antd';
-import Search from "../search/Search";
+import {useDispatch, useSelector} from "react-redux";
+import React, {useCallback, useEffect, useState} from "react";
+import {AppStateType} from "../../App/redux-store";
+import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
+import {NavLink, Redirect} from "react-router-dom";
+import {AuthUser} from "../Login/login-reducer";
+import {PreloaderForApp} from "../../components/Preloader/Preloader";
+import {Pagination} from "../../components/Pagination/Pagination";
+import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
+import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
+import {UrlPath} from '../Navbar/Header';
+import {ManagePacksButton} from './ManagePacksButton';
+import {deletePack, setPageNumberAC} from './packsList-reducer';
+import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 
 export const PacksList = (props: { user_id?: string }) => {
-    const { Search } = Input;
 
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const [searchTitle, setSearchTitle] = useState<string>('')
-    const [error, setError] = useState<string | null>(null)
+    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
+    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
     const dispatch = useDispatch();
 
@@ -33,69 +30,54 @@ export const PacksList = (props: { user_id?: string }) => {
         page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
     } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
 
-    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
-
-    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
-    }, [page])
+    }, [dispatch])
 
     useEffect(() => {
         if (!idUser) {
             if (!loadingRequest) {
                 dispatch(AuthUser())
             }
-        } else {
+        } /*else {
             getPrivatePacks()
-        }
-    }, [dispatch, page, pageCount, sortPacks, min, max, packName])
-
-   /* const changeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(null)
-        setSearchTitle(e.currentTarget.value)
-    }*/
-
-    const setSearch = () => {
-        const trimmedSearch = searchTitle.trim()
-        if (trimmedSearch) {
-            dispatch(setPackNameAC(trimmedSearch))
-            getPrivatePacks()
-        } else {
-            setError("Title is required")
-        }
-        setSearchTitle("")
-    }
+        }*/
+    }, [dispatch, page, pageCount, sortPacks, min, max, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({ id: pack_id }))
+        dispatch(deletePack({id: pack_id}))
     }
 
-    const getPrivatePacks = () => {
-        if (props.user_id) {
-            dispatch(getPackList({ pageCount, min, max, page, packName, user_id: props.user_id }))
-        } else {
-            dispatch(getPackList({ pageCount, min, max, page, packName }))
-        }
+    /*  const getPrivatePacks = () => {
+          if (props.user_id) {
+              dispatch(getPackList({ pageCount, min, max, page, packName, user_id: props.user_id }))
+          } else {
+              dispatch(getPackList({ pageCount, min, max, page, packName }))
+          }
+      }*/
+
+    const setSearch = (value: string) => {
+        dispatch(setSearchValueAC(value))
     }
 
     if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN} />
+        return <Redirect to={UrlPath.LOGIN}/>
     }
 
     if (!success) {
-        return <PreloaderForApp />
+        return <PreloaderForApp/>
     }
 
 
     return (
         <>
             <div className={s.flex}>
-                {props.user_id && <div className={s.private}>
+                {/* {props.user_id && <div className={s.private}>
                     <input type="checkbox" className="toggle_input" onChange={getPrivatePacks}
                         checked={false} />
                     <label>private</label>
-                </div>}
+                </div>}*/}
 
 
                 {/*  <div className={s.search}>
@@ -115,14 +97,9 @@ export const PacksList = (props: { user_id?: string }) => {
                     <button onClick={setSearch}>SEARCH</button>
                 </div>*/}
 
-                <Search />
-
-
-
-
-
-
-
+                <div>
+                    <SearchName setSearch={setSearch}/>
+                </div>
                 <table className={s.table}>
                     <tr className={s.tableRow}>
                         <th className={s.tableHeader}>{"NAME"}</th>
@@ -133,7 +110,7 @@ export const PacksList = (props: { user_id?: string }) => {
                         <th className={s.tableHeader}>{"UPDATED"}</th>
                         {props.user_id && <th>
                             <MainActionButton actionClick={() => setShowModalAdd(true)}
-                                title={"ADD"} />
+                                              title={"ADD"}/>
                         </th>}
                     </tr>
                     {packsList.map((pack) => (
@@ -144,7 +121,7 @@ export const PacksList = (props: { user_id?: string }) => {
                             <td className={s.tableCol}>{pack.rating}</td>
                             <td className={s.tableCol}>{pack.grade}</td>
                             <td className={s.tableCol}>{pack.updated}</td>
-                            {(props.user_id) && <ManagePacksButton _id={pack._id} deletePackFun={deletePackFun} />}
+                            {(props.user_id) && <ManagePacksButton _id={pack._id} deletePackFun={deletePackFun}/>}
                             <td><NavLink to={`/cards-list/${pack._id}`} activeClassName={s.activeLink}>cards
                                 list</NavLink>
                             </td>
@@ -152,13 +129,13 @@ export const PacksList = (props: { user_id?: string }) => {
                     ))}
                 </table>
                 <Pagination totalItemsCount={cardPacksTotalCount}
-                    pageSize={pageCount}
-                    portionSize={10}
-                    currentPage={page}
-                    onPageChanged={onPageChangedHandler}
+                            pageSize={pageCount}
+                            portionSize={10}
+                            currentPage={page}
+                            onPageChanged={onPageChangedHandler}
                 />
             </div>
-            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd} />
+            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
         </>
     )
 }

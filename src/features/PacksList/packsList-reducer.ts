@@ -1,12 +1,6 @@
-import {
-  AddCardsPackDataType,
-  CardsPackType,
-  GetPacksAPIParamsType,
-  PacksListAPI,
-} from '../../api/api'
-import { AppThunkType, GetAppStateType } from '../../App/redux-store'
-import { Dispatch } from 'redux'
-import { isInitializedAC, IsInitializedType } from '../../App/app-reducer'
+import {AddCardsPackDataType, CardsPackType, GetPacksAPIParamsType, PacksListAPI,} from '../../api/api'
+import {AppThunkType, GetAppStateType} from '../../App/redux-store'
+import {Dispatch} from 'redux'
 
 type InitialStateType = {
   cardPacks: CardsPackType[]
@@ -105,6 +99,7 @@ export const packsListReducer = (
 
 //thunkC
 export let moreDetails = ', more details in the console'
+
 export const getPackList =
   (params: GetPacksAPIParamsType): AppThunkType =>
   async (
