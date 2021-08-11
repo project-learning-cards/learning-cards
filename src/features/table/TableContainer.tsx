@@ -5,13 +5,13 @@ import s from './TableContainer.module.scss'
 import {CardsPackType} from "../../api/api";
 import {UrlPath} from "../Navbar/Header";
 import {Button} from 'antd';
+import moment from "moment";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
     deletePackFun: (pack_id: string) => void
     updateCardsPackName: (data: { cardsPack: { _id: string; name?: string; } }) => void
     user_id?: string
-    setShowModalAdd: (showModalAdd: boolean) => void
 }
 
 
@@ -26,7 +26,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
                 <th className={s.tableHeader}>{"GRADE"}</th>
                 <th className={s.tableHeader}>{"LAST UPDATED"}</th>
                 <th className={s.tableHeader}>{"CREATED BY"}</th>
-                {props.user_id && <th className={s.tableHeader}>{"ACTIONS"} <Button onClick={() => props.setShowModalAdd(true)}>ADD</Button></th>
+                {props.user_id && <th className={s.tableHeader}>{"ACTIONS"} </th>
                 }
             </tr>
             </thead>
@@ -41,7 +41,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
                     <td className={s.tableCol}>{pack.cardsCount}</td>
                     <td className={s.tableCol}>{pack.rating}</td>
                     <td className={s.tableCol}>{pack.grade}</td>
-                    <td className={s.tableCol}>{pack.updated}</td>
+                    <td className={s.tableCol}>{moment(pack.updated).format('DD.MM.YYYY')}</td>
                     <td className={s.tableCol}>{pack.user_name}</td>
                     {(props.user_id) && <ManagePacksButton _id={pack._id} deletePackFun={props.deletePackFun}/>}
                 </tr>

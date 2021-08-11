@@ -79,7 +79,7 @@ export const Profile = () => {
                 </div>
             </div>
             <div className={s.profilePacksList}>
-                <Title style={{textAlign: 'center'}} level={2}>Packs list {profile.name}'s</Title>
+                <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {profile.name}'s</Title>
                 {
                     profile._id && <PacksList user_id={profile._id}/>
                 }

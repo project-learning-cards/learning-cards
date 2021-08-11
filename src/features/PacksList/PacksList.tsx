@@ -1,18 +1,19 @@
 import s from './PacksList.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {AppStateType} from "../../App/redux-store";
 import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {Pagination} from "../../components/Pagination/Pagination";
+//import {Pagination} from "../../components/Pagination/Pagination";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
-import {deletePack, setPageNumberAC, updatePack} from './packsList-reducer';
+import {deletePack, updatePack} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
+import { Pagination } from 'antd'
 
 
 export const PacksList = (props: { user_id?: string }) => {
@@ -33,9 +34,9 @@ export const PacksList = (props: { user_id?: string }) => {
     } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
 
 
-    const onPageChangedHandler = useCallback((currentPage: number): void => {
+   /* const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
-    }, [dispatch])
+    }, [dispatch])*/
 
     useEffect(() => {
         if (!idUser) {
@@ -104,21 +105,21 @@ export const PacksList = (props: { user_id?: string }) => {
                 </div>*/}
 
                 <div>
-                    <SearchName setSearch={setSearch}/>
+                    <SearchName setSearch={setSearch}
+                                setShowModalAdd={setShowModalAdd}/>
                 </div>
                 <TableContainer packs={packsList}
                                 deletePackFun={deletePackFun}
                                 updateCardsPackName={updateCardsPackName}
                                 user_id={props.user_id}
-                                setShowModalAdd={setShowModalAdd}
                                    />
-
-                <Pagination totalItemsCount={cardPacksTotalCount}
+                <Pagination style={{textAlign: 'center'}} defaultCurrent={page} total={cardPacksTotalCount} />
+               {/* <Pagination totalItemsCount={cardPacksTotalCount}
                             pageSize={pageCount}
                             portionSize={10}
                             currentPage={page}
                             onPageChanged={onPageChangedHandler}
-                />
+                />*/}
             </div>
             <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
         </div>

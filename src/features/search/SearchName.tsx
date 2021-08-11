@@ -1,14 +1,15 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {AppStateType} from "../../App/redux-store";
-import {Input} from 'antd';
+import {Button, Input} from 'antd';
 
 
 type SearchPropsType = {
     setSearch: (value: string) => void
+    setShowModalAdd: (showModalAdd: boolean) => void
 }
 
-export const SearchName: React.FC<SearchPropsType>= ({setSearch}) => {
+export const SearchName: React.FC<SearchPropsType>= ({setSearch, setShowModalAdd}) => {
     const {Search} = Input;
     const search = useSelector<AppStateType, string>(state => state.search.search)
     const [searchValue, setSearchValue] = useState(search);
@@ -25,12 +26,14 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch}) => {
     }
 
     return (
-        <div>         
+        <div style={{textAlign: 'center'}}>
             <Search placeholder="input search text"
                     enterButton="Search"
                     size="large"
                     onChange={onSearchChange}
-                    value={searchValue}/>
+                    value={searchValue}
+            style={{width: '90%'}}/>
+            <Button size={"large"} onClick={() => setShowModalAdd(true)}>ADD</Button>
         </div>
     )
 }
