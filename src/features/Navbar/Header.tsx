@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Col, Layout, Menu, Row, Typography} from "antd";
+import {Col, Layout, Menu, Row} from "antd";
 
 export const UrlPath = {
     REGISTRATION: "/registration",
@@ -12,13 +12,12 @@ export const UrlPath = {
     LEARNING_CARDS: "/learning-cards",
     NEW_PASSWORD: "/new-password/:token",
     PASSWORD_RECOVERY_CHECK_EMAIL: "/password-recovery-check-email/:email",
-    CARDS_LIST: "/cards-list/:id"
+    CARDS_LIST: "/cards-list/"
 }
 
 
 export const Header = () => {
     const {Header} = Layout;
-    const {Title} = Typography;
 
     return (
         <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>

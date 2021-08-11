@@ -39,7 +39,7 @@ function App() {
                         <Route path={UrlPath.PASSWORD_RECOVERY_CHECK_EMAIL} render={() => <CheckEmail/>}/>
                         <Route exact path={UrlPath.REGISTRATION} render={() => <Registration/>}/>
                         <Route exact path={UrlPath.PACKS_LIST} render={() => <PacksList/>}/>
-                        <Route exact path={UrlPath.CARDS_LIST} render={() => <CardsList/>}/>
+                        <Route exact path={`${UrlPath.CARDS_LIST}:id`} render={() => <CardsList/>}/>
                         <Route path={'*'} render={() => <Error404/>}/>
                     </Switch>
                 </div>

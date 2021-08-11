@@ -3,30 +3,32 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {AppStateType} from "../../App/redux-store";
 import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
-import {NavLink, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
 import {Pagination} from "../../components/Pagination/Pagination";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {UrlPath} from '../Navbar/Header';
-import {ManagePacksButton} from './ManagePacksButton';
-import {deletePack, setPageNumberAC} from './packsList-reducer';
+import {deletePack, setPageNumberAC, updatePack} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
+import {TableContainer} from "../table/TableContainer";
+
 
 export const PacksList = (props: { user_id?: string }) => {
-
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
+
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
+
     const dispatch = useDispatch();
 
-    const {
+
+     const {
         page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
     } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
 
@@ -47,6 +49,10 @@ export const PacksList = (props: { user_id?: string }) => {
 
     const deletePackFun = (pack_id: string) => {
         dispatch(deletePack({id: pack_id}))
+    }
+
+    const updateCardsPackName = (data: { cardsPack:{ _id: string, name?: string } }) => {
+        dispatch(updatePack(data))
     }
 
     /*  const getPrivatePacks = () => {
@@ -71,7 +77,7 @@ export const PacksList = (props: { user_id?: string }) => {
 
 
     return (
-        <>
+        <div>
             <div className={s.flex}>
                 {/* {props.user_id && <div className={s.private}>
                     <input type="checkbox" className="toggle_input" onChange={getPrivatePacks}
@@ -100,34 +106,13 @@ export const PacksList = (props: { user_id?: string }) => {
                 <div>
                     <SearchName setSearch={setSearch}/>
                 </div>
-                <table className={s.table}>
-                    <tr className={s.tableRow}>
-                        <th className={s.tableHeader}>{"NAME"}</th>
-                        <th className={s.tableHeader}>{"CARDS COUNT"}</th>
-                        <th className={s.tableHeader}>{"USER NAME"}</th>
-                        <th className={s.tableHeader}>{"RATING"}</th>
-                        <th className={s.tableHeader}>{"GRADE"}</th>
-                        <th className={s.tableHeader}>{"UPDATED"}</th>
-                        {props.user_id && <th>
-                            <MainActionButton actionClick={() => setShowModalAdd(true)}
-                                              title={"ADD"}/>
-                        </th>}
-                    </tr>
-                    {packsList.map((pack) => (
-                        <tr key={pack._id} className={s.tableRow}>
-                            <td className={s.tableCol}>{pack.name}</td>
-                            <td className={s.tableCol}>{pack.cardsCount}</td>
-                            <td className={s.tableCol}>{pack.user_name}</td>
-                            <td className={s.tableCol}>{pack.rating}</td>
-                            <td className={s.tableCol}>{pack.grade}</td>
-                            <td className={s.tableCol}>{pack.updated}</td>
-                            {(props.user_id) && <ManagePacksButton _id={pack._id} deletePackFun={deletePackFun}/>}
-                            <td><NavLink to={`/cards-list/${pack._id}`} activeClassName={s.activeLink}>cards
-                                list</NavLink>
-                            </td>
-                        </tr>
-                    ))}
-                </table>
+                <TableContainer packs={packsList}
+                                deletePackFun={deletePackFun}
+                                updateCardsPackName={updateCardsPackName}
+                                user_id={props.user_id}
+                                setShowModalAdd={setShowModalAdd}
+                                   />
+
                 <Pagination totalItemsCount={cardPacksTotalCount}
                             pageSize={pageCount}
                             portionSize={10}
@@ -136,6 +121,6 @@ export const PacksList = (props: { user_id?: string }) => {
                 />
             </div>
             <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
-        </>
+        </div>
     )
 }
