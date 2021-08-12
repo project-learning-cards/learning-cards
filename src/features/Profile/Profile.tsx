@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../App/redux-store";
@@ -6,30 +6,54 @@ import {AuthUser, logOutUser} from "../Login/login-reducer";
 import s from "./Profile.module.scss";
 import {PersonalInformation} from "./PersonalInformation";
 import {ProfileResponseType} from "./profile-reducer";
-import {PacksList} from "../PacksList/PacksList";
 import {UrlPath} from "../Navbar/Header";
-import {Avatar, Button, Typography} from 'antd';
+import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {getPackList} from "../PacksList/packsList-reducer";
+import {deletePack, getPackList, setPageNumberAC, updatePack} from "../PacksList/packsList-reducer";
+import SearchName from "../search/SearchName";
+import {TableContainer} from "../table/TableContainer";
+import {setSearchValueAC} from "../search/search-reducer";
+import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
 
 
 export const Profile = () => {
     const {Title} = Typography;
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
+    const [, setShowModalAdd] = useState<boolean>(false)
 
+    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
-    const pageCount = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.pageCount)
-
     const searchName = useSelector<AppStateType, string>(state => state.search.search)
+    const pagesCount = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.pageCount)
     const minFilter = useSelector<AppStateType, number>(state => state.search.min)
     const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
+    const pages = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.page)
+    const {
+        page = pages, pageCount = pagesCount, min = minFilter, max = maxFilter, packName= searchName
+    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams)
+    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount)
 
     const dispatch = useDispatch()
 
+    const setSearch = (value: string) => {
+        dispatch(setSearchValueAC(value))
+    }
+
+    const deletePackFun = (pack_id: string) => {
+        dispatch(deletePack({id: pack_id}))
+    }
+
+    const updateCardsPackName = (data: { cardsPack:{ _id: string, name?: string } }) => {
+        dispatch(updatePack(data))
+    }
+
+    const onPageChangedHandler = useCallback((currentPage: number): void => {
+        dispatch(setPageNumberAC(currentPage))
+    }, [dispatch])
 
     const closeModelWindow = () => setEditModeProfile(false)
 
@@ -43,10 +67,9 @@ export const Profile = () => {
 
     useEffect(() => {
         if (idUser) {
-            dispatch(getPackList({pageCount, user_id: idUser, min: minFilter, max: maxFilter, packName: searchName}))
+            dispatch(getPackList({pageCount, user_id: idUser, min, max, packName}))
         }
-    }, [dispatch, idUser, pageCount, minFilter, maxFilter, searchName])
-
+    }, [dispatch, idUser, pageCount, minFilter, maxFilter, searchName, min, max, packName])
 
     const logOut = () => {
         dispatch(logOutUser())
@@ -63,8 +86,7 @@ export const Profile = () => {
                     <div style={{float: 'left'}}>
                         <div><b>Name:</b> {profile.name && profile.name}</div>
                         <div><b>Email:</b> {profile.email && profile.email}</div>
-                        <div><b>public card packs
-                            count:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
+                        <div><b>public card packs count:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
                     </div>
                     <div>
                         <Button type="primary" size="middle" onClick={() => setEditModeProfile(true)}>Edit
@@ -80,10 +102,22 @@ export const Profile = () => {
             </div>
             <div className={s.profilePacksList}>
                 <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {profile.name}'s</Title>
-                {
-                    profile._id && <PacksList user_id={profile._id}/>
-                }
-
+                <div>
+                    <SearchName setSearch={setSearch}
+                                setShowModalAdd={setShowModalAdd}
+                                user_id={profile._id}/>
+                </div>
+                <TableContainer packs={packsList}
+                                deletePackFun={deletePackFun}
+                                updateCardsPackName={updateCardsPackName}
+                                user_id={profile._id}
+                />
+                <Pagination style={{textAlign: 'center'}}
+                            defaultCurrent={page}
+                            total={cardPacksTotalCount}
+                            onChange={onPageChangedHandler}
+                            defaultPageSize={pageCount}
+                            pageSizeOptions={['10']}/>
             </div>
             {editModeProfile && <PersonalInformation onClick={closeModelWindow} name={profile.name}
                                                      avatar={profile.avatar}/>

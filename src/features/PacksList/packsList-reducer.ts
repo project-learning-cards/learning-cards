@@ -15,7 +15,7 @@ export const initialState: InitialStateType = {
     min: 0,
     max: 20,
     page: 1,
-    pageCount: 15,
+    pageCount: 10,
     sortPacks: '0updated',
     packName: '',
   },

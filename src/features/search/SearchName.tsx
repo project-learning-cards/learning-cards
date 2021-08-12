@@ -7,9 +7,10 @@ import {Button, Input} from 'antd';
 type SearchPropsType = {
     setSearch: (value: string) => void
     setShowModalAdd: (showModalAdd: boolean) => void
+    user_id?: string
 }
 
-export const SearchName: React.FC<SearchPropsType>= ({setSearch, setShowModalAdd}) => {
+export const SearchName: React.FC<SearchPropsType>= ({setSearch, setShowModalAdd, user_id}) => {
     const {Search} = Input;
     const search = useSelector<AppStateType, string>(state => state.search.search)
     const [searchValue, setSearchValue] = useState(search);
@@ -33,7 +34,7 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, setShowModalAdd
                     onChange={onSearchChange}
                     value={searchValue}
             style={{width: '90%'}}/>
-            <Button size={"large"} onClick={() => setShowModalAdd(true)}>ADD</Button>
+            {(user_id) && <Button size={"large"} onClick={() => setShowModalAdd(true)}>ADD</Button>}
         </div>
     )
 }

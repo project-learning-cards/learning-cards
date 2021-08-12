@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {ModalWindowUpdate} from "../../components/ModalWindow/ModalWindowUpdate";
 import { Button } from 'antd';
 
+/*
 type ManageButtonPropsType = {
     _id: string
     deletePackFun: (id: string) => void
@@ -26,4 +27,4 @@ export const ManagePacksButton: React.FC<ManageButtonPropsType> = (props) => {
             <ModalWindowUpdate packId={props._id} showModal={showModalUpdate} setShowModal={setShowModalUpdate} />
         </>
     )
-}
+}*/

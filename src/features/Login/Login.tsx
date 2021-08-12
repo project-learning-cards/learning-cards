@@ -47,7 +47,7 @@ export const Login = () => {
         return () => {
             dispatch(setServerErrorMessageLogin(''))
         }
-    }, [])
+    }, [dispatch])
 
 
     if (isLogIn) {
