@@ -28,13 +28,9 @@ export const Profile = () => {
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const searchName = useSelector<AppStateType, string>(state => state.search.search)
-    const pagesCount = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.pageCount)
     const minFilter = useSelector<AppStateType, number>(state => state.search.min)
     const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
-    const pages = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.page)
-    const {
-        page = pages, pageCount = pagesCount, min = minFilter, max = maxFilter, packName= searchName
-    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams)
+    const {page, pageCount} = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount)
 
     const dispatch = useDispatch()
@@ -67,9 +63,9 @@ export const Profile = () => {
 
     useEffect(() => {
         if (idUser) {
-            dispatch(getPackList({pageCount, user_id: idUser, min, max, packName}))
+            dispatch(getPackList({pageCount, user_id: idUser, min: minFilter, max: maxFilter, packName: searchName}))
         }
-    }, [dispatch, idUser, pageCount, minFilter, maxFilter, searchName, min, max, packName])
+    }, [dispatch, idUser, pageCount, minFilter, maxFilter, searchName])
 
     const logOut = () => {
         dispatch(logOutUser())

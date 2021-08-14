@@ -16,7 +16,6 @@ export const setSearchValueAC = (value: string) =>
 export const searchReducer = (state = initialState, action: ActionSearchType): InitialStateType => {
     switch (action.type) {
         case 'search/SET-MIN-MAX-VALUE':
-            debugger
             return {...state, min: action.values[0], max: action.values[1]}
         case 'search/SET-SEARCH-VALUE':
             return {...state, search: action.value}

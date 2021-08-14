@@ -11,7 +11,7 @@ type TableContainerPropsType = {
     packs: Array<CardsPackType>
     deletePackFun: (pack_id: string) => void
     updateCardsPackName: (data: { cardsPack: { _id: string; name?: string; } }) => void
-    user_id?: string
+    user_id: string | null
 }
 
 

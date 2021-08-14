@@ -7,7 +7,7 @@ import {Button, Input} from 'antd';
 type SearchPropsType = {
     setSearch: (value: string) => void
     setShowModalAdd: (showModalAdd: boolean) => void
-    user_id?: string
+    user_id: string | null
 }
 
 export const SearchName: React.FC<SearchPropsType>= ({setSearch, setShowModalAdd, user_id}) => {

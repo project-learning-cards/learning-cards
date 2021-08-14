@@ -161,7 +161,7 @@ export type GetPacksAPIParamsType = {
     sortPacks?: string
     page?: number
     pageCount?: number
-    user_id?: string
+    user_id?: string | null
 }
 export type ResultGetPacksAPIType = {
     cardPacks: Array<CardsPackType>
@@ -169,6 +169,9 @@ export type ResultGetPacksAPIType = {
     maxCardsCount: number
     minCardsCount: number
     page: number
+    pageCount: number
+    token: string
+    tokenDeathTime: number
 }
 export type AddCardsPackDataType = {
     cardsPack: {

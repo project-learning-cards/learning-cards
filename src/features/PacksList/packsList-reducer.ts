@@ -12,8 +12,6 @@ type InitialStateType = {
 export const initialState: InitialStateType = {
   cardPacks: [] as CardsPackType[],
   packsParams: {
-    min: 0,
-    max: 20,
     page: 1,
     pageCount: 10,
     sortPacks: '0updated',
