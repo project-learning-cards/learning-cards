@@ -9,7 +9,8 @@ export const UrlPath = {
     SET_NEW_PASSWORD: "/set-new-password/:resetPasswordToken",
     PROFILE: "/profile",
     PACKS_LIST: "/packs-list",
-    LEARNING_CARDS: "/learning-cards",
+    LEARNING_CARDS: "/learning-cards/",
+    LEARN_CARDS: "/learn/",
     NEW_PASSWORD: "/new-password/:token",
     PASSWORD_RECOVERY_CHECK_EMAIL: "/password-recovery-check-email/:email",
     CARDS_LIST: "/cards-list/"

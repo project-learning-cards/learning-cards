@@ -16,6 +16,7 @@ import {AppStateType} from "./redux-store"
 import {AppStatusType} from "./app-reducer";
 import {PreloaderForApp} from "../components/Preloader/Preloader";
 import {Layout} from "antd";
+import {Learn} from "../features/Learn/Learn";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                         <Route exact path={UrlPath.REGISTRATION} render={() => <Registration/>}/>
                         <Route exact path={UrlPath.PACKS_LIST} render={() => <PacksList/>}/>
                         <Route exact path={`${UrlPath.CARDS_LIST}:id`} render={() => <CardsList/>}/>
+                        <Route path={`${UrlPath.LEARN_CARDS}:id`} render={() => <Learn />}/>
                         <Route path={'*'} render={() => <Error404/>}/>
                     </Switch>
                 </div>

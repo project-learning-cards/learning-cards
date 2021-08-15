@@ -1,29 +1,39 @@
-import {
-    AddCardDataType,
-    AddCardsPackDataType,
-    CardsListAPI,
-    CardType, GetCardsAPIParamsType,
-    PacksListAPI,
-} from "../../api/api";
+import {AddCardDataType, CardsListAPI, CardType, GetCardsAPIParamsType,} from "../../api/api";
 import {AppThunkType, GetAppStateType} from "../../App/redux-store";
 import {Dispatch} from "redux";
-import {ActionPacksListType, GetPacksListAC, moreDetails} from "../PacksList/packsList-reducer";
+import {moreDetails} from "../PacksList/packsList-reducer";
 
 const initialState = {
     arrayCard: [] as Array<CardType>,
+    grade: 0,
+    sortCards: "" as string,
+    maxGrade: 1000 as number | undefined,
+    minGrade: 0 as number | undefined,
+    page: 1,
+    pageCount: 5,
+    cardsTotalCount: 100,
+    cardsPack_id: "",
+    searchVal: "",
+    sort: "",
+    question: "",
+    searchCardQuestion: "" as string | undefined,
     success: false
 }
 
 //types
 type InitialStateType = typeof initialState
-type GetCardsListAT = ReturnType<typeof GetCardsListAC>
 
-export type ActionCardsListType = GetCardsListAT | SetSuccessAT
+type GetCardsListAT = ReturnType<typeof GetCardsListAC>
+type setGradeCardAT = ReturnType<typeof setGradeCardAC>
 type SetSuccessAT = ReturnType<typeof SetSuccessAC>
+
+export type ActionCardsListType = GetCardsListAT | SetSuccessAT | setGradeCardAT
+
 
 //actionC
 export const GetCardsListAC = (params: Array<CardType>) => ({type: "cardList/GET-CARDSLIST", params} as const)
 export const SetSuccessAC = (success: boolean) => ({type: "cardList/SET-SUCCESS", success} as const)
+export const setGradeCardAC = (grade: number) => ({ type: "SET-GRADE", grade } as const)
 
 export const cardsListReducer = (state = initialState, action: ActionCardsListType): InitialStateType => {
     switch (action.type) {
@@ -31,6 +41,9 @@ export const cardsListReducer = (state = initialState, action: ActionCardsListTy
             return {...state, arrayCard: action.params.map(cl => ({...cl}))}
         case "cardList/SET-SUCCESS":
             return {...state, success: action.success}
+        case "SET-GRADE": {
+            return { ...state, grade: action.grade };
+        }
         default:
             return state
     }
@@ -90,6 +103,16 @@ export const updateCard = (data: { card: { _id: string, question?: string, answe
         const error = e.response
             ? e.response.data.error
             : (e.message + moreDetails);
+    } finally {
+    }
+}
+
+export const gradeCardTC = (grade:number, card_id:string) => async (dispatch: Dispatch<ActionCardsListType>) => {
+
+    try {
+        await CardsListAPI.setCardGrade(grade, card_id)
+    } catch (e) {
+        console.log('GRADE_CARD_ERROR: ', {...e})
     } finally {
     }
 }

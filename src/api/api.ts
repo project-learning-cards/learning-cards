@@ -76,6 +76,9 @@ export const CardsListAPI = {
     changeCard(data: { card: { _id: string, question?: string, answer?: string, comments?: string } }) {
         return instance.put<Array<CardType>>("/cards/card", data)
     },
+    setCardGrade(grade: number, card_id: string) {
+        return instance.put<SetGradeResponseType>('/cards/grade', {grade, card_id})
+    },
 }
 
 //TYPES=====
@@ -143,15 +146,18 @@ export type CardsPackType = {
     _id: string
     user_id: string
     user_name: string
+    private?: boolean
     name: string
     path?: string
-    cardsCount: number
     grade?: number
     shots?: number
-    rating?: number
+    deckCover: string
+    cardsCount: number
     type?: CardAndPackType
+    rating?: number
     created: string
     updated: string
+    more_id: string
     __v?: number
 }
 export type GetPacksAPIParamsType = {
@@ -199,6 +205,7 @@ export type CardType = {
     updated: string
     __v?: number
     _id: string
+    user_id: string
 }
 export type GetCardsAPIParamsType = {
     cardAnswer?: string
@@ -231,5 +238,17 @@ export type AddCardDataType = {
         questionImg?: string
         questionVideo?: string
         type?: CardAndPackType
+    }
+}
+
+//LearnAPI
+type SetGradeResponseType = {
+    updatedGrade: {
+        _id: string
+        cardsPack_id: string
+        card_id: string
+        user_id: string
+        grade: number
+        shots: number
     }
 }

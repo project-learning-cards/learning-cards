@@ -15,11 +15,13 @@ import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
 import {Button, Pagination, Typography} from 'antd'
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
+import {ProfileResponseType} from "../Profile/profile-reducer";
 
 
 export const PacksList = () => {
     const {Title} = Typography;
 
+    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string | null>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
@@ -81,7 +83,6 @@ export const PacksList = () => {
         return <PreloaderForApp/>
     }
 
-debugger
     return (
 
         <div className={s.profilePageContainer}>
@@ -99,7 +100,7 @@ debugger
             </div>
 
             <div className={s.profilePacksList}>
-                <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list</Title>
+                <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {id ? profile.name + "'s" : ""}</Title>
 
 
                 <div>
