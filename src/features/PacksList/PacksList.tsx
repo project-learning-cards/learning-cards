@@ -81,7 +81,6 @@ export const PacksList = (props: { user_id?: string }) => {
     if (!success) {
         return <PreloaderForApp />
     }
-    debugger
     return (
         <>
             <div className={s.flex}>
