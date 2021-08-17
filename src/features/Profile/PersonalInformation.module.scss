@@ -4,14 +4,14 @@
   display: flex;
   justify-content: space-between;
   border-radius: 8px;
-  background-color: #FEFEFF;
+  background-color: #fefeff;
 }
 
 .modalBackground {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(180deg, #E6D4DE, #9890C7);
+  background: linear-gradient(180deg, #e6d4de, #9890c7);
   z-index: 20;
   left: 0;
 }
@@ -25,18 +25,38 @@
   max-width: 415px;
   width: 100%;
   border-radius: 8px;
-  background-color: #F9F9FE;
+  background-color: #f9f9fe;
   left: calc(50vw - (540px / 2));
-
-  & img {
-    height: 96px;
-    width: 96px;
+}
+.avatarBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .avatar {
+    height: 120px;
+    width: 120px;
     border-radius: 50%;
     background-size: cover;
     background-position: 50%;
   }
+  .addedFilesContainer {
+    height: 90px;
+    .addedFiles {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
-
+.avatarURL {
+  height: 76px;
+  width: 76px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: 50%;
+}
 
 .btns {
   display: flex;
@@ -52,12 +72,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #21268F;
+  color: #21268f;
   font-family: SF UI Display, sans-serif;
   opacity: 0.8;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #D7D8EF;
-  transition: .2s;
+  background-color: #d7d8ef;
+  transition: 0.2s;
 
   &:hover {
     background-color: #c0c1dc;

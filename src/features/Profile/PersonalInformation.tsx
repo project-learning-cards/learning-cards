@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../App/redux-store";
+import React, { ChangeEvent, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { AppStateType } from "../../App/redux-store";
 import s from "./PersonalInformation.module.scss";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
-import {updateProfile} from "./profile-reducer";
-import {InputContainer} from "../../components/InputContainer/InputContainer";
+import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
+import { updateProfile } from "./profile-reducer";
+import { InputContainer } from "../../components/InputContainer/InputContainer";
 import { UrlPath } from "../Navbar/Header";
 
 type PersonalInformationPropsType = {
@@ -20,37 +20,47 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
     const dispatch = useDispatch()
 
     const [newName, setNewName] = useState<string>(props.name)
-    const [urlAvatar, setUrlAvatar] = useState<string>(props.avatar)
     const [errorNickName, setErrorNickName] = useState<string>('')
-    const [errorUrlAvatar, setErrorUrlAvatar] = useState<string>('')
 
+    // -------------------------- FOR UPLOADING ---------------------- //
+    const [file, setFile] = useState<any>();
+    const [fileURL, setFileURL] = useState<any>();
+    const [file64, setFile64] = useState<any>();
+    const inRef = useRef<HTMLInputElement>(null);
+    const upload = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const reader = new FileReader();
+        const newFile = e.target.files && e.target.files[0];
+        if (newFile) {
+            setFile(newFile);
+            setFileURL(window.URL.createObjectURL(newFile));
+            reader.onloadend = () => {
+                setFile64(reader.result);
+            };
+            reader.readAsDataURL(newFile);
+
+        }
+    };
+    //------------------------------------------------------------------//
     const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setNewName(e.currentTarget.value)
     }
-
-    const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
-        setUrlAvatar(e.currentTarget.value)
-    }
-
     const closeModelWindow = () => {
         props.onClick()
     }
-
-    const disabledBtnSubmit = !newName || !urlAvatar
-
+    let disabledBtnSubmit = newName === props.name || !fileURL  // нужно решить этот момент
     const onSaveInformation = () => {
-        debugger
         if (!newName) {
             setErrorNickName("Incorrect nick name")
-        } else if (!urlAvatar) {
-            setErrorUrlAvatar("Incorrect url address")
+        } else if (!fileURL) {
+            setErrorNickName("Need to upload file")
         } else {
-            dispatch(updateProfile(urlAvatar, newName));
+            dispatch(updateProfile(file64, newName));
             closeModelWindow();
         }
     }
 
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN} />
 
     return (
         <div className={s.profilePageContainer}>
@@ -60,8 +70,24 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                 <div className={s.modalMessage}>
                     <div className={s.modalMessageContainer}>
                         <h2>Personal information</h2>
-                        <img src={urlAvatar && urlAvatar ? urlAvatar : ""} alt="user_photo"/>
+                        <div className={s.avatarBlock}>
+                            <img className={s.avatar} src={props.avatar ? props.avatar : ""} alt="user_photo" />
+                            <input
+                                ref={inRef}
+                                type={'file'}
+                                style={{ display: 'none' }}
+                                onChange={upload}
+                            />
+                            <button onClick={() => inRef && inRef.current && inRef.current.click()}>add</button>
+                            <div className={s.addedFilesContainer}>
+                                {fileURL && <div className={s.addedFiles}>
+                                    <img className={s.avatarURL} src={fileURL} alt={'file'} />
+                                    {file && file.name}
+                                </div>}
+                            </div>
 
+
+                        </div>
                         <div className={s.inputFields}>
                             <InputContainer
                                 title={"Nick name"}
@@ -70,13 +96,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                                 changeValue={onChangeName}
                                 errorMessage={errorNickName}
                             />
-                            <InputContainer
-                                title={"URL photo"}
-                                typeInput={"text"}
-                                value={urlAvatar}
-                                changeValue={onChangeAvatar}
-                                errorMessage={errorUrlAvatar}
-                            />
+
                         </div>
                         <div className={s.btns}>
                             <a className={s.btnCancel} onClick={closeModelWindow}>Cancel</a>
