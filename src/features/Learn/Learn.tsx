@@ -3,32 +3,25 @@ import React, {useEffect, useState} from "react";
 import {getCardsList, gradeCardTC} from "../CardsList/cardsList-reducer";
 import {useParams} from "react-router-dom";
 import {AppStateType} from "../../App/redux-store";
-import {CardsPackType, CardType} from "../../api/api";
+import {CardType} from "../../api/api";
 import {Preloader} from "../../components/Preloader/Preloader";
 import {getRandomCard} from "./random";
-import {Button, Modal} from 'antd';
+import {Button, Modal, Radio, RadioChangeEvent, Space} from 'antd';
 
 const grades = ["Didn't know", 'Forgot', 'Confused', 'A lot of thought', 'Knew'];
 
 export const Learn = () => {
-
-    const loadingStatus = useSelector<AppStateType, boolean>(state => state.packsList.success);
     const success = useSelector<AppStateType, boolean>(state => state.cardsList.success);
     const {id} = useParams<{ id: string }>();
-    const {
-        arrayCard,
-        maxGrade,
-        sortCards,
-        minGrade,
-        page,
-        pageCount,
-        searchCardQuestion
-    } = useSelector((state: AppStateType) => state.cardsList)
+    const {arrayCard} = useSelector((state: AppStateType) => state.cardsList)
 
     const dispatch = useDispatch();
-    const [isChecked, setIsChecked] = useState<boolean>(false);
-    const [first, setFirst] = useState<boolean>(true);
-    const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
+    const [isChecked, setIsChecked] = useState<boolean>(false)
+    const [first, setFirst] = useState<boolean>(true)
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(true)
+    const [grade, setGrade] = useState<any>(grades.indexOf(grades[0]) + 1)
+
+
     const [card, setCard] = useState<CardType>({
         answer: 'answer fake',
         question: 'question fake',
@@ -44,6 +37,11 @@ export const Learn = () => {
         _id: 'fake'
     });
 
+    const onRadioChange = (e: RadioChangeEvent) => {
+        setGrade && setGrade(e.target.value)
+    };
+
+
     useEffect(() => {
         if (first) {
             dispatch(getCardsList({cardPack_id: id}));
@@ -56,64 +54,60 @@ export const Learn = () => {
         }
     }, [dispatch, id, arrayCard, first]);
 
-    const onNext = () => {
-        setIsChecked(false);
-
+    const onNext = (grade: number, id: string) => {
+        setIsChecked(false)
+        dispatch(gradeCardTC(grade, id))
         if (arrayCard.length > 0) {
-            // dispatch
             setCard(getRandomCard(arrayCard));
         } else {
 
         }
     }
 
-    const sendGrade = (grade: number) => {
-        dispatch(gradeCardTC(grade, card._id))
-    }
     if (!success) {
         return <Preloader/>
     }
 
-    // const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
-
-    /*  const updatePack = () => {
-          setShowModalUpdate(true)
-      }*/
-    const handleOk = () => {
-
-    }
-
     const handleCancel = () => {
         window.history.go(-1);
+        setIsModalVisible(false)
     }
 
     return (
-        <Modal title={'Learn Cards'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+        <Modal width={600} title={'Learn Cards'} visible={isModalVisible} onCancel={handleCancel}
                footer={[
                    <Button key="back" onClick={handleCancel}>
                        Return
                    </Button>,
-                   <Button key="submit" type="primary" loading={loadingStatus} onClick={() => setIsChecked(true)}>
+                   !isChecked && <Button key="submit" type="primary" onClick={() => setIsChecked(true)}>
                        Show answer
+                   </Button>,
+                   isChecked && <Button key="submit" type="primary" onClick={ () => onNext(grade, card._id)}>
+                       Next
                    </Button>
                ]}>
-            <div>Question: {card.question}</div>
-            <div>
-                <button onClick={() => setIsChecked(true)}>Show answer</button>
+            <div style={{height: '150px'}}>
+                <div style={isChecked ? {marginBottom: '15px'} : {alignItems: 'center', textAlign: 'center'}}>
+                    <b>Question:</b> {card.question}
+                </div>
+                {isChecked && (
+                    <div style={{marginBottom: '68px', padding: '0px'}}>
+                        <div style={{marginBottom: '15px'}}> <b>Answer:</b> {card.answer}</div>
+                        <div>
+                            <b>Rate yourself:</b>
+                            <div style={{marginTop: '10px'}}>
+                                {grades.map((g, i) => (
+                                    <Radio.Group onChange={onRadioChange} >
+                                        <Space direction="vertical">
+                                            <Radio value={i}>{g}</Radio>
+                                        </Space>
+                                    </Radio.Group>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-            <div>
-                <button onClick={onNext}>next</button>
-            </div>
-
-            {isChecked && (
-                <>
-                    <div>{card.answer}</div>
-
-                    {grades.map((g, i) => (
-                        <button key={'grade-' + i} onClick={() => sendGrade(i + 1)}>{g}</button>
-                    ))}
-                </>
-            )}
         </Modal>
     )
 }

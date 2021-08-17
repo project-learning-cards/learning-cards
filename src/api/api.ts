@@ -50,7 +50,7 @@ export const PacksListAPI = {
     getPacks(params: GetPacksAPIParamsType) {
         const {page,max,min,packName,pageCount,user_id} = params
         const user__id = user_id !== undefined ? `&user_id=${user_id}` : ''
-        return instance.get<ResultGetPacksAPIType>(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
+        return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
     },
     addCardsPack(data: AddCardsPackDataType) {
         return instance.post<Array<CardsPackType>>("/cards/pack", data)
@@ -58,8 +58,9 @@ export const PacksListAPI = {
     deleteCardsPack(params: { id: string }) {
         return instance.delete<Array<CardsPackType>>("/cards/pack", {params})
     },
-    changeCardsPack(data: { cardsPack:{ _id: string, name?: string } }) {
-        return instance.put<Array<CardsPackType>>("/cards/pack", data)
+    changeCardsPack(_id: string, name ?: string) {
+        debugger
+        return instance.put("/cards/pack", {cardsPack: {_id, name}})
     },
 }
 export const CardsListAPI = {
@@ -167,7 +168,7 @@ export type GetPacksAPIParamsType = {
     sortPacks?: string
     page?: number
     pageCount?: number
-    user_id?: string | null
+    user_id?: string
 }
 export type ResultGetPacksAPIType = {
     cardPacks: Array<CardsPackType>
@@ -189,6 +190,12 @@ export type AddCardsPackDataType = {
         deckCover?: string
         private?: boolean
         type?: string
+    }
+}
+export type UpdateParamsType = {
+    cardsPack: {
+        _id: string
+        name?: string
     }
 }
 

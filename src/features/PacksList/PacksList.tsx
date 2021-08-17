@@ -9,7 +9,7 @@ import {PreloaderForApp} from "../../components/Preloader/Preloader";
 //import {Pagination} from "../../components/Pagination/Pagination";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
-import {deletePack, getPackList, setPageNumberAC, updatePack} from './packsList-reducer';
+import {deletePack, getPackList, setPageNumberAC, updatePackTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
@@ -23,22 +23,22 @@ export const PacksList = () => {
 
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
-    const idUser = useSelector<AppStateType, string | null>(state => state.profile.profile._id)
+    const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
-    const pages = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.page)
-    const pagesCount = useSelector<AppStateType, number | undefined>(state => state.packsList.packsParams.pageCount)
+    const pages = useSelector<AppStateType, number>(state => state.packsList.page)
+    const pagesCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
     const minFilter = useSelector<AppStateType, number>(state => state.search.min)
     const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
     const {
         page = pages, pageCount = pagesCount, min = minFilter, max = maxFilter, packName, sortPacks
-    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
+    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList);
     const dispatch = useDispatch();
 
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
-    const [id, setId] = useState<null | string>(null)
+    const [id, setId] = useState<string>('')
 
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
@@ -53,14 +53,14 @@ export const PacksList = () => {
         } else {
             getPrivatePacks()
         }
-    }, [dispatch, id, pages, pagesCount, sortPacks, minFilter, maxFilter, packName])
+    }, [dispatch, id, pages, pagesCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = (data: { cardsPack: { _id: string, name?: string } }) => {
-        dispatch(updatePack(data))
+    const updateCardsPackName = ( id: string, packName: string) => {
+        dispatch(updatePackTC(id, packName))
     }
 
     const getPrivatePacks = () => {
@@ -91,7 +91,7 @@ export const PacksList = () => {
                 <div>
 
                     <Button type={ id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>MY</Button>
-                    <Button type={ id ? 'dashed' : 'primary'} onClick={() => setId(null)}>ALL</Button>
+                    <Button type={ id ? 'dashed' : 'primary'} onClick={() => setId('')}>ALL</Button>
                 </div>
                 <div>
                     <div><Title level={4}>Number of cards</Title></div>
@@ -110,10 +110,12 @@ export const PacksList = () => {
                                         setShowModalAdd={setShowModalAdd}
                                         user_id={id}/>
                         </div>
+
                         <TableContainer packs={packsList}
                                         deletePackFun={deletePackFun}
                                         updateCardsPackName={updateCardsPackName}
                                         user_id={id}
+
                         />
                         <Pagination style={{textAlign: 'center'}}
                                     defaultCurrent={page}

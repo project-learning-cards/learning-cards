@@ -10,15 +10,15 @@ import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {deletePack, getPackList, setPageNumberAC, updatePack} from "../PacksList/packsList-reducer";
+import {deletePack, getPackList, setPageNumberAC, updatePackTC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
-import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
+import {CardsPackType} from "../../api/api";
 
 
 export const Profile = () => {
-    const {Title} = Typography;
+    const {Title} = Typography
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
     const [, setShowModalAdd] = useState<boolean>(false)
 
@@ -30,7 +30,8 @@ export const Profile = () => {
     const searchName = useSelector<AppStateType, string>(state => state.search.search)
     const minFilter = useSelector<AppStateType, number>(state => state.search.min)
     const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
-    const {page, pageCount} = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams)
+    const page = useSelector<AppStateType, number>(state => state.packsList.page)
+    const pageCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount)
 
     const dispatch = useDispatch()
@@ -43,8 +44,8 @@ export const Profile = () => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = (data: { cardsPack:{ _id: string, name?: string } }) => {
-        dispatch(updatePack(data))
+    const updateCardsPackName = ( id: string, packName: string) => {
+        dispatch(updatePackTC(id, packName))
     }
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {

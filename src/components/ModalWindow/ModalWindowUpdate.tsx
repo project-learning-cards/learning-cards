@@ -3,7 +3,7 @@ import {InputContainer} from "../InputContainer/InputContainer";
 import s from "../../features/PacksList/PacksList.module.scss";
 import {MainActionButton} from "../MainActionButton/MainActionButton";
 import React, {ChangeEvent, useState} from "react";
-import {addPack, updatePack} from "../../features/PacksList/packsList-reducer";
+import {addPack, updatePackTC} from "../../features/PacksList/packsList-reducer";
 import {useDispatch} from "react-redux";
 
 export type ModalWindowPropsType = {
@@ -11,6 +11,7 @@ export type ModalWindowPropsType = {
     showModal: boolean
     setShowModal: (showModal: boolean) => void
 }
+/*
 
 export const ModalWindowUpdate: React.FC<ModalWindowPropsType> = (props) => {
     const [packNameTitle, setPackNameTitle] = useState<string>("")
@@ -22,7 +23,7 @@ export const ModalWindowUpdate: React.FC<ModalWindowPropsType> = (props) => {
         setPackNameTitle(e.target.value)
     }
 
-    const updatePackFun = () => {
+    /!*const updatePackFun = () => {
         const trimmedPackName = packNameTitle.trim()
         if (trimmedPackName) {
             dispatch(updatePack({cardsPack:{_id: props.packId, name: trimmedPackName}}))
@@ -32,7 +33,7 @@ export const ModalWindowUpdate: React.FC<ModalWindowPropsType> = (props) => {
         setPackNameTitle("")
         props.setShowModal(false)
     }
-
+*!/
     return <ModalWindow showModal={props.showModal} setShowModal={props.setShowModal}>
         <InputContainer
             placeholder={"New pack name"}
@@ -41,10 +42,10 @@ export const ModalWindowUpdate: React.FC<ModalWindowPropsType> = (props) => {
             typeInput={"text"}
             value={packNameTitle}
         />
-        <div className={s.addModalAdd}>
+        {/!*<div className={s.addModalAdd}>
             <MainActionButton actionClick={updatePackFun}
                               title={"UPDATE"}
             />
-        </div>
+        </div>*!/}
     </ModalWindow>;
-}
+}*/
