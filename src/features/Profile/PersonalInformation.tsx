@@ -6,7 +6,7 @@ import s from "./PersonalInformation.module.scss";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {updateProfile} from "./profile-reducer";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
-import { UrlPath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Header";
 
 type PersonalInformationPropsType = {
     onClick: () => void
@@ -61,6 +61,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                     <div className={s.modalMessageContainer}>
                         <h2>Personal information</h2>
                         <img src={urlAvatar && urlAvatar ? urlAvatar : ""} alt="user_photo"/>
+
                         <div className={s.inputFields}>
                             <InputContainer
                                 title={"Nick name"}

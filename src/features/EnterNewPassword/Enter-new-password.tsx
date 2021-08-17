@@ -7,7 +7,7 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {AppStateType} from "../../App/redux-store";
 import { PasswordValidation } from "../../utils/validation";
-import { UrlPath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Header";
 import { setNewPasswordThunk, setServerErrorMessage } from "./enter-new-password-reducer";
 
 export const EnterNewPassword = () => {

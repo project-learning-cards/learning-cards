@@ -9,7 +9,7 @@ import { AuthUser } from "../Login/login-reducer";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { ManageCardsButton } from "./ManageCardsButton";
 import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { UrlPath } from '../Navbar/Navbar';
+import { UrlPath } from '../Navbar/Header';
 
 export const CardsList = () => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)

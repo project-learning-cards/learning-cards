@@ -8,7 +8,7 @@ import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {AppStateType} from "../../App/redux-store";
 import { emailValidation } from "../../utils/validation";
-import { UrlPath } from "../Navbar/Navbar";
+import { UrlPath } from "../Navbar/Header";
 import { passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess } from "./password-recovery-reducer";
 
 export const PasswordRecovery = () => {

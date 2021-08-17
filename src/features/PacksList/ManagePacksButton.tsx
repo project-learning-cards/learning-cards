@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
-import {ModalWindowUpdate} from "../../components/ModalWindow/ModalWindowUpdate";
 
+
+/*
 type ManageButtonPropsType = {
     _id: string
     deletePackFun: (id: string) => void
@@ -17,14 +17,13 @@ export const ManagePacksButton: React.FC<ManageButtonPropsType> = (props) => {
     return (
         <>
             <td>
-                <MainActionButton actionClick={() => props.deletePackFun(props._id)}
-                                  title={"DELETE"}/>
+                <Button type="primary" danger onClick={() => props.deletePackFun(props._id)}>DELETE</Button>
+                <Button style={{backgroundColor: "#D9D9F1", border: "none"}} onClick={updatePack}>EDIT</Button>
+                <Button style={{backgroundColor: "#D9D9F1", border: "none"}} onClick={updatePack}>LEARN</Button>
+
             </td>
-            <td>
-                <MainActionButton actionClick={updatePack}
-                                  title={"UPDATE"}/>
-            </td>
+
             <ModalWindowUpdate packId={props._id} showModal={showModalUpdate} setShowModal={setShowModalUpdate} />
         </>
     )
-}
+}*/

@@ -13,7 +13,8 @@ import {ActionsProfileType, profileReducer} from "../features/Profile/profile-re
 import {ActionsRegistrationType, registrationReducer} from "../features/Registration/regidtration-reducer";
 import {ActionPacksListType, packsListReducer} from "../features/PacksList/packsList-reducer";
 import {ActionCardsListType, cardsListReducer} from "../features/CardsList/cardsList-reducer";
-import { appReducer, IsInitializedType } from "./app-reducer";
+import {appReducer, IsInitializedType} from "./app-reducer";
+import {ActionSearchType, searchReducer} from "../features/search/search-reducer";
 
 
 export const rootReducer = combineReducers({
@@ -25,6 +26,7 @@ export const rootReducer = combineReducers({
     registration: registrationReducer,
     packsList: packsListReducer,
     cardsList: cardsListReducer,
+    search: searchReducer
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -39,6 +41,7 @@ type AppActionsType = ActionsSetNewPasswordType
     | ActionPacksListType
     | ActionCardsListType
     | IsInitializedType
+    | ActionSearchType
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType,
     AppStateType,

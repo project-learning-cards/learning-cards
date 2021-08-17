@@ -1,40 +1,49 @@
-import s from './PacksList.module.scss'
-import { useDispatch, useSelector } from "react-redux";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { AppStateType } from "../../App/redux-store";
-import { CardsPackType, GetPacksAPIParamsType } from "../../api/api";
-import { NavLink, Redirect } from "react-router-dom";
-import { AuthUser } from "../Login/login-reducer";
-import { PreloaderForApp } from "../../components/Preloader/Preloader";
-import { Pagination } from "../../components/Pagination/Pagination";
-import { InputContainer } from "../../components/InputContainer/InputContainer";
-import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { UrlPath } from '../Navbar/Navbar';
-import { ManagePacksButton } from './ManagePacksButton';
-import { deletePack, getPackList, setPackNameAC, setPageNumberAC } from './packsList-reducer';
+import s from "./ProfilePack.module.scss";
+import {useDispatch, useSelector} from "react-redux";
+import React, {useCallback, useEffect, useState} from "react";
+import {AppStateType} from "../../App/redux-store";
+import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
+import {Redirect} from "react-router-dom";
+import {AuthUser} from "../Login/login-reducer";
+import {PreloaderForApp} from "../../components/Preloader/Preloader";
+//import {Pagination} from "../../components/Pagination/Pagination";
+import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
+import {UrlPath} from '../Navbar/Header';
+import {deletePack, getPackList, setPageNumberAC, updatePackTC} from './packsList-reducer';
+import SearchName from "../search/SearchName";
+import {setSearchValueAC} from "../search/search-reducer";
+import {TableContainer} from "../table/TableContainer";
+import {Button, Pagination, Typography} from 'antd'
+import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
+import {ProfileResponseType} from "../Profile/profile-reducer";
 
-export const PacksList = (props: { user_id?: string }) => {
+
+export const PacksList = () => {
+    const {Title} = Typography;
+
+    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const [searchTitle, setSearchTitle] = useState<string>("")
-    const [error, setError] = useState<string | null>(null)
-    const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
+    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
+    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
+    const pages = useSelector<AppStateType, number>(state => state.packsList.page)
+    const pagesCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
+    const minFilter = useSelector<AppStateType, number>(state => state.search.min)
+    const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
+    const {
+        page = pages, pageCount = pagesCount, min = minFilter, max = maxFilter, packName, sortPacks
+    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList);
     const dispatch = useDispatch();
 
-    const {
-        page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
-    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList.packsParams);
+    const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
+    const [id, setId] = useState<string>('')
 
-    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
-
-    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
-    }, [page])
+    }, [dispatch])
 
     useEffect(() => {
         if (!idUser) {
@@ -44,104 +53,80 @@ export const PacksList = (props: { user_id?: string }) => {
         } else {
             getPrivatePacks()
         }
-    }, [dispatch, page, pageCount, sortPacks, min, max, packName])
-
-    const changeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(null)
-        setSearchTitle(e.currentTarget.value)
-    }
-
-    const setSearch = () => {
-        const trimmedSearch = searchTitle.trim()
-        if (trimmedSearch) {
-            dispatch(setPackNameAC(trimmedSearch))
-            getPrivatePacks()
-        } else {
-            setError("Title is required")
-        }
-        setSearchTitle("")
-    }
+    }, [dispatch, id, pages, pagesCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({ id: pack_id }))
+        dispatch(deletePack({id: pack_id}))
+    }
+
+    const updateCardsPackName = ( id: string, packName: string) => {
+        dispatch(updatePackTC(id, packName))
     }
 
     const getPrivatePacks = () => {
-        if (props.user_id) {
-            dispatch(getPackList({ pageCount, min, max, page, packName, user_id: props.user_id }))
+        if (id) {
+            dispatch(getPackList({pageCount, min, max, page, packName, user_id: id}))
         } else {
-            dispatch(getPackList({ pageCount, min, max, page, packName }))
+            dispatch(getPackList({pageCount, min, max, page, packName}))
         }
     }
 
+    const setSearch = (value: string) => {
+        dispatch(setSearchValueAC(value))
+    }
+
     if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN} />
+        return <Redirect to={UrlPath.LOGIN}/>
     }
 
     if (!success) {
-        return <PreloaderForApp />
+        return <PreloaderForApp/>
     }
-    debugger
+
     return (
-        <>
-            <div className={s.flex}>
-                {props.user_id && <div className={s.private}>
-                    <input type="checkbox" className="toggle_input" onChange={getPrivatePacks}
-                        checked={false} />
-                    <label>private</label>
-                </div>}
-                <div className={s.search}>
-                    <div className={s.containerInputSearch}>
-                        <InputContainer
-                            placeholder={"Search"}
-                            changeValue={changeSearch}
-                            errorMessage={""}
-                            typeInput={"text"}
-                            value={searchTitle}
-                        />
-                        <button onClick={() => {
-                            dispatch(setPackNameAC(''))
-                        }}>X
-                        </button>
-                    </div>
-                    <button onClick={setSearch}>SEARCH</button>
+
+        <div className={s.profilePageContainer}>
+            <div className={s.filterBlock}>
+                <div><Title level={4}>Show packs cards</Title></div>
+                <div>
+
+                    <Button type={ id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>MY</Button>
+                    <Button type={ id ? 'dashed' : 'primary'} onClick={() => setId('')}>ALL</Button>
                 </div>
-                <table className={s.table}>
-                    <tr className={s.tableRow}>
-                        <th className={s.tableHeader}>{"NAME"}</th>
-                        <th className={s.tableHeader}>{"CARDS COUNT"}</th>
-                        <th className={s.tableHeader}>{"USER NAME"}</th>
-                        <th className={s.tableHeader}>{"RATING"}</th>
-                        <th className={s.tableHeader}>{"GRADE"}</th>
-                        <th className={s.tableHeader}>{"UPDATED"}</th>
-                        {props.user_id && <th>
-                            <MainActionButton actionClick={() => setShowModalAdd(true)}
-                                title={"ADD"} />
-                        </th>}
-                    </tr>
-                    {packsList.map((pack) => (
-                        <tr key={pack._id} className={s.tableRow}>
-                            <td className={s.tableCol}>{pack.name}</td>
-                            <td className={s.tableCol}>{pack.cardsCount}</td>
-                            <td className={s.tableCol}>{pack.user_name}</td>
-                            <td className={s.tableCol}>{pack.rating}</td>
-                            <td className={s.tableCol}>{pack.grade}</td>
-                            <td className={s.tableCol}>{pack.updated}</td>
-                            {(props.user_id) && <ManagePacksButton _id={pack._id} deletePackFun={deletePackFun} />}
-                            <td><NavLink to={`/cards-list/${pack._id}`} activeClassName={s.activeLink}>cards
-                                list</NavLink>
-                            </td>
-                        </tr>
-                    ))}
-                </table>
-                <Pagination totalItemsCount={cardPacksTotalCount}
-                    pageSize={pageCount}
-                    portionSize={10}
-                    currentPage={page}
-                    onPageChanged={onPageChangedHandler}
-                />
+                <div>
+                    <div><Title level={4}>Number of cards</Title></div>
+                    <SuperDoubleRangeContainer/>
+                </div>
             </div>
-            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd} />
-        </>
+
+            <div className={s.profilePacksList}>
+                <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {id ? profile.name + "'s" : ""}</Title>
+
+
+                <div>
+                    <div className={s.flex}>
+                        <div>
+                            <SearchName setSearch={setSearch}
+                                        setShowModalAdd={setShowModalAdd}
+                                        user_id={id}/>
+                        </div>
+
+                        <TableContainer packs={packsList}
+                                        deletePackFun={deletePackFun}
+                                        updateCardsPackName={updateCardsPackName}
+                                        user_id={id}
+
+                        />
+                        <Pagination style={{textAlign: 'center'}}
+                                    defaultCurrent={page}
+                                    total={cardPacksTotalCount}
+                                    onChange={onPageChangedHandler}
+                                    defaultPageSize={pageCount}
+                                    pageSizeOptions={['15']}/>
+                    </div>
+                    <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
+                </div>
+            </div>
+        </div>
     )
 }
