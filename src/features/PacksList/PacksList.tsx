@@ -6,10 +6,9 @@ import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
-//import {Pagination} from "../../components/Pagination/Pagination";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
-import {deletePack, getPackList, setPageNumberAC, updatePackTC} from './packsList-reducer';
+import {deletePack, getPackList, setPageNumberAC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
@@ -59,9 +58,6 @@ export const PacksList = () => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = ( id: string, packName: string) => {
-        dispatch(updatePackTC(id, packName))
-    }
 
     const getPrivatePacks = () => {
         if (id) {
@@ -113,7 +109,6 @@ export const PacksList = () => {
 
                         <TableContainer packs={packsList}
                                         deletePackFun={deletePackFun}
-                                        updateCardsPackName={updateCardsPackName}
                                         user_id={id}
 
                         />

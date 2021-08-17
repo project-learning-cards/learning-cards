@@ -173,7 +173,6 @@ export const updatePackTC =  (_id: string, name: string): AppThunkType =>
       getState().packsList
 
     try {
-      debugger
       const responseUpdate = await PacksListAPI.changeCardsPack(_id, name)
       const response = await PacksListAPI.getPacks({
         pageCount,

@@ -14,7 +14,8 @@ export const UrlPath = {
     NEW_PASSWORD: "/new-password/:token",
     PASSWORD_RECOVERY_CHECK_EMAIL: "/password-recovery-check-email/:email",
     CARDS_LIST: "/cards-list/",
-    EDIT_PACK_NAME: "/edit/"
+    EDIT_PACK_NAME: "/edit-pack/",
+    EDIT_CARD_NAME: "/edit-card/"
 }
 
 

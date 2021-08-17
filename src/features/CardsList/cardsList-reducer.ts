@@ -93,11 +93,11 @@ export const deleteCard = (params: {id: string, cardPack_id: string}): AppThunkT
     }
 }
 
-export const updateCard = (data: { card: { _id: string, question?: string, answer?: string, comments?: string }, cardPack_id: string }): AppThunkType => async (dispatch: Dispatch<ActionCardsListType>) => {
+export const updateCard = (_id: string, question: string, answer: string): AppThunkType => async (dispatch: Dispatch<ActionCardsListType>) => {
 
     try {
-        const responseUpdate = await CardsListAPI.changeCard(data)
-        const response = await CardsListAPI.getCards({cardPack_id: data.cardPack_id})
+        const responseUpdate = await CardsListAPI.changeCard(_id, question, answer)
+        const response = await CardsListAPI.getCards({cardPack_id: _id})
         dispatch(GetCardsListAC(response.data.cards))
     } catch (e) {
         const error = e.response

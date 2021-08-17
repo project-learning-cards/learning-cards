@@ -17,7 +17,8 @@ import {AppStatusType} from "./app-reducer";
 import {PreloaderForApp} from "../components/Preloader/Preloader";
 import {Layout} from "antd";
 import {Learn} from "../features/Learn/Learn";
-import {ModalEditWindow} from "../features/Edit/ModalEditWindow";
+import {ModalEditPackWindow} from "../features/ModalWindow/ModalEditPackWindow";
+import {ModalEditCardWindow} from "../features/ModalWindow/ModalEditCardWindow";
 
 
 function App() {
@@ -43,7 +44,8 @@ function App() {
                         <Route exact path={UrlPath.PACKS_LIST} render={() => <PacksList/>}/>
                         <Route exact path={`${UrlPath.CARDS_LIST}:id`} render={() => <CardsList/>}/>
                         <Route path={`${UrlPath.LEARN_CARDS}:id`} render={() => <Learn />}/>
-                        <Route path={`${UrlPath.EDIT_PACK_NAME}:packId`} render={() => <ModalEditWindow />}/>
+                        <Route path={`${UrlPath.EDIT_PACK_NAME}:packId`} render={() => <ModalEditPackWindow />}/>
+                        <Route path={`${UrlPath.EDIT_CARD_NAME}:cardId`} render={() => <ModalEditCardWindow />}/>
                         <Route path={'*'} render={() => <Error404/>}/>
                     </Switch>
                 </div>

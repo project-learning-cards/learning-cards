@@ -10,7 +10,7 @@ import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {deletePack, getPackList, setPageNumberAC, updatePackTC} from "../PacksList/packsList-reducer";
+import {deletePack, getPackList, setPageNumberAC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
@@ -44,11 +44,7 @@ export const Profile = () => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = ( id: string, packName: string) => {
-        dispatch(updatePackTC(id, packName))
-    }
-
-    const onPageChangedHandler = useCallback((currentPage: number): void => {
+   const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
     }, [dispatch])
 
@@ -106,7 +102,6 @@ export const Profile = () => {
                 </div>
                 <TableContainer packs={packsList}
                                 deletePackFun={deletePackFun}
-                                updateCardsPackName={updateCardsPackName}
                                 user_id={profile._id}
                 />
                 <Pagination style={{textAlign: 'center'}}
