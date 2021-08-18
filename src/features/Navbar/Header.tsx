@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {Link} from "react-router-dom";
-import {Col, Layout, Menu, Row} from "antd";
+import {Col, Layout, Menu, Row, Switch, Typography} from "antd";
+import {languages} from "../../assets/i18n/languages"
+import i18next from "i18next"
+import {useTranslation} from "react-i18next"
+
+const { Title } = Typography;
 
 export const UrlPath = {
     REGISTRATION: "/registration",
@@ -19,21 +24,38 @@ export const UrlPath = {
 
 
 export const Header = () => {
+    const {t} = useTranslation()
+    const [language, setLanguage] = useState<boolean>(true)
     const {Header} = Layout;
+
+    const handleClick = () => {
+        if (language) {
+            setLanguage(false)
+            i18next.changeLanguage(languages[1].code)
+        } else {
+            setLanguage(true)
+            i18next.changeLanguage(languages[0].code)
+        }
+    }
 
     return (
         <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
             <Row>
-              {/*  <Col span={3}>
+                <Col span={6}>
                     <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', zIndex: 2}}>
-                        <Title style={{color: 'white'}} level={3}>Card training</Title>
+                        <Title style={{color: 'white'}} level={3}>{t('card_training')}</Title>
                     </div>
-                </Col>*/}
-                <Col span={24}>
+                </Col>
+                <Col span={12}>
                     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} style={{position: 'relative', display: 'flex',justifyContent: 'center'}}>
-                        <Menu.Item key="1"><Link to={UrlPath.PACKS_LIST}>Packs list</Link></Menu.Item>
-                        <Menu.Item key="2"><Link to={UrlPath.PROFILE}>Profile</Link></Menu.Item>
+                        <Menu.Item key="1"><Link to={UrlPath.PACKS_LIST}>{t('packs_lists')}</Link></Menu.Item>
+                        <Menu.Item key="2"><Link to={UrlPath.PROFILE}>{t('profile')}</Link></Menu.Item>
                     </Menu>
+                </Col>
+                <Col span={6}>
+                    <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', zIndex: 2, height: '100%'}}>
+                        <Switch checkedChildren={languages[0].name} unCheckedChildren={languages[1].name} onClick={handleClick} checked={language} />
+                    </div>
                 </Col>
             </Row>
 
