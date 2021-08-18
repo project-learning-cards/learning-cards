@@ -10,7 +10,7 @@ import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {deletePack, getPackList, setPageNumberAC, updatePackTC} from "../PacksList/packsList-reducer";
+import {deletePack, getPackList, setPageNumberAC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
@@ -20,7 +20,6 @@ import {CardsPackType} from "../../api/api";
 export const Profile = () => {
     const {Title} = Typography
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
-    const [, setShowModalAdd] = useState<boolean>(false)
 
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -44,11 +43,7 @@ export const Profile = () => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = ( id: string, packName: string) => {
-        dispatch(updatePackTC(id, packName))
-    }
-
-    const onPageChangedHandler = useCallback((currentPage: number): void => {
+   const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
     }, [dispatch])
 
@@ -101,12 +96,10 @@ export const Profile = () => {
                 <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {profile.name}'s</Title>
                 <div>
                     <SearchName setSearch={setSearch}
-                                setShowModalAdd={setShowModalAdd}
                                 user_id={profile._id}/>
                 </div>
                 <TableContainer packs={packsList}
                                 deletePackFun={deletePackFun}
-                                updateCardsPackName={updateCardsPackName}
                                 user_id={profile._id}
                 />
                 <Pagination style={{textAlign: 'center'}}

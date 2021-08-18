@@ -59,7 +59,6 @@ export const PacksListAPI = {
         return instance.delete<Array<CardsPackType>>("/cards/pack", {params})
     },
     changeCardsPack(_id: string, name ?: string) {
-        debugger
         return instance.put("/cards/pack", {cardsPack: {_id, name}})
     },
 }
@@ -74,8 +73,8 @@ export const CardsListAPI = {
     deleteCard(params: { id: string }) {
         return instance.delete<Array<CardType>>("/cards/card", {params})
     },
-    changeCard(data: { card: { _id: string, question?: string, answer?: string, comments?: string } }) {
-        return instance.put<Array<CardType>>("/cards/card", data)
+    changeCard(_id: string, question?: string, answer?: string) {
+        return instance.put<Array<CardType>>("/cards/card", {card: {_id, question, answer}})
     },
     setCardGrade(grade: number, card_id: string) {
         return instance.put<SetGradeResponseType>('/cards/grade', {grade, card_id})

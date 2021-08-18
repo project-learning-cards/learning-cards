@@ -1,28 +1,20 @@
-import React, {useState} from "react";
+import React from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import s from './TableContainer.module.scss'
 import {CardsPackType} from "../../api/api";
 import {UrlPath} from "../Navbar/Header";
 import {Button} from 'antd';
 import moment from "moment";
-import {ModalEditWindow} from "../Edit/ModalEditWindow";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
     deletePackFun: (pack_id: string) => void
-    updateCardsPackName: (id: string, packName: string) => void
     user_id: string
 }
 
 
 export const TableContainer = (props: TableContainerPropsType) => {
     const history = useHistory()
-    const [showEditModal, setShowEditModal] = useState<boolean>(false);
-
-    const updateCardsPackName = (id: string, packName: string) => {
-        props.updateCardsPackName && props.updateCardsPackName(id, packName)
-    }
-
 
     return (
         <table className={s.tableContainer}>
@@ -46,15 +38,11 @@ export const TableContainer = (props: TableContainerPropsType) => {
                     <td className={s.tableCol}>{pack.cardsCount}</td>
                     <td className={s.tableCol}>{moment(pack.updated).format('DD.MM.YYYY')}</td>
                     <td className={s.tableCol}>{pack.user_name}</td>
-                    <td className={s.tableCol}>{pack._id}</td>
                     <td>
                         {(props.user_id) &&
                         <>
                             <Button type="primary" danger
                                     onClick={() => props.deletePackFun(pack._id)}>DELETE</Button>
-                            {/*<Button onClick={() => setShowEditModal(true)}
-                                    style={{backgroundColor: "#D9D9F1", border: "none"}}
-                            >EDIT</Button>*/}
                             <Button onClick={() => history.push(UrlPath.EDIT_PACK_NAME + pack._id)}
                                     style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                             >EDIT</Button>
@@ -67,11 +55,6 @@ export const TableContainer = (props: TableContainerPropsType) => {
                 </tr>
             ))}
             </tbody>
-           {/* {showEditModal && <ModalEditWindow
-                                               showEditModal={showEditModal}
-
-                                               setShowEditModal={setShowEditModal}
-                                               updateCardsPackName={updateCardsPackName}/>}*/}
         </table>
     )
 }

@@ -1,12 +1,13 @@
-import React, { ChangeEvent, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { AppStateType } from "../../App/redux-store";
+import React, {ChangeEvent, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {AppStateType} from "../../App/redux-store";
 import s from "./PersonalInformation.module.scss";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { updateProfile } from "./profile-reducer";
-import { InputContainer } from "../../components/InputContainer/InputContainer";
-import { UrlPath } from "../Navbar/Header";
+import {updateProfile} from "./profile-reducer";
+import {InputContainer} from "../../components/InputContainer/InputContainer";
+import {UrlPath} from "../Navbar/Header";
+import {Avatar, Button, Modal} from "antd";
+import {UserOutlined} from "@ant-design/icons";
 
 type PersonalInformationPropsType = {
     onClick: () => void
@@ -60,58 +61,87 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
         }
     }
 
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN} />
+
+    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
 
     return (
-        <div className={s.profilePageContainer}>
-            <>
-                <div className={s.modalBackground} onClick={closeModelWindow}>
-                </div>
-                <div className={s.modalMessage}>
-                    <div className={s.modalMessageContainer}>
-                        <h2>Personal information</h2>
-                        <div className={s.avatarBlock}>
-                            <img className={s.avatar} src={props.avatar ? props.avatar : ""} alt="user_photo" />
-                            <input
-                                ref={inRef}
-                                type={'file'}
-                                style={{ display: 'none' }}
-                                onChange={upload}
-                            />
-                            <button onClick={() => inRef && inRef.current && inRef.current.click()}>add</button>
-                            <div className={s.addedFilesContainer}>
-                                {fileURL && <div className={s.addedFiles}>
-                                    <img className={s.avatarURL} src={fileURL} alt={'file'} />
-                                    {file && file.name}
-                                </div>}
-                            </div>
-
-
-                        </div>
-                        <div className={s.inputFields}>
-                            <InputContainer
-                                title={"Nick name"}
-                                typeInput={"text"}
-                                value={newName}
-                                changeValue={onChangeName}
-                                errorMessage={errorNickName}
-                            />
-
-                        </div>
-                        <div className={s.btns}>
-                            <a className={s.btnCancel} onClick={closeModelWindow}>Cancel</a>
-                            <div className={s.blueBtnContainer}>
-                                <MainActionButton
-                                    actionClick={onSaveInformation}
-                                    disabledBtnSubmit={disabledBtnSubmit}
-                                    title={"Save"}
-                                    loadingStatus={loadingStatus}
-                                />
-                            </div>
-                        </div>
+        <Modal width={600} title={'Personal information'} visible onCancel={closeModelWindow}
+               footer={[
+                   <Button key="back" onClick={closeModelWindow}>
+                       Return
+                   </Button>,
+                   <Button disabled={disabledBtnSubmit} key="submit" type="primary" onClick={onSaveInformation} loading={loadingStatus}>
+                       Save
+                   </Button>
+               ]}>
+            <div style={{height: 'auto'}}>
+                <div className={s.avatarBlock}>
+                    <div>
+                        <Avatar style={{borderRadius: '50%', backgroundSize: 'cover', backgroundPosition: '50%'}} src={props.avatar} size={200} icon={<UserOutlined />}/>
+                    </div>
+                    <input
+                        ref={inRef}
+                        type={'file'}
+                        style={{display: 'none'}}
+                        onChange={upload}
+                    />
+                    <Button size={"small"} onClick={() => inRef && inRef.current && inRef.current.click()}
+                            style={{backgroundColor: "#D9D9F1", border: "none", marginTop: '10px'}}
+                    >Add</Button>
+                    <div >
+                        {fileURL && <div >
+                            <img src={fileURL} alt={'file'}/>
+                            {file && file.name}
+                        </div>}
                     </div>
                 </div>
-            </>
-        </div>
+                <InputContainer
+                    title={"Nick name"}
+                    typeInput={"text"}
+                    value={newName}
+                    changeValue={onChangeName}
+                    errorMessage={errorNickName}
+                    placeholder={'enter your nick name'}
+                />
+            </div>
+        </Modal>
+
+
+
+
+
+
+
+
+        /*
+          <div className={s.profilePageContainer}>
+              <>
+                  <div className={s.modalBackground} onClick={closeModelWindow}>
+                  </div>
+                  <div className={s.modalMessage}>
+                      <div className={s.modalMessageContainer}>
+                          <h2>Personal information</h2>
+                          <div className={s.avatarBlock}>
+                              <img className={s.avatar} src={props.avatar ? props.avatar : ""} alt="user_photo" />
+                              <input
+                                  ref={inRef}
+                                  type={'file'}
+                                  style={{ display: 'none' }}
+                                  onChange={upload}
+                              />
+                              <button onClick={() => inRef && inRef.current && inRef.current.click()}>add</button>
+                              <div className={s.addedFilesContainer}>
+                                  {fileURL && <div className={s.addedFiles}>
+                                      <img className={s.avatarURL} src={fileURL} alt={'file'} />
+                                      {file && file.name}
+                                  </div>}
+                              </div>
+
+
+                          </div>
+                      </div>
+                  </div>
+              </>
+          </div>*/
     )
 })

@@ -1,40 +1,36 @@
-import s from './CardsList.module.scss'
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-import { addCard, deleteCard, getCardsList } from "./cardsList-reducer";
-import { AppStateType } from "../../App/redux-store";
-import { CardType } from "../../api/api";
-import { Redirect, useParams } from "react-router-dom";
-import { AuthUser } from "../Login/login-reducer";
-import { Preloader } from "../../components/Preloader/Preloader";
-import { ManageCardsButton } from "./ManageCardsButton";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { UrlPath } from '../Navbar/Header';
+import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {deleteCard, getCardsList} from "./cardsList-reducer";
+import {AppStateType} from "../../App/redux-store";
+import {Redirect, useParams} from "react-router-dom";
+import {AuthUser} from "../Login/login-reducer";
+import {Preloader} from "../../components/Preloader/Preloader";
+import {UrlPath} from '../Navbar/Header';
+import {TableContainerCards} from "../table/TableContainerCards";
+import SearchName from "../search/SearchName";
+import {setSearchValueAC} from "../search/search-reducer";
+import {ProfileResponseType} from "../Profile/profile-reducer";
 
 export const CardsList = () => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
-    const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
+    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const success = useSelector<AppStateType, boolean>(state => state.cardsList.success)
+
     const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>()
 
+    const setSearch = (value: string) => {
+        dispatch(setSearchValueAC(value))
+    }
+
     useEffect(() => {
-        if (!idUser) {
+        if (!profile._id) {
             dispatch(AuthUser())
         } else {
             dispatch(getCardsList({ cardPack_id: id }))
         }
-    }, [dispatch, id])
+    }, [dispatch, id, profile._id])
 
-    const cardsList = useSelector<AppStateType, Array<CardType>>(state => state.cardsList.arrayCard)
-
-    const addCardFun = () => {
-        dispatch(addCard({ card: { cardsPack_id: id } }))
-    }
-
-    const deleteCardFun = (id: string, cardPack_id: string) => {
-        dispatch(deleteCard({ id, cardPack_id }))
-    }
 
     if (!isAuth) {
         return <Redirect to={UrlPath.LOGIN} />
@@ -44,31 +40,16 @@ export const CardsList = () => {
         return <Preloader />
     }
 
+    const deleteCardFun = (id: string, cardPack_id: string) => {
+        dispatch(deleteCard({id, cardPack_id}))
+    }
+
     return (
-        <table className={s.table}>
-            <tr className={s.tableRow}>
-                <th className={s.tableHeader}>{"QUESTION"}</th>
-                <th className={s.tableHeader}>{"ANSWER"}</th>
-                <th className={s.tableHeader}>{"GRADE"}</th>
-                <th className={s.tableHeader}>{"UPDATED"}</th>
-                <th>
-                    <MainActionButton actionClick={addCardFun}
-                        title={"ADD"} />
-                </th>
-            </tr>
-            {cardsList.map((card) => (
-                <tr key={card._id} className={s.tableRow}>
-                    <td className={s.tableCol}>{card.question}</td>
-                    <td className={s.tableCol}>{card.answer}</td>
-                    <td className={s.tableCol}>{card.grade}</td>
-                    <td className={s.tableCol}>{card.updated}</td>
-                    <ManageCardsButton
-                        _id={card._id}
-                        cardPack_id={card.cardsPack_id}
-                        deleteCardFun={deleteCardFun}
-                    />
-                </tr>
-            ))}
-        </table>
+        <div>
+            <SearchName setSearch={setSearch}
+                        user_id={profile._id}
+                        />
+        <TableContainerCards id={id} user_id={profile._id} deleteCardFun={deleteCardFun}/>
+        </div>
     )
 }

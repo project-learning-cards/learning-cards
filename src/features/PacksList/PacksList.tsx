@@ -6,10 +6,9 @@ import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
-//import {Pagination} from "../../components/Pagination/Pagination";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
-import {deletePack, getPackList, setPageNumberAC, updatePackTC} from './packsList-reducer';
+import {deletePack, getPackList, setPageNumberAC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
@@ -59,9 +58,6 @@ export const PacksList = () => {
         dispatch(deletePack({id: pack_id}))
     }
 
-    const updateCardsPackName = ( id: string, packName: string) => {
-        dispatch(updatePackTC(id, packName))
-    }
 
     const getPrivatePacks = () => {
         if (id) {
@@ -84,7 +80,6 @@ export const PacksList = () => {
     }
 
     return (
-
         <div className={s.profilePageContainer}>
             <div className={s.filterBlock}>
                 <div><Title level={4}>Show packs cards</Title></div>
@@ -101,21 +96,16 @@ export const PacksList = () => {
 
             <div className={s.profilePacksList}>
                 <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {id ? profile.name + "'s" : ""}</Title>
-
-
                 <div>
                     <div className={s.flex}>
                         <div>
                             <SearchName setSearch={setSearch}
-                                        setShowModalAdd={setShowModalAdd}
                                         user_id={id}/>
                         </div>
 
                         <TableContainer packs={packsList}
                                         deletePackFun={deletePackFun}
-                                        updateCardsPackName={updateCardsPackName}
                                         user_id={id}
-
                         />
                         <Pagination style={{textAlign: 'center'}}
                                     defaultCurrent={page}
