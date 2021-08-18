@@ -17,9 +17,11 @@ import {AppStatusType} from "./app-reducer";
 import {PreloaderForApp} from "../components/Preloader/Preloader";
 import {Layout} from "antd";
 import {Learn} from "../features/Learn/Learn";
+import {ModalEditWindow} from "../features/Edit/ModalEditWindow";
+import {withSuspense} from "../hoc/withSuspense"
+import '../assets/i18n/i18n';
 import {ModalEditPackWindow} from "../features/ModalWindow/ModalEditPackWindow";
 import {ModalEditCardWindow} from "../features/ModalWindow/ModalEditCardWindow";
-
 
 function App() {
     const {Content, Footer} = Layout;
@@ -27,9 +29,10 @@ function App() {
     const initialization = useSelector<AppStateType, AppStatusType>(state => state.app.appStatus)
 
     if (initialization === "loading") return <PreloaderForApp/>
+    const SuspendedHeader = withSuspense(Header)
     return (
         <Layout>
-            <Header/>
+            <SuspendedHeader/>
             <Content className="site-layout" style={{padding: '0 50px', marginTop: 64}}>
                 <div className="site-layout-background" style={{padding: 24, minHeight: 380}}>
                     <Switch>
