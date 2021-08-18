@@ -24,23 +24,20 @@ i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        // supportedLngs: ['en', 'ru'],
         fallbackLng: 'en',
         resources,
-        lng: document.querySelector('html')?.lang,
-        // debug: true,
-        // whitelist: ['en', 'ru'],
+        //lng: document.querySelector('html')?.lang,
         detection: {
-            order: ['localStorage', 'cookie', 'htmlTag', 'path', 'subdomain'],
+            order: ['localStorage', 'cookie', 'path', 'htmlTag', 'subdomain'],
             caches: ['localStorage'],
         },
         // backend: {
         //     loadPath: '/locales/{{lng}}/translation.json',
         // },
 
-        interpolation: {
-            escapeValue: false, // not needed for react as it escapes by default
-        }
+        // interpolation: {
+        //     escapeValue: false, // not needed for react as it escapes by default
+        // }
     });
 
 
