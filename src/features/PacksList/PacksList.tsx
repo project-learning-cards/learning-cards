@@ -80,7 +80,6 @@ export const PacksList = () => {
     }
 
     return (
-
         <div className={s.profilePageContainer}>
             <div className={s.filterBlock}>
                 <div><Title level={4}>Show packs cards</Title></div>
@@ -97,20 +96,16 @@ export const PacksList = () => {
 
             <div className={s.profilePacksList}>
                 <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {id ? profile.name + "'s" : ""}</Title>
-
-
                 <div>
                     <div className={s.flex}>
                         <div>
                             <SearchName setSearch={setSearch}
-                                        setShowModalAdd={setShowModalAdd}
                                         user_id={id}/>
                         </div>
 
                         <TableContainer packs={packsList}
                                         deletePackFun={deletePackFun}
                                         user_id={id}
-
                         />
                         <Pagination style={{textAlign: 'center'}}
                                     defaultCurrent={page}

@@ -1,8 +1,7 @@
 import React from "react";
 import s from './TableContainer.module.scss'
 import {CardType} from "../../api/api";
-import {addCard} from "../CardsList/cardsList-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStateType} from "../../App/redux-store";
 import {Button} from "antd";
 import moment from "moment";
@@ -17,7 +16,6 @@ type TableContainerCardsPropsType = {
 
 export const TableContainerCards = (props: TableContainerCardsPropsType) => {
     const history = useHistory()
-    const dispatch = useDispatch()
     const cardsList = useSelector<AppStateType, Array<CardType>>(state => state.cardsList.arrayCard)
 
 

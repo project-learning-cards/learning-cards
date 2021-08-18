@@ -25,12 +25,13 @@ export const ModalEditPackWindow = () => {
     }
 
     const handleCancel = () => {
-        window.history.go(-1);
         setShowEditModal(false)
+        window.history.go(-1);
     }
 
     const updatePack = () => {
-           dispatch(updatePackTC(packId, newName))
+        dispatch(updatePackTC(packId, newName))
+        setShowEditModal(false)
     }
 
 

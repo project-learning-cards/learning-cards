@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {deleteCard, getCardsList} from "./cardsList-reducer";
 import {AppStateType} from "../../App/redux-store";
 import {Redirect, useParams} from "react-router-dom";
@@ -15,10 +15,9 @@ export const CardsList = () => {
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const success = useSelector<AppStateType, boolean>(state => state.cardsList.success)
+
     const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>()
-
-    const [, setShowModalAdd] = useState<boolean>(false)
 
     const setSearch = (value: string) => {
         dispatch(setSearchValueAC(value))
@@ -48,7 +47,6 @@ export const CardsList = () => {
     return (
         <div>
             <SearchName setSearch={setSearch}
-                        setShowModalAdd={setShowModalAdd}
                         user_id={profile._id}
                         />
         <TableContainerCards id={id} user_id={profile._id} deleteCardFun={deleteCardFun}/>

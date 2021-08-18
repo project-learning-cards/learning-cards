@@ -3,7 +3,6 @@ import {
   CardsPackType,
   GetPacksAPIParamsType,
   PacksListAPI,
-  UpdateParamsType,
 } from '../../api/api'
 import {AppThunkType, GetAppStateType} from '../../App/redux-store'
 import {Dispatch} from 'redux'
@@ -185,6 +184,7 @@ export const updatePackTC =  (_id: string, name: string): AppThunkType =>
     } catch (e) {
       const error = e.response ? e.response.data.error : e.message + moreDetails
     } finally {
+      window.history.go(-1);
     }
   }
 /*

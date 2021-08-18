@@ -20,7 +20,6 @@ import {CardsPackType} from "../../api/api";
 export const Profile = () => {
     const {Title} = Typography
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
-    const [, setShowModalAdd] = useState<boolean>(false)
 
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -97,7 +96,6 @@ export const Profile = () => {
                 <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {profile.name}'s</Title>
                 <div>
                     <SearchName setSearch={setSearch}
-                                setShowModalAdd={setShowModalAdd}
                                 user_id={profile._id}/>
                 </div>
                 <TableContainer packs={packsList}
