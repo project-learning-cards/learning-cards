@@ -7,6 +7,8 @@ import {Button} from "antd";
 import moment from "moment";
 import {UrlPath} from "../Navbar/Header";
 import {useHistory} from "react-router-dom";
+import { useTranslation } from "react-i18next"
+
 
 type TableContainerCardsPropsType = {
     id: string
@@ -23,14 +25,15 @@ export const TableContainerCards = (props: TableContainerCardsPropsType) => {
         dispatch(addCard({card: {cardsPack_id: props.id}}))
     }*/
 
+    const {t} = useTranslation()
     return (
         <table className={s.tableContainer}>
             <thead className={s.tableHeader}>
             <tr>
-                <th className={s.tableHeader}>{"QUESTION"}</th>
-                <th className={s.tableHeader}>{"ANSWER"}</th>
-                <th className={s.tableHeader}>{"GRADE"}</th>
-                <th className={s.tableHeader}>{"LAST UPDATED"}</th>
+                <th className={s.tableHeader}>{t('question')}</th>
+                <th className={s.tableHeader}>{t('answer')}</th>
+                <th className={s.tableHeader}>{t('grade')}</th>
+                <th className={s.tableHeader}>{t('last_update')}</th>
                 <th className={s.tableHeader}/>
             </tr>
             </thead>
@@ -44,10 +47,10 @@ export const TableContainerCards = (props: TableContainerCardsPropsType) => {
                     <td>
                     {(props.user_id === card.user_id) &&
                     <>
-                        <Button type="primary" danger onClick={() => props.deleteCardFun(card._id, card.cardsPack_id)}>DELETE</Button>
+                        <Button type="primary" danger onClick={() => props.deleteCardFun(card._id, card.cardsPack_id)}>{t('delete')}</Button>
                         <Button onClick={() => history.push(UrlPath.EDIT_CARD_NAME + card._id)}
                                 style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                        >EDIT</Button>
+                        >{t('edit')}</Button>
                     </>
                     }</td>
                 </tr>

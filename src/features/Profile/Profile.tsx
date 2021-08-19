@@ -15,12 +15,14 @@ import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
 import {CardsPackType} from "../../api/api";
+import { useTranslation } from "react-i18next";
 
 
 export const Profile = () => {
     const {Title} = Typography
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
     const id = ''
+    const {t} = useTranslation()
 
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -82,26 +84,24 @@ export const Profile = () => {
                         <Avatar size={100} src={profile.avatar} icon={<UserOutlined/>}/>
                     </div>
                     <div style={{float: 'left'}}>
-                        <div><b>Name:</b> {profile.name && profile.name}</div>
-                        <div><b>Email:</b> {profile.email && profile.email}</div>
-                        <div><b>public card packs
-                            count:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
+                        <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
+                        <div><b>{t('email')}:</b> {profile.email && profile.email}</div>
+                        <div><b>{t('public_count')}:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
                     </div>
                     <div>
-                        <Button type="primary" size="small" onClick={() => setEditModeProfile(true)}>Edit
-                            profile</Button>
+                        <Button type="primary" size="small" onClick={() => setEditModeProfile(true)}>{t('edit_profile')}</Button>
                         <Button type="primary" size="small" danger onClick={logOut} icon={<PoweroffOutlined/>}
-                                loading={loadingRequest}>log out</Button>
+                                loading={loadingRequest}>{t('logout')}</Button>
                     </div>
                 </div>
                 <div className={s.doubleRange}>
-                    <div><Title level={4}>Number of cards</Title></div>
+                    <div><Title level={4}>{t('number_cards')}</Title></div>
                     <SuperDoubleRangeContainer/>
                 </div>
             </div>
             <div className={s.profilePacksList}>
                 <div className={s.header}>
-                    <Title className={s.title} level={2}>Packs list {profile.name}'s</Title>
+                    <Title className={s.title} level={2}>{t('packs_list_with_name', {name: profile.name})}</Title>
                     <SearchName setSearch={setSearch}
                                 user_id={id}/>
                 </div>

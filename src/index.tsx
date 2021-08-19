@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import {HashRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {store} from "./App/redux-store";
+import { withSuspense } from "./hoc/withSuspense"
+
+const SuspenseApp = withSuspense(App)
 
 ReactDOM.render(
     <React.StrictMode>

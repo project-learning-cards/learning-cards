@@ -4,6 +4,7 @@ import {AppStateType} from "../../App/redux-store";
 import {Button, Input, Modal} from 'antd';
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {addPack} from "../PacksList/packsList-reducer";
+import { useTranslation } from "react-i18next";
 
 
 type SearchPropsType = {
@@ -19,7 +20,7 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
     /*const [showModalAddCard, setShowModalAddCard] = useState<boolean>(true);*/
     const [newName, setNewName] = useState<string>('')
     const dispatch = useDispatch()
-
+    const {t} = useTranslation()
 
 
     useEffect(() => {
@@ -48,30 +49,30 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
 
     return (
         <div style={{textAlign: 'center'}}>
-            <Search placeholder="input search text"
-                    enterButton="Search"
+            <Search placeholder={t('search_text')}
+                    enterButton={t('search')}
                     size="large"
                     onChange={onSearchChange}
                     value={searchValue}
             style={{width: '90%'}}/>
-            {(user_id) && <Button size={"large"} onClick={()=> setShowModalAddPack(true)}>ADD</Button>}
+            {(user_id) && <Button size={"large"} onClick={()=> setShowModalAddPack(true)}>{t('add')}</Button>}
 
 
 
             {showModalAddPack &&
-            <Modal width={600} title={'Pack info'} visible={showModalAddPack} onCancel={handleCancel}
+            <Modal width={600} title={t('pack_info')} visible={showModalAddPack} onCancel={handleCancel}
                    footer={[
                        <Button key="back" onClick={handleCancel}>
-                           Return
+                           {t('return')}
                        </Button>,
                        <Button key="submit" type="primary" onClick={saveNewPackHandler}>
-                           Save
+                           {t('save')}
                        </Button>
                    ]}>
                 <div style={{height: '150px'}}>
                     <InputContainer
-                        title={"Name pack"}
-                        placeholder={"enter name new pack"}
+                        title={t('name_pack')}
+                        placeholder={t('new_pack_name')}
                         changeValue={changePackNameHandler}
                         errorMessage={""}
                         typeInput={"text"}
