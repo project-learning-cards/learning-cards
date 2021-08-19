@@ -1,22 +1,18 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
+
+import translationEN from "./locales/en/translation.json"
+import translationRU from "./locales/ru/translation.json"
+
 const resources = {
     en: {
-        translation: {
-            "card_training": "Card training",
-            "profile": "Profile",
-            "packs_lists": "Packs lists"
-        }
+        translation: translationEN
     },
     ru: {
-        translation: {
-            "card_training": "Обучение по карточкам",
-            "profile": "Личный кабинет",
-            "packs_lists": "Наборы карточек"
-        }
+        translation: translationRU
     }
 };
 i18n
@@ -26,18 +22,11 @@ i18n
     .init({
         fallbackLng: 'en',
         resources,
-        //lng: document.querySelector('html')?.lang,
         detection: {
-            order: ['localStorage', 'cookie', 'path', 'htmlTag', 'subdomain'],
+            order: ['htmlTag', 'localStorage', 'cookie', 'path', 'subdomain'],
             caches: ['localStorage'],
         },
-        // backend: {
-        //     loadPath: '/locales/{{lng}}/translation.json',
-        // },
-
-        // interpolation: {
-        //     escapeValue: false, // not needed for react as it escapes by default
-        // }
+        react: { useSuspense: false }
     });
 
 
