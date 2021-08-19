@@ -1,20 +1,24 @@
 import React from "react";
-import loadingProgress from '../../assets/loadings/loadingBtn.svg'
-import spinner from '../../assets/loadings/Spinner.gif'
-import st from './Preloader.module.scss'
+import style from './Preloader.module.scss'
+import {Space, Spin} from 'antd';
+import {LoadingOutlined} from '@ant-design/icons';
 
 export const Preloader = () => {
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
     return (
-        <div className={st.preloaderContainer}>
-            <img alt={"preloader"} src={loadingProgress} />
+        <div className={style.preloaderContainer}>
+            <Spin indicator={antIcon} />
         </div>
     )
 }
 
 export const PreloaderForApp = () => {
     return (
-        <div className={st.preloaderForApp}>
-            <img alt={"preloader"} src={spinner} />
+        <div className={style.preloaderForApp}>
+            <Space size="middle">
+                <Spin size="large" />
+            </Space>
         </div>
     )
 }
+

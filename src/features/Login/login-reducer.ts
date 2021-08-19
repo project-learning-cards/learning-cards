@@ -1,8 +1,8 @@
-import { isInitializedAC } from './../../App/app-reducer';
 import {authAPI, loginAPI, LoginResponseType} from "../../api/api";
 import {AppThunkType} from "../../App/redux-store";
 import { moreDetails } from "../PacksList/packsList-reducer";
 import {setProfileAC} from "../Profile/profile-reducer";
+import {isInitializedAC} from "../../App/app-reducer";
 
 const initialStateLogin: InitialLoginType = {
     _id: '',
@@ -63,12 +63,12 @@ export const setServerErrorMessageLogin = (error: string) => {
 
 
 //thunkC
-export const loginUserTC = (emailValue: string, passwordValue: string): AppThunkType => async (dispatch) => {
+export const loginUserTC = (emailValue: string, passwordValue: string, rememberMe: boolean): AppThunkType => async (dispatch) => {
     dispatch(loadingRequest(true))
     
 
     try {
-        const response = await loginAPI.logIn(emailValue, passwordValue)
+        const response = await loginAPI.logIn(emailValue, passwordValue, rememberMe)
         dispatch(loginUser(response.data))
         dispatch(logIn(true))
 
@@ -95,7 +95,7 @@ export const AuthUser = (): AppThunkType => async (dispatch) => {
         const error = e.response
             ? e.response.data.error
             : (e.message + moreDetails)
-        dispatch(setServerErrorMessageLogin(error))
+        /*dispatch(setServerErrorMessageLogin(error))*/
         dispatch(isInitializedAC("failed"))
     } finally {
         dispatch(loadingRequest(false))

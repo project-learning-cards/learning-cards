@@ -1,19 +1,22 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import s from './Login.module.scss'
-import { useDispatch, useSelector } from "react-redux";
-import { AppStateType } from "../../App/redux-store";
-import { NavLink, Redirect } from "react-router-dom";
-import { InputContainer } from "../../components/InputContainer/InputContainer";
-import { HeaderEnterApp } from "../../components/HeaderEnterApp/HeaderEnterApp";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { emailValidation, PasswordValidation } from "../../utils/validation";
-import { UrlPath } from "../Navbar/Header";
-import { loginUserTC, setServerErrorMessageLogin } from "./login-reducer";
-import { PATH } from "../../components/routes/Pages";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../App/redux-store";
+import {NavLink, Redirect} from "react-router-dom";
+import {InputContainer} from "../../components/InputContainer/InputContainer";
+import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
+import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
+import {emailValidation, PasswordValidation} from "../../utils/validation";
+import {UrlPath} from "../Navbar/Header";
+import {loginUserTC, setServerErrorMessageLogin} from "./login-reducer";
+import {PATH} from "../../components/routes/Pages";
+import {Checkbox} from 'antd';
+import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export const Login = () => {
     const [emailValue, setEmailValue] = useState<string>("")
     const [passwordValue, setPasswordValue] = useState<string>("")
+    const [rememberMe, setRememberMe] = useState<boolean>(false)
 
     const dispatch = useDispatch()
     const loadingStatus = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
@@ -34,13 +37,17 @@ export const Login = () => {
         setErrorPasswordMessage("")
     }
 
+    const changeRememberMe = (e: CheckboxChangeEvent) => {
+        setRememberMe(e.target.checked)
+    }
+
     const checkLoginUser = () => {
         if (!emailValidation(emailValue)) {
             setErrorEmailMessage("Incorrect email")
         } else if (!PasswordValidation(passwordValue)) {
             setErrorPasswordMessage("Minimum 8 characters")
         } else {
-            dispatch(loginUserTC(emailValue, passwordValue))
+            dispatch(loginUserTC(emailValue, passwordValue, rememberMe))
         }
     }
 
@@ -50,14 +57,12 @@ export const Login = () => {
         }
     }, [dispatch])
 
-
-    
     const disabledBtnSubmit = !emailValue || !passwordValue
-    if(isLoggedIn) return <Redirect to={PATH.PROFILE}/>
+    if (isLoggedIn) return <Redirect to={PATH.PROFILE}/>
     return (
         <div className={s.container}>
             <div className={s.wrapper}>
-                <HeaderEnterApp title={"Sign In"} />
+                <HeaderEnterApp title={"Sign In"}/>
                 <div className={s.main}>
                     <div className={s.emailPasswordLoginContainer}>
                         <InputContainer
@@ -75,6 +80,8 @@ export const Login = () => {
                             errorMessage={errorPasswordMessage}
                         />
 
+                        <Checkbox checked={rememberMe} onChange={changeRememberMe}>Remember me</Checkbox>
+
                         <div className={s.forgotPasswordBtn}>
                             <NavLink to={UrlPath.PASSWORD_RECOVERY}>Forgot Password</NavLink>
                         </div>
@@ -83,9 +90,9 @@ export const Login = () => {
                         <span className={s.errorMessage}>{serverErrorMessage}</span>
                         <div className={s.authMainBtn}>
                             <MainActionButton actionClick={checkLoginUser}
-                                disabledBtnSubmit={disabledBtnSubmit}
-                                loadingStatus={loadingStatus}
-                                title={"login"}
+                                              disabledBtnSubmit={disabledBtnSubmit}
+                                              loadingStatus={loadingStatus}
+                                              title={"login"}
                             />
                         </div>
                     </div>
