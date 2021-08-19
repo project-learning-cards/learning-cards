@@ -1,81 +1,54 @@
-.profilePageContainer {
-  //max-width: 1008px;
-  min-height: 720px;
+.wrapper {
+  width: 1008px;
+  height: 550px;
   display: flex;
-  justify-content: space-between;
+  background: #fefeff;
   border-radius: 8px;
-  background-color: #FEFEFF;
-}
-
-.profileContainer{
-  max-width: 243px;
-  width: 100%;
-  min-height: 636px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 8px;
-  background-color: #ECECF9;
-}
-
-.profileAboutYou{
-  width: 100%;
-  height: 280px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: #D9D9F1;
-  border-radius: 8px 0 8px 8px;
-  padding: 10px 10px 16px;
-  & img{
-    height: 96px;
-    width: 96px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: 50%;
+  .profileInfoBlock {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px 0px 0px 8px;
+    .profileInfo {
+      width: 100%;
+      height: 216px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      background-color: #d9d9f1;
+      border-radius: 8px 0 8px 8px;
+      padding: 10px 10px 16px;
+      & img {
+        height: 96px;
+        width: 96px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: 50%;
+      }
+    }
+    .doubleRange {
+      width: 100%;
+      padding: 15px;
+      flex-grow: 1;
+    }
   }
-}
-
-.btnEdit{
-  color: #465511;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
-  padding: 5px 6px 4px;
-  background: transparent;
-  border: 1px solid #635D80;
-  box-sizing: border-box;
-  border-radius: 2px;
-  margin-right: 10px;
-
-}
-
-.profilePacksList{
-  //min-width: 765px;
-  width: 100%;
-  //display: flex;
-  //flex-direction: column;
-  //align-items: center;
-  position: relative;
-  z-index: 10;
-}
-
-.btnLogout {
-  background: #e33e37;
-  border-radius: 2px;
-  border: none;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
-  color: #FFFFFF;
-  padding: 5px 6px 4px;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.packsListContainer{
-  margin: 24px 48px 0 48px;
+  .profilePacksList {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .header {
+      .title {
+        text-align: start;
+        margin: 10px;
+      }
+    }
+    .main {
+      flex-grow: 1;
+      overflow: auto;
+    }
+  }
 }

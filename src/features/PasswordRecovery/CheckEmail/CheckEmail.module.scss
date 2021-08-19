@@ -1,0 +1,43 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  @include flexCenter();
+  .wrapper {
+    @include authWrapper(415px, 470px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .headerCheckEmail {
+      margin-bottom: 35px;
+      font-size: 26px;
+    }
+    .imageCheckEmail {
+      margin-bottom: 25px;
+      height: 110px;
+      width: 110px;
+
+      img {
+        width: 100%;
+        border-radius: 50%;
+        object-position: center;
+        object-fit: contain;
+      }
+    }
+    .titleCheckEmail {
+      margin-bottom: 20px;
+      font-size: 22px;
+      line-height: 33px;
+    }
+
+    .textActionCheckEmail {
+      font-family: SF UI Display, sans-serif;
+      color: #2d2e46;
+      line-height: 24px;
+      opacity: 0.7;
+      font-size: 16px;
+    }
+  }
+}

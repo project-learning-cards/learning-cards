@@ -1,11 +1,11 @@
 import React, {ChangeEvent, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../App/redux-store";
+import {AppStateType} from "../../../App/redux-store";
 import s from "./PersonalInformation.module.scss";
-import {updateProfile} from "./profile-reducer";
-import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {UrlPath} from "../Navbar/Header";
+import {updateProfile} from "../profile-reducer";
+import {InputContainer} from "../../../components/InputContainer/InputContainer";
+import {UrlPath} from "../../Navbar/Header";
 import {Avatar, Button, Modal} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 

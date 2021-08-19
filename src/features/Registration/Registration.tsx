@@ -1,12 +1,12 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import s from './Registration.module.scss'
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../App/redux-store";
-import {setRegistration, setRegistrationAC, setServerErrorMessageRegistration} from "./regidtration-reducer";
-import {Redirect} from 'react-router-dom';
-import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppStateType } from "../../App/redux-store";
+import { setRegistration, setRegistrationAC, setServerErrorMessageRegistration } from "./regidtration-reducer";
+import { NavLink, Redirect } from 'react-router-dom';
+import { InputContainer } from "../../components/InputContainer/InputContainer";
+import { HeaderEnterApp } from "../../components/HeaderEnterApp/HeaderEnterApp";
+import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
 import { emailValidation, PasswordValidation } from '../../utils/validation';
 import { UrlPath } from '../Navbar/Header';
 
@@ -63,7 +63,7 @@ export const Registration = () => {
     }, [])
 
     if (isRegistration) {
-        return <Redirect to={UrlPath.LOGIN}/>
+        return <Redirect to={UrlPath.LOGIN} />
     }
 
     const goBack = () => {
@@ -71,44 +71,46 @@ export const Registration = () => {
     }
 
     return (
-        <div className={s.registrationContainer}>
-            <HeaderEnterApp title={"Sign Up"}/>
-            <div className={s.inputFields}>
-                <InputContainer
-                    title={"Email"}
-                    typeInput={"email"}
-                    value={email}
-                    changeValue={onChangeEmail}
-                    errorMessage={errorEmailMessage}
-                />
-                <InputContainer
-                    title={"password"}
-                    typeInput={"password"}
-                    value={password}
-                    changeValue={onChangePassword}
-                    errorMessage={errorPasswordMessage}
-                />
-                <InputContainer
-                    title={"Confirm password"}
-                    typeInput={"password"}
-                    value={checkPassword}
-                    changeValue={onChangeCheckPassword}
-                    errorMessage={errorPasswordMessage}
-                />
-            </div>
+        <div className={s.container}>
+            <div className={s.wrapper}>
+                <HeaderEnterApp title={"Sign Up"} />
+                <div className={s.main}>
+                    <InputContainer
+                        title={"Email"}
+                        typeInput={"email"}
+                        value={email}
+                        changeValue={onChangeEmail}
+                        errorMessage={errorEmailMessage}
+                    />
+                    <InputContainer
+                        title={"password"}
+                        typeInput={"password"}
+                        value={password}
+                        changeValue={onChangePassword}
+                        errorMessage={errorPasswordMessage}
+                    />
+                    <InputContainer
+                        title={"Confirm password"}
+                        typeInput={"password"}
+                        value={checkPassword}
+                        changeValue={onChangeCheckPassword}
+                        errorMessage={errorPasswordMessage}
+                    />
+                </div>
 
-            <div className={s.positionBtnsAndError}>
-                <span className={s.errorMessageContainer}>{serverErrorMessage}</span>
+                <div className={s.footer}>
+                    <span className={s.errorMessageContainer}>{serverErrorMessage}</span>
 
-                <div className={s.btns}>
-                    <a className={s.btnCancel} onClick={goBack}>Cancel</a>
-                    <div className={s.blueBtnContainer}>
-                        <MainActionButton
-                            actionClick={onRegistration}
-                            disabledBtnSubmit={disabledBtnSubmit}
-                            title={"Register"}
-                            loadingStatus={loadingStatus}
-                        />
+                    <div className={s.footerBtns}>
+                        <span className={s.btnCancel} onClick={goBack}>Cancel</span>
+                        <div className={s.blueBtnContainer}>
+                            <MainActionButton
+                                actionClick={onRegistration}
+                                disabledBtnSubmit={disabledBtnSubmit}
+                                title={"Register"}
+                                loadingStatus={loadingStatus}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,24 +1,24 @@
-import s from "./ProfilePack.module.scss";
-import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
-import {AppStateType} from "../../App/redux-store";
-import {CardsPackType, GetPacksAPIParamsType} from "../../api/api";
-import {Redirect} from "react-router-dom";
-import {AuthUser} from "../Login/login-reducer";
-import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
-import {UrlPath} from '../Navbar/Header';
-import {deletePack, getPackList, setPageNumberAC} from './packsList-reducer';
+import s from "./PacksList.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { AppStateType } from "../../App/redux-store";
+import { CardsPackType, GetPacksAPIParamsType } from "../../api/api";
+import { Redirect } from "react-router-dom";
+import { AuthUser } from "../Login/login-reducer";
+import { PreloaderForApp } from "../../components/Preloader/Preloader";
+import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
+import { UrlPath } from '../Navbar/Header';
+import { deletePack, getPackList, setPageNumberAC } from './packsList-reducer';
 import SearchName from "../search/SearchName";
-import {setSearchValueAC} from "../search/search-reducer";
-import {TableContainer} from "../table/TableContainer";
-import {Button, Pagination, Typography} from 'antd'
-import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {ProfileResponseType} from "../Profile/profile-reducer";
+import { setSearchValueAC } from "../search/search-reducer";
+import { TableContainer } from "../table/TableContainer";
+import { Button, Pagination, Typography } from 'antd'
+import { SuperDoubleRangeContainer } from "../search/SuperDoubleRangeContainer";
+import { ProfileResponseType } from "../Profile/profile-reducer";
 
 
 export const PacksList = () => {
-    const {Title} = Typography;
+    const { Title } = Typography;
 
     const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
@@ -55,15 +55,15 @@ export const PacksList = () => {
     }, [dispatch, id, pages, pagesCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({id: pack_id}))
+        dispatch(deletePack({ id: pack_id }))
     }
 
 
     const getPrivatePacks = () => {
         if (id) {
-            dispatch(getPackList({pageCount, min, max, page, packName, user_id: id}))
+            dispatch(getPackList({ pageCount, min, max, page, packName, user_id: id }))
         } else {
-            dispatch(getPackList({pageCount, min, max, page, packName}))
+            dispatch(getPackList({ pageCount, min, max, page, packName }))
         }
     }
 
@@ -72,51 +72,52 @@ export const PacksList = () => {
     }
 
     if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN}/>
+        return <Redirect to={UrlPath.LOGIN} />
     }
 
     if (!success) {
-        return <PreloaderForApp/>
+        return <PreloaderForApp />
     }
 
     return (
-        <div className={s.profilePageContainer}>
-            <div className={s.filterBlock}>
-                <div><Title level={4}>Show packs cards</Title></div>
-                <div>
-
-                    <Button type={ id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>MY</Button>
-                    <Button type={ id ? 'dashed' : 'primary'} onClick={() => setId('')}>ALL</Button>
-                </div>
-                <div>
-                    <div><Title level={4}>Number of cards</Title></div>
-                    <SuperDoubleRangeContainer/>
-                </div>
-            </div>
-
-            <div className={s.profilePacksList}>
-                <Title style={{textAlign: 'center', margin: '24px 0 24px 0'}} level={2}>Packs list {id ? profile.name + "'s" : ""}</Title>
-                <div>
-                    <div className={s.flex}>
-                        <div>
-                            <SearchName setSearch={setSearch}
-                                        user_id={id}/>
-                        </div>
-
-                        <TableContainer packs={packsList}
-                                        deletePackFun={deletePackFun}
-                                        user_id={id}
-                        />
-                        <Pagination style={{textAlign: 'center'}}
-                                    defaultCurrent={page}
-                                    total={cardPacksTotalCount}
-                                    onChange={onPageChangedHandler}
-                                    defaultPageSize={pageCount}
-                                    pageSizeOptions={['15']}/>
+        <div className={s.wrapper}>
+            <div className={s.sidebar}>
+                <div className={s.sidebarsBtns}>
+                    <Title level={4}>Show packs cards</Title>
+                    <div>
+                        <Button type={id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>MY</Button>
+                        <Button type={id ? 'dashed' : 'primary'} onClick={() => setId('')}>ALL</Button>
                     </div>
-                    <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
+                </div>
+
+                <div className={s.doubleRange}>
+                    <div><Title level={4}>Number of cards</Title></div>
+                    <SuperDoubleRangeContainer />
                 </div>
             </div>
+
+            <div className={s.content}>
+                <div className={s.header}>
+                    <Title className={s.title} level={2}>Packs list</Title>
+                    <SearchName setSearch={setSearch}
+                        user_id={id} />
+                </div>
+                <div className={s.main}>
+                    <TableContainer packs={packsList}
+                        deletePackFun={deletePackFun}
+                        user_id={id}
+                    />
+                </div>
+                <div className={s.footer}>
+                    <Pagination style={{ textAlign: 'center' }}
+                        defaultCurrent={page}
+                        total={cardPacksTotalCount}
+                        onChange={onPageChangedHandler}
+                        defaultPageSize={pageCount}
+                        pageSizeOptions={['15']} />
+                </div>
+            </div>
+            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd} />
         </div>
     )
 }

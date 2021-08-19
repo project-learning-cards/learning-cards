@@ -1,12 +1,11 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import st from './Password-recovery.module.scss'
-import {NavLink, Redirect} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import s from "../Login/Login.module.scss";
-import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
-import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
-import {AppStateType} from "../../App/redux-store";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import s from './Password-recovery.module.scss'
+import { NavLink, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { InputContainer } from "../../components/InputContainer/InputContainer";
+import { HeaderEnterApp } from "../../components/HeaderEnterApp/HeaderEnterApp";
+import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
+import { AppStateType } from "../../App/redux-store";
 import { emailValidation } from "../../utils/validation";
 import { UrlPath } from "../Navbar/Header";
 import { passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess } from "./password-recovery-reducer";
@@ -45,33 +44,38 @@ export const PasswordRecovery = () => {
     }
 
     if (success) {
-        return <Redirect to={`/password-recovery-check-email/${email}`}/>
+        return <Redirect to={`/password-recovery-check-email/${email}`} />
     }
 
     return (
-        <div className={st.forgotPasswordContainer}>
-            <HeaderEnterApp title={"Forgot your password?"}/>
-            <InputContainer
-                placeholder={"Email"}
-                changeValue={inputEmail}
-                errorMessage={error}
-                typeInput={"email"}
-                value={email}
-            />
-            <p className={st.textAction}>Enter your email address and we will send you further instructions</p>
-
-            <div className={s.btnFooterLoginContainer}>
-                <span className={s.errorMessageContainer}>{serverErrorMessage}</span>
-                <div className={s.blueBtnContainer}>
-                    <MainActionButton
-                        title={"Send Instructions"}
-                        actionClick={sendLetter}
-                        disabledBtnSubmit={disabledBtnSubmit}
-                        loadingStatus={loadingStatus}
+        <div className={s.container}>
+            <div className={s.wrapper}>
+                <HeaderEnterApp title={"Forgot your password?"} />
+                <div className={s.main}>
+                    <InputContainer
+                        placeholder={"Email"}
+                        changeValue={inputEmail}
+                        errorMessage={error}
+                        typeInput={"email"}
+                        value={email}
                     />
+                    <p className={s.textAction}>Enter your email address and we will send you further instructions</p>
+                    <div className={s.authBtn}>
+                        <span className={s.errorMessage}>{serverErrorMessage}</span>
+                        <div className={s.authMainBtn}>
+                            <MainActionButton
+                                title={"Send Instructions"}
+                                actionClick={sendLetter}
+                                disabledBtnSubmit={disabledBtnSubmit}
+                                loadingStatus={loadingStatus}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <p className={s.DifferentAccountBtn}>Did you remember your password?</p>
-                <NavLink to={UrlPath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
+                <div className={s.footer}>
+                    <span className={s.text}>Did you remember your password?</span>
+                    <NavLink to={UrlPath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
+                </div>
             </div>
         </div>
     )

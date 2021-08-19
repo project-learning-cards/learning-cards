@@ -1,115 +1,38 @@
+@import '../../styles/mixins.scss';
 
-.flex {
+.wrapper {
+  width: 1008px;
+  height: 550px;
   display: flex;
-  flex-direction: column;
-  .private {
-    align-self: flex-start;
-  }
-  .search {
-    align-self: flex-start;
-  }
-  .tableContainer {
-    max-width: 95%;
-    width: 100%;
-    text-align: center;
-    border-radius: 4px;
-    margin-top: 20px;
-    box-shadow: 0 4px 18px #232623, inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    border-collapse: collapse;
-    box-sizing: border-box;
-    margin-bottom: 24px;
+  background: #fefeff;
+  border-radius: 8px;
 
-    @media screen and (max-width: 980px) {
-      max-width: 90%;
-    }
-
-    .tableHeader th {
-      background-color: #ECECF9;
-      height: 48px;
-      box-sizing: border-box;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 15px;
-      line-height: 16px;
-      color: black;
-      text-align: start;
-
-      &:first-child {
-        padding-left: 24px;
-      }
-    }
-
-    .tableBody {
-      background-color: #FFFFFF;
-
-      .row {
-        height: 48px;
-        box-sizing: border-box;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 15px;
-        line-height: 16px;
-        color: #000000;
-        text-align: start;
-
-        &:nth-child(2n) {
-          background-color: #F8F7FD;
-        }
-
-        td:first-child {
-          padding-left: 24px;
-          padding-right: 30px;
-        }
-
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
-      }
-    }
-  }
-}
-
-.search {
-  display: flex;
-  flex-direction: row;
-  .containerInputSearch {
+  .sidebar {
+    width: 30%;
+    padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    .sidebarBtns {
+      width: 100%;
+      @include flexCenter();
+    }
   }
-}
-.modalContainer {
-  z-index: 15;
-}
-.backgroundModal {
-  visibility: visible;
-  background-color: #81839e;
-  opacity: 0.8;
-  z-index: 20;
-  height: 100vh;
-  width: 100%;
-}
-.modalWindowAdd {
-  visibility: visible;
-  background: linear-gradient(180deg, #E6D4DE, #9890C7) no-repeat;
-  z-index: 21;
-  height: 300px;
-  width: 300px;
-  position: absolute;
-  top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .closeModalAdd {
-    align-self: flex-end;
+  .content {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .header {
+      .title {
+        text-align: start;
+        margin: 10px;
+      }
+    }
+    .main {
+      flex-grow: 1;
+      overflow: auto;
+    }
   }
-  .addModalAdd {
-    margin-top: 20px;
-    background-color: #e33e37;
-    position: relative;
-    z-index: 30;
-  }
-}
-.visibilityWindow {
-  visibility: visible;
 }

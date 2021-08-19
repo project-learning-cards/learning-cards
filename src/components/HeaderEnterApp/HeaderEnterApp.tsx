@@ -4,10 +4,10 @@ import React from "react";
 type HeaderEnterAppType = {
     title?: string
 }
-export const HeaderEnterApp = ({title}: HeaderEnterAppType) => {
+export const HeaderEnterApp = ({ title }: HeaderEnterAppType) => {
     return (
-        <div>
-            <div className={s.logo}>It-incubator</div>
+        <div className={s.wrapper}>
+            <div className={s.logo}>MAP</div>
             <h1>{title}</h1>
         </div>
     )
