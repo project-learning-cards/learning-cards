@@ -15,10 +15,12 @@ import { TableContainer } from "../table/TableContainer";
 import { Button, Pagination, Typography } from 'antd'
 import { SuperDoubleRangeContainer } from "../search/SuperDoubleRangeContainer";
 import { ProfileResponseType } from "../Profile/profile-reducer";
+import { useTranslation } from "react-i18next";
 
 
 export const PacksList = () => {
     const { Title } = Typography;
+    const {t} = useTranslation()
 
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
@@ -82,22 +84,22 @@ export const PacksList = () => {
         <div className={s.wrapper}>
             <div className={s.sidebar}>
                 <div className={s.sidebarsBtns}>
-                    <Title level={4}>Show packs cards</Title>
+                    <Title level={4}>{t('show_packs')}</Title>
                     <div>
-                        <Button type={id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>MY</Button>
-                        <Button type={id ? 'dashed' : 'primary'} onClick={() => setId('')}>ALL</Button>
+                        <Button type={id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>{t('my')}</Button>
+                        <Button type={id ? 'dashed' : 'primary'} onClick={() => setId('')}>{t('all')}</Button>
                     </div>
                 </div>
 
                 <div className={s.doubleRange}>
-                    <div><Title level={4}>Number of cards</Title></div>
+                    <div><Title level={4}>{t('number_cards')}</Title></div>
                     <SuperDoubleRangeContainer />
                 </div>
             </div>
 
             <div className={s.content}>
                 <div className={s.header}>
-                    <Title className={s.title} level={2}>Packs list</Title>
+                    <Title className={s.title} level={2}>{t('packs_list')}</Title>
                     <SearchName setSearch={setSearch}
                         user_id={id} />
                 </div>

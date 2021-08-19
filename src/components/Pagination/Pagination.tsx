@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styles from './Pagination.module.scss';
 import cn from 'classnames';
+import { useTranslation } from "react-i18next"
 
 type PropsType = {
     totalItemsCount: number
@@ -21,13 +22,15 @@ export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, curr
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     let rightPortionPageNumber = portionNumber * portionSize;
 
+    const {t} = useTranslation()
+
     return (<div className={styles.pagination}>
 
 
         <div className={styles.pagePanel}>
             {portionNumber > 1 &&
             <button onClick={ () => { setPortionNumber(portionNumber - 1) } }
-            >Previous
+            >{t('previous')}
             </button>}
 
             {pages
@@ -42,7 +45,7 @@ export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, curr
                 })
             }
             {portionCount > portionNumber &&
-            <button onClick={() => { setPortionNumber(portionNumber + 1) }}>Next</button>
+            <button onClick={() => { setPortionNumber(portionNumber + 1) }}>{t('next')}</button>
             }
         </div>
 

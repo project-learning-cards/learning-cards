@@ -5,6 +5,7 @@ import {CardsPackType} from "../../api/api";
 import {UrlPath} from "../Navbar/Header";
 import {Button} from 'antd';
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
@@ -15,16 +16,17 @@ type TableContainerPropsType = {
 
 export const TableContainer = (props: TableContainerPropsType) => {
     const history = useHistory()
+    const {t} = useTranslation()
 
     return (
         <table className={s.tableContainer}>
             <thead className={s.tableHeader}>
             <tr>
-                <th className={s.tableHeader}>{"NAME"}</th>
-                <th className={s.tableHeader}>{"CARDS COUNT"}</th>
-                <th className={s.tableHeader}>{"LAST UPDATED"}</th>
-                <th className={s.tableHeader}>{"CRATED BY"}</th>
-                <th className={s.tableHeader}>{"ACTIONS"} </th>
+                <th className={s.tableHeader}>{t('name_2')}</th>
+                <th className={s.tableHeader}>{t('cards_count')}</th>
+                <th className={s.tableHeader}>{t('last_update')}</th>
+                <th className={s.tableHeader}>{t('created')}</th>
+                <th className={s.tableHeader}>{t('actions')} </th>
             </tr>
             </thead>
             <tbody className={s.tableBody}>
@@ -42,15 +44,15 @@ export const TableContainer = (props: TableContainerPropsType) => {
                             {(props.user_id) &&
                             <>
                                 <Button type="primary" danger
-                                        onClick={() => props.deletePackFun(pack._id)}>DELETE</Button>
+                                        onClick={() => props.deletePackFun(pack._id)}>{t('delete')}</Button>
                                 <Button onClick={() => history.push(UrlPath.EDIT_PACK_NAME + pack._id)}
                                         style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                                >EDIT</Button>
+                                >{t('edit')}</Button>
                             </>
                             }
                             <Button onClick={() => history.push(UrlPath.LEARN_CARDS + pack._id)}
                                     style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                            >LEARN</Button>
+                            >{t('learn')}</Button>
                         </td>
                     </tr>
             ))}

@@ -7,6 +7,7 @@ import { Header } from '../components/Header/Header';
 import s from './App.module.scss'
 import { Routes } from '../components/routes/Routes';
 import { AuthUser } from '../features/Login/login-reducer';
+import '../assets/i18n/i18n';
 
 
 const App = () => {
