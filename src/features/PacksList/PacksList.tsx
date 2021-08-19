@@ -20,7 +20,6 @@ import { ProfileResponseType } from "../Profile/profile-reducer";
 export const PacksList = () => {
     const { Title } = Typography;
 
-    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
     const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
     const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
@@ -28,11 +27,11 @@ export const PacksList = () => {
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
     const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
     const pages = useSelector<AppStateType, number>(state => state.packsList.page)
-    const pagesCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
+    const pageCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
     const minFilter = useSelector<AppStateType, number>(state => state.search.min)
     const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
     const {
-        page = pages, pageCount = pagesCount, min = minFilter, max = maxFilter, packName, sortPacks
+        page = pages, min = minFilter, max = maxFilter, packName, sortPacks
     } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList);
     const dispatch = useDispatch();
 
@@ -52,7 +51,7 @@ export const PacksList = () => {
         } else {
             getPrivatePacks()
         }
-    }, [dispatch, id, pages, pagesCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
+    }, [dispatch, id, pages, pageCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
         dispatch(deletePack({ id: pack_id }))
