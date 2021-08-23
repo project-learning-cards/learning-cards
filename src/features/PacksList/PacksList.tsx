@@ -33,8 +33,13 @@ export const PacksList = () => {
             if (!loadingRequest) {
                 dispatch(AuthUser())
             }
+        } else {
+            dispatch(updatePackListTC({
+                packName: packName || '', sortPacks: sortPacks || '',
+                page, pageCount, min: minFilter, user_id: id, max: maxFilter
+            }))
         }
-    }, [dispatch, id, page, pageCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
+    }, [dispatch, sortPacks, minFilter, maxFilter, packName, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
         dispatch(deletePack({id: pack_id}))

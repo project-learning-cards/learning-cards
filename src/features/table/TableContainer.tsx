@@ -53,13 +53,10 @@ export const TableContainer = (props: TableContainerPropsType) => {
                         <td className={s.tableCol}>{moment(pack.updated).format('DD.MM.YYYY')}</td>
                         <td className={s.tableCol}>{pack.user_name}</td>
                         <td className={s.tableCol}>
-                            {(props.user_id) &&
+                            {(props.user_id === pack.user_id) &&
                             <>
                                 <Button type="primary" danger
                                         onClick={() => props.deletePackFun(pack._id)}>{t('delete')}</Button>
-                                {/*<Button onClick={() => history.push(UrlPath.EDIT_PACK_NAME + pack._id)}
-                                        style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                                >{t('edit')}</Button>*/}
                                 <Button onClick={() => setShowEditPackModal(true)}
                                         style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                                 >{t('edit')}</Button>
@@ -90,12 +87,6 @@ export const TableContainer = (props: TableContainerPropsType) => {
                                     />
                                 </div>
                             </Modal>}
-
-
-
-
-
-
                             <Button onClick={() => history.push(UrlPath.LEARN_CARDS + pack._id)}
                                     style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                             >{t('learn')}</Button>

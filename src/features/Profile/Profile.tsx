@@ -52,13 +52,13 @@ export const Profile = () => {
     useEffect(() => {
         if (idUser) {
             dispatch(getPackList({
-                pageCount, user_id: id,
+                pageCount, user_id: undefined,
                 min: minFilter,
                 max: maxFilter,
                 packName: searchName
             }))
         }
-    }, [dispatch, page, pageCount, minFilter, maxFilter, searchName])
+    }, [dispatch, id, page, pageCount, minFilter, maxFilter, searchName])
 
     const logOut = () => {
         dispatch(logOutUser())
