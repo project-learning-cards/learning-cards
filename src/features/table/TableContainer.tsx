@@ -1,11 +1,14 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import s from './TableContainer.module.scss'
 import {CardsPackType} from "../../api/api";
 import {UrlPath} from "../Navbar/Header";
-import {Button} from 'antd';
+import {Button, Modal} from 'antd';
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import {InputContainer} from "../../components/InputContainer/InputContainer";
+import {updatePackTC} from "../PacksList/packsList-reducer";
+import {useDispatch} from "react-redux";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
@@ -17,7 +20,16 @@ type TableContainerPropsType = {
 export const TableContainer = (props: TableContainerPropsType) => {
     const history = useHistory()
     const {t} = useTranslation()
+    const dispatch = useDispatch()
+    const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
+    const [newName, setNewName] = useState<string>('')
+    const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewName(e.currentTarget.value)
+    }
 
+    const handleCancel = () => {
+        setShowEditPackModal(false)
+    }
     return (
         <table className={s.tableContainer}>
             <thead className={s.tableHeader}>
@@ -45,11 +57,45 @@ export const TableContainer = (props: TableContainerPropsType) => {
                             <>
                                 <Button type="primary" danger
                                         onClick={() => props.deletePackFun(pack._id)}>{t('delete')}</Button>
-                                <Button onClick={() => history.push(UrlPath.EDIT_PACK_NAME + pack._id)}
+                                {/*<Button onClick={() => history.push(UrlPath.EDIT_PACK_NAME + pack._id)}
+                                        style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
+                                >{t('edit')}</Button>*/}
+                                <Button onClick={() => setShowEditPackModal(true)}
                                         style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                                 >{t('edit')}</Button>
                             </>
                             }
+
+
+                            {showEditPackModal && <Modal width={600} title={'Pack info'} visible={showEditPackModal} onCancel={handleCancel}
+                                    footer={[
+                                        <Button key="back" onClick={handleCancel}>
+                                            Return
+                                        </Button>,
+                                        <Button key="submit" type="primary" onClick={() => {
+                                            dispatch(updatePackTC(pack._id, newName))
+                                            setShowEditPackModal(false)
+                                        }}>
+                                            Save
+                                        </Button>
+                                    ]}>
+                                <div style={{height: '150px'}}>
+                                    <InputContainer
+                                        title={"Name"}
+                                        placeholder={"New pack name"}
+                                        changeValue={changePackNameHandler}
+                                        errorMessage={""}
+                                        typeInput={"text"}
+                                        value={newName}
+                                    />
+                                </div>
+                            </Modal>}
+
+
+
+
+
+
                             <Button onClick={() => history.push(UrlPath.LEARN_CARDS + pack._id)}
                                     style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                             >{t('learn')}</Button>
@@ -60,6 +106,19 @@ export const TableContainer = (props: TableContainerPropsType) => {
         </table>
     )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 
 { props.user_id === 'fakeId' ?

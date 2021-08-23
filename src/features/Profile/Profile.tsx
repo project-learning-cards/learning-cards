@@ -1,11 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../App/redux-store";
 import {AuthUser, logOutUser} from "../Login/login-reducer";
 import s from "./Profile.module.scss";
 import {PersonalInformation} from "./ProfileInfo/PersonalInformation";
-import {ProfileResponseType} from "./profile-reducer";
 import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
@@ -14,29 +12,20 @@ import {deletePack, getPackList, setPageNumberAC} from "../PacksList/packsList-r
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
-import {CardsPackType} from "../../api/api";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import {useProfileSelector} from "./useProfileSelector";
 
 
 export const Profile = () => {
-    const {Title} = Typography
-    const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
-    const id = ''
+    const {Title} = Typography;
     const {t} = useTranslation()
-
-    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
-    const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
-    const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
-    const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
-    const searchName = useSelector<AppStateType, string>(state => state.search.search)
-    const minFilter = useSelector<AppStateType, number>(state => state.search.min)
-    const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
-    const page = useSelector<AppStateType, number>(state => state.packsList.page)
-    const pageCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
-    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount)
-
     const dispatch = useDispatch()
+    const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
+
+    const {
+        packsList, isAuth, idUser, loadingRequest, profile, searchName, minFilter,
+        maxFilter, page, pageCount, cardPacksTotalCount, id
+    } = useProfileSelector()
 
     const setSearch = (value: string) => {
         dispatch(setSearchValueAC(value))
@@ -63,7 +52,7 @@ export const Profile = () => {
     useEffect(() => {
         if (idUser) {
             dispatch(getPackList({
-                pageCount, /*user_id: idUser,*/
+                pageCount, user_id: id,
                 min: minFilter,
                 max: maxFilter,
                 packName: searchName
@@ -86,10 +75,12 @@ export const Profile = () => {
                     <div style={{float: 'left'}}>
                         <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
                         <div><b>{t('email')}:</b> {profile.email && profile.email}</div>
-                        <div><b>{t('public_count')}:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}</div>
+                        <div><b>{t('public_count')}:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}
+                        </div>
                     </div>
                     <div>
-                        <Button type="primary" size="small" onClick={() => setEditModeProfile(true)}>{t('edit_profile')}</Button>
+                        <Button type="primary" size="small"
+                                onClick={() => setEditModeProfile(true)}>{t('edit_profile')}</Button>
                         <Button type="primary" size="small" danger onClick={logOut} icon={<PoweroffOutlined/>}
                                 loading={loadingRequest}>{t('logout')}</Button>
                     </div>
@@ -103,12 +94,12 @@ export const Profile = () => {
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list_with_name', {name: profile.name})}</Title>
                     <SearchName setSearch={setSearch}
-                                user_id={id}/>
+                                user_id={id || ''}/>
                 </div>
                 <div className={s.main}>
                     <TableContainer packs={packsList}
                                     deletePackFun={deletePackFun}
-                                    user_id={id}
+                                    user_id={id || ''}
 
                     />
                 </div>

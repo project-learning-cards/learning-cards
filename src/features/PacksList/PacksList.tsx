@@ -1,83 +1,62 @@
 import s from "./PacksList.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useCallback, useEffect, useState } from "react";
-import { AppStateType } from "../../App/redux-store";
-import { CardsPackType, GetPacksAPIParamsType } from "../../api/api";
-import { Redirect } from "react-router-dom";
-import { AuthUser } from "../Login/login-reducer";
-import { PreloaderForApp } from "../../components/Preloader/Preloader";
-import { ModalWindowAdd } from "../../components/ModalWindow/ModalWindowAdd";
-import { UrlPath } from '../Navbar/Header';
-import { deletePack, getPackList, setPageNumberAC } from './packsList-reducer';
+import {useDispatch} from "react-redux";
+import React, {useEffect, useState} from "react";
+import {GetPacksAPIParamsType} from "../../api/api";
+import {Redirect} from "react-router-dom";
+import {AuthUser} from "../Login/login-reducer";
+import {PreloaderForApp} from "../../components/Preloader/Preloader";
+import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
+import {UrlPath} from '../Navbar/Header';
+import {deletePack, updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
-import { setSearchValueAC } from "../search/search-reducer";
-import { TableContainer } from "../table/TableContainer";
-import { Button, Pagination, Typography } from 'antd'
-import { SuperDoubleRangeContainer } from "../search/SuperDoubleRangeContainer";
-import { ProfileResponseType } from "../Profile/profile-reducer";
-import { useTranslation } from "react-i18next";
+import {setSearchValueAC} from "../search/search-reducer";
+import {TableContainer} from "../table/TableContainer";
+import {Button, Pagination, Typography} from 'antd'
+import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
+import {useTranslation} from "react-i18next";
+import {usePackListSelector} from "./usePackListSelector";
 
 
 export const PacksList = () => {
-    const { Title } = Typography;
+    const {Title} = Typography;
     const {t} = useTranslation()
-
-    const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
-    const idUser = useSelector<AppStateType, string>(state => state.profile.profile._id)
-    const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
-    const loadingRequest = useSelector<AppStateType, boolean>(state => state.login.loadingRequest)
-    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsList.cardPacksTotalCount);
-    const packsList = useSelector<AppStateType, Array<CardsPackType>>(state => state.packsList.cardPacks)
-    const pages = useSelector<AppStateType, number>(state => state.packsList.page)
-    const pageCount = useSelector<AppStateType, number>(state => state.packsList.pageCount)
-    const minFilter = useSelector<AppStateType, number>(state => state.search.min)
-    const maxFilter = useSelector<AppStateType, number>(state => state.search.max)
-    const {
-        page = pages, min = minFilter, max = maxFilter, packName, sortPacks
-    } = useSelector<AppStateType, GetPacksAPIParamsType>(state => state.packsList);
     const dispatch = useDispatch();
-
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
-    const [id, setId] = useState<string>('')
 
-
-    const onPageChangedHandler = useCallback((currentPage: number): void => {
-        dispatch(setPageNumberAC(currentPage))
-    }, [dispatch])
+    const {
+        isAuth, idUser, success, loadingRequest, cardPacksTotalCount, packsList, page,
+        pageCount, minFilter, maxFilter, id, packName, sortPacks
+    } = usePackListSelector()
 
     useEffect(() => {
         if (!idUser) {
             if (!loadingRequest) {
                 dispatch(AuthUser())
             }
-        } else {
-            getPrivatePacks()
         }
-    }, [dispatch, id, pages, pageCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
+    }, [dispatch, id, page, pageCount, sortPacks, minFilter, maxFilter, packName, idUser, loadingRequest])
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({ id: pack_id }))
-    }
-
-
-    const getPrivatePacks = () => {
-        if (id) {
-            dispatch(getPackList({ pageCount, min, max, page, packName, user_id: id }))
-        } else {
-            dispatch(getPackList({ pageCount, min, max, page, packName }))
-        }
+        dispatch(deletePack({id: pack_id}))
     }
 
     const setSearch = (value: string) => {
         dispatch(setSearchValueAC(value))
     }
 
+    const handleChangeParams = (params: GetPacksAPIParamsType) => {
+        dispatch(updatePackListTC({
+            packName: packName || '', sortPacks: sortPacks || '',
+            page, pageCount, min: minFilter, user_id: id, max: maxFilter, ...params
+        }))
+    }
+
     if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN} />
+        return <Redirect to={UrlPath.LOGIN}/>
     }
 
     if (!success) {
-        return <PreloaderForApp />
+        return <PreloaderForApp/>
     }
 
     return (
@@ -86,14 +65,16 @@ export const PacksList = () => {
                 <div className={s.sidebarsBtns}>
                     <Title level={4}>{t('show_packs')}</Title>
                     <div>
-                        <Button type={id ? 'primary' : 'dashed'} onClick={() => setId(idUser)}>{t('my')}</Button>
-                        <Button type={id ? 'dashed' : 'primary'} onClick={() => setId('')}>{t('all')}</Button>
+                        <Button type={id ? 'primary' : 'dashed'}
+                                onClick={() => handleChangeParams({user_id: idUser})}>{t('my')}</Button>
+                        <Button type={id ? 'dashed' : 'primary'}
+                                onClick={() => handleChangeParams({user_id: undefined})}>{t('all')}</Button>
                     </div>
                 </div>
 
                 <div className={s.doubleRange}>
                     <div><Title level={4}>{t('number_cards')}</Title></div>
-                    <SuperDoubleRangeContainer />
+                    <SuperDoubleRangeContainer/>
                 </div>
             </div>
 
@@ -101,24 +82,24 @@ export const PacksList = () => {
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list')}</Title>
                     <SearchName setSearch={setSearch}
-                        user_id={id} />
+                                user_id={id || ''}/>
                 </div>
                 <div className={s.main}>
                     <TableContainer packs={packsList}
-                        deletePackFun={deletePackFun}
-                        user_id={id}
+                                    deletePackFun={deletePackFun}
+                                    user_id={id || ''}
                     />
                 </div>
                 <div className={s.footer}>
-                    <Pagination style={{ textAlign: 'center' }}
-                        defaultCurrent={page}
-                        total={cardPacksTotalCount}
-                        onChange={onPageChangedHandler}
-                        defaultPageSize={pageCount}
-                        pageSizeOptions={['15']} />
+                    <Pagination style={{textAlign: 'center'}}
+                                defaultCurrent={page}
+                                total={cardPacksTotalCount}
+                                onChange={(page) => handleChangeParams({page})}
+                                defaultPageSize={pageCount}
+                                pageSizeOptions={['15']}/>
                 </div>
             </div>
-            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd} />
+            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
         </div>
     )
 }

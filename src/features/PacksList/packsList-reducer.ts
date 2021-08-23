@@ -1,8 +1,8 @@
 import {
   AddCardsPackDataType,
   CardsPackType,
-  GetPacksAPIParamsType,
-  PacksListAPI,
+  GetPacksAPIParamsType, GetPacksListParamsType,
+  PacksListAPI, ResultGetPacksAPIType,
 } from '../../api/api'
 import {AppThunkType, GetAppStateType} from '../../App/redux-store'
 import {Dispatch} from 'redux'
@@ -20,8 +20,9 @@ const InitialState = {
   packName: "" as string | undefined,
   minParam: 0,
   maxParam: 103,
-  user_id: undefined,
+  user_id: undefined as string | undefined,
   success: false,
+  isLoading: true as boolean
 }
 
 
@@ -33,6 +34,9 @@ type SetPageNumber = ReturnType<typeof setPageNumberAC>
 type SetTotalPacksCountAC = ReturnType<typeof setTotalPacksCountAC>
 type SetPageCountAC = ReturnType<typeof setPageCountAC>
 type SetSuccessAT = ReturnType<typeof SetSuccessAC>
+type StartPackListLoadingAT = ReturnType<typeof StartPackListLoadingAC>
+type SuccessPackListLoadingAT = ReturnType<typeof SuccessPackListLoadingAC>
+type LoadingErrorAT = ReturnType<typeof LoadingErrorAC>
 // type AddPackAT = ReturnType<typeof AddPackAC>
 
 export type ActionPacksListType =
@@ -41,6 +45,9 @@ export type ActionPacksListType =
   | SetPageNumber
   | SetTotalPacksCountAC
   | SetPageCountAC
+| StartPackListLoadingAT
+| SuccessPackListLoadingAT
+| LoadingErrorAT
 
 //actionC
 export const GetPacksListAC = (packs: Array<CardsPackType>) =>
@@ -54,6 +61,13 @@ export const setPageCountAC = (pageCount: number) =>
 
 export const SetSuccessAC = (success: boolean) =>
   ({ type: 'packList/SET-SUCCESS', success } as const)
+
+export const StartPackListLoadingAC = (params: GetPacksListParamsType) =>
+  ({ type: 'packList/LOADING-START', params } as const)
+export const SuccessPackListLoadingAC = (params: ResultGetPacksAPIType) =>
+  ({ type: 'packList/LOADING-SUCCESS', params } as const)
+export const LoadingErrorAC = (error: string) =>
+  ({ type: 'packList/LOADING-ERROR', error } as const)
 
 //export const AddPackAC = (payload: addCardsPackDataType) => ({type: "packList/ADD-PACK", payload} as const)
 
@@ -84,10 +98,28 @@ export const packsListReducer = (state = InitialState, action: ActionPacksListTy
     }
     case 'packList/SET-SUCCESS':
       return { ...state, success: action.success }
+    case 'packList/LOADING-START':
+      return {...state, isLoading: true, packName: action.params.packName, minCardsCount: action.params.min, maxCardsCount: action.params.max,
+        sortPacks: action.params.sortPacks, page: action.params.page, pageCount: action.params.pageCount, user_id: action.params.user_id}
+    case 'packList/LOADING-SUCCESS':
+      return {...state, isLoading: false,
+        page: action.params.page,
+        cardPacksTotalCount: action.params.cardPacksTotalCount,
+        maxCardsCount: action.params.maxCardsCount,
+        minCardsCount: action.params.minCardsCount,
+        pageCount: action.params.pageCount,
+        token: action.params.token,
+        tokenDeathTime: action.params.tokenDeathTime,
+        cardPacks: action.params.cardPacks
+      }
+    case 'packList/LOADING-ERROR':
+      return { ...state, success: false, isLoading: false }
     default:
       return state
   }
 }
+
+
 
 //thunkC
 export let moreDetails = ', more details in the console'
@@ -98,21 +130,47 @@ export const getPackList =
     dispatch: Dispatch<ActionPacksListType>,
     getStore: GetAppStateType
   ) => {
-    const { page } = getStore().packsList
-   
+    const {page} = getStore().packsList
+
     try {
-      const response = await PacksListAPI.getPacks({ ...params, page })
+
+      const response = await PacksListAPI.getPacks({...params, page})
       dispatch(GetPacksListAC(response.data.cardPacks))
       dispatch(setTotalPacksCountAC(response.data.cardPacksTotalCount))
       dispatch(SetSuccessAC(true))
-      
+
     } catch (e) {
       const error = e.response ? e.response.data.error : e.message + moreDetails
       dispatch(SetSuccessAC(false))
-      
+
     } finally {
     }
   }
+
+
+ /* export const getPackList=  (params: GetPacksListParamsType): AppThunkType=>
+      async (dispatch: Dispatch<ActionPacksListType>,
+    getStore: GetAppStateType
+  ) => {
+    const {page} = getStore().packsList
+  try {
+    const requestParams= {...params, page: page}
+    dispatch(StartPackListLoadingAC(requestParams))
+    const response= await PacksListAPI.getPacks(requestParams)
+    dispatch(SuccessPackListLoadingAC(response.data))
+  }
+  catch (e) {
+    dispatch(LoadingErrorAC(e))
+  }
+}
+*/
+
+
+
+
+
+
+
 
 export const addPack =
   (data: AddCardsPackDataType): AppThunkType =>
@@ -184,20 +242,19 @@ export const updatePackTC =  (_id: string, name: string): AppThunkType =>
     } catch (e) {
       const error = e.response ? e.response.data.error : e.message + moreDetails
     } finally {
-      window.history.go(-1);
     }
   }
-/*
-export const updatePack = (_id: string, name: string, count: number): AppThunkType => dispatch => {
- /!* dispatch(setAppStatusAC('loading'))*!/
-  PacksListAPI.changeCardsPack(_id, name)
-      .then(() => {
-        dispatch(getPackList({pageCount: count}))
-     /!*   dispatch(setAppStatusAC('succeeded'))*!/
-      })
-      .catch(error => {
-        console.log(error)
-  /!*      dispatch(setIsInitializedAC(true))
-        dispatch(setAppStatusAC('failed'))*!/
-      })
-}*/
+
+  export const updatePackListTC=  (params: GetPacksListParamsType): AppThunkType=>
+      async (dispatch: Dispatch<ActionPacksListType>) => {
+  try {
+    const requestParams= {...params, min: params.user_id ? 0 : 1}
+    dispatch(StartPackListLoadingAC(requestParams))
+    const response= await PacksListAPI.getPacks(requestParams)
+    dispatch(SuccessPackListLoadingAC(response.data))
+  }
+  catch (e) {
+    dispatch(LoadingErrorAC(e))
+  }
+}
+

@@ -160,15 +160,19 @@ export type CardsPackType = {
     more_id: string
     __v?: number
 }
-export type GetPacksAPIParamsType = {
-    packName?: string
-    min?: number
-    max?: number
-    sortPacks?: string
-    page?: number
-    pageCount?: number
+
+export type GetPacksListParamsType = {
+    packName: string
+    min: number
+    max: number
+    sortPacks: string
+    page: number
+    pageCount: number
     user_id?: string
 }
+
+export type GetPacksAPIParamsType = Partial<GetPacksListParamsType>
+
 export type ResultGetPacksAPIType = {
     cardPacks: Array<CardsPackType>
     cardPacksTotalCount: number

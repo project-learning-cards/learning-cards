@@ -8,6 +8,7 @@ import {CardsPackType} from "../../api/api";
 import {updatePackTC} from "../PacksList/packsList-reducer";
 
 
+/*
 
 export const ModalEditPackWindow = () => {
     const {packId}= useParams<{ packId: string }>()
@@ -35,9 +36,9 @@ export const ModalEditPackWindow = () => {
     }
 
 
-/*    if (!success) {
+/!*    if (!success) {
         return <Preloader/>
-    }*/
+    }*!/
 
     return (
         <Modal width={600} title={'Pack info'} visible={showEditModal} onCancel={handleCancel}
@@ -61,4 +62,4 @@ export const ModalEditPackWindow = () => {
             </div>
         </Modal>
     )
-}
+}*/
