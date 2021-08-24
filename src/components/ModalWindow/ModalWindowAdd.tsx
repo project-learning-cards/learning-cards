@@ -3,7 +3,6 @@ import {InputContainer} from "../InputContainer/InputContainer";
 import style from "../../features/PacksList/PacksList.module.scss";
 import {MainActionButton} from "../MainActionButton/MainActionButton";
 import React, {ChangeEvent, useState} from "react";
-import {addPack} from "../../features/PacksList/packsList-reducer";
 import {useDispatch} from "react-redux";
 
 export type ModalWindowPropsType = {
@@ -44,7 +43,7 @@ export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
         const trimmedPackName = packNameTitle.trim()
         if (trimmedPackName) {
             setCheckedPrivate(false)
-            dispatch(addPack({cardsPack: {name: trimmedPackName, grade: gradeTitle, rating: ratingTitle, private: checkedPrivate}}))
+          /*  dispatch(addPack({cardsPack: {name: trimmedPackName, grade: gradeTitle, rating: ratingTitle, private: checkedPrivate}}))*/
         } else {
             setError("Title is required")
         }

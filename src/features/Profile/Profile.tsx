@@ -8,7 +8,7 @@ import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {deletePack, getPackList, setPageNumberAC} from "../PacksList/packsList-reducer";
+import {setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";
@@ -23,8 +23,8 @@ export const Profile = () => {
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
 
     const {
-        packsList, isAuth, idUser, loadingRequest, profile, searchName, minFilter,
-        maxFilter, page, pageCount, cardPacksTotalCount, id
+        packsList, isAuth, idUser, loadingRequest, profile, searchName, min,
+        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks
     } = useProfileSelector()
 
     const setSearch = (value: string) => {
@@ -32,7 +32,7 @@ export const Profile = () => {
     }
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({id: pack_id}))
+       /* dispatch(deletePack({id: pack_id}))*/
     }
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
@@ -51,14 +51,13 @@ export const Profile = () => {
 
     useEffect(() => {
         if (idUser) {
-            dispatch(getPackList({
-                pageCount, user_id: undefined,
-                min: minFilter,
-                max: maxFilter,
-                packName: searchName
+            dispatch(updatePackListTC({
+                packName: packName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
             }))
+
+
         }
-    }, [dispatch, id, page, pageCount, minFilter, maxFilter, searchName])
+    }, [dispatch,packName, page, pageCount, min, max, sortPacks, id,])
 
     const logOut = () => {
         dispatch(logOutUser())

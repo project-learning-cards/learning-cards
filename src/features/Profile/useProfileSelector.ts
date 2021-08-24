@@ -10,12 +10,14 @@ interface ProfileSelector {
     loadingRequest: boolean,
     profile: ProfileResponseType,
     searchName: string,
-    minFilter: number,
-    maxFilter: number,
+    min: number,
+    max: number,
     page: number,
     pageCount: number,
     cardPacksTotalCount: number,
-    id: string | undefined
+    id: string | undefined,
+    packName: string | undefined,
+    sortPacks: string | undefined,
 }
 
 const profileSelector = (state: AppStateType) => {
@@ -26,12 +28,14 @@ const profileSelector = (state: AppStateType) => {
         loadingRequest: state.login.loadingRequest,
         profile: state.profile.profile,
         searchName: state.search.search,
-        minFilter: state.search.min,
-        maxFilter: state.search.max,
-        page: state.packsList.page,
-        pageCount: state.packsList.pageCount,
+        min: state.search.min,
+        max: state.search.max,
+        page: state.packsList.packsParams.page,
+        pageCount: state.packsList.packsParams.pageCount,
         cardPacksTotalCount: state.packsList.cardPacksTotalCount,
-        id: state.packsList.user_id
+        id: state.packsList.user_id,
+        packName: state.packsList.packsParams.packName,
+        sortPacks: state.packsList.packsParams.sortPacks,
     }
 
 }

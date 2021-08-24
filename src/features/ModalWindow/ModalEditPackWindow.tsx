@@ -5,7 +5,6 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../App/redux-store";
 import {CardsPackType} from "../../api/api";
-import {updatePackTC} from "../PacksList/packsList-reducer";
 
 
 /*

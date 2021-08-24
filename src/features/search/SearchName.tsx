@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from "../../App/redux-store";
 import {Button, Input, Modal} from 'antd';
 import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {addPack} from "../PacksList/packsList-reducer";
 import { useTranslation } from "react-i18next";
 
 
@@ -42,8 +41,8 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
         setNewName(e.currentTarget.value)
     }
 
-    const saveNewPackHandler = () => {
-        dispatch(addPack({cardsPack: {name: newName}}))
+    const saveNewPackHandler = () => {/*
+        dispatch(addPack({cardsPack: {name: newName}}))*/
         setShowModalAddPack(false)
     }
 

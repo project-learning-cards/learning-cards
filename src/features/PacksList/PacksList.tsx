@@ -7,7 +7,7 @@ import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
 import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
-import {deletePack, updatePackListTC} from './packsList-reducer';
+import {updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
@@ -25,24 +25,26 @@ export const PacksList = () => {
 
     const {
         isAuth, idUser, success, loadingRequest, cardPacksTotalCount, packsList, page,
-        pageCount, minFilter, maxFilter, id, packName, sortPacks
+        pageCount, min, max, id, packName, sortPacks
     } = usePackListSelector()
 
     useEffect(() => {
+
         if (!idUser) {
             if (!loadingRequest) {
                 dispatch(AuthUser())
             }
-        } else {
-            dispatch(updatePackListTC({
-                packName: packName || '', sortPacks: sortPacks || '',
-                page, pageCount, min: minFilter, user_id: id, max: maxFilter
-            }))
+        }else {
+            handleChangeParams({user_id: id})
         }
-    }, [dispatch, sortPacks, minFilter, maxFilter, packName, loadingRequest])
+    }, [dispatch, sortPacks, min, max, packName, loadingRequest, page, pageCount, sortPacks])
+
+
+
+
 
     const deletePackFun = (pack_id: string) => {
-        dispatch(deletePack({id: pack_id}))
+       /* dispatch(deletePack({id: pack_id}))*/
     }
 
     const setSearch = (value: string) => {
@@ -52,7 +54,7 @@ export const PacksList = () => {
     const handleChangeParams = (params: GetPacksAPIParamsType) => {
         dispatch(updatePackListTC({
             packName: packName || '', sortPacks: sortPacks || '',
-            page, pageCount, min: minFilter, user_id: id, max: maxFilter, ...params
+            page, pageCount, min, user_id: id, max, ...params
         }))
     }
 
@@ -60,9 +62,9 @@ export const PacksList = () => {
         return <Redirect to={UrlPath.LOGIN}/>
     }
 
-    if (!success) {
+  /*  if (!success) {
         return <PreloaderForApp/>
-    }
+    }*/
 
     return (
         <div className={s.wrapper}>
@@ -73,7 +75,7 @@ export const PacksList = () => {
                         <Button type={id ? 'primary' : 'dashed'}
                                 onClick={() => handleChangeParams({user_id: idUser})}>{t('my')}</Button>
                         <Button type={id ? 'dashed' : 'primary'}
-                                onClick={() => handleChangeParams({user_id: undefined})}>{t('all')}</Button>
+                                onClick={() => handleChangeParams({user_id: undefined, min: 0})}>{t('all')}</Button>
                     </div>
                 </div>
 

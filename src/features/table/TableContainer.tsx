@@ -7,7 +7,6 @@ import {Button, Modal} from 'antd';
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
-import {updatePackTC} from "../PacksList/packsList-reducer";
 import {useDispatch} from "react-redux";
 
 type TableContainerPropsType = {
@@ -69,8 +68,8 @@ export const TableContainer = (props: TableContainerPropsType) => {
                                         <Button key="back" onClick={handleCancel}>
                                             Return
                                         </Button>,
-                                        <Button key="submit" type="primary" onClick={() => {
-                                            dispatch(updatePackTC(pack._id, newName))
+                                        <Button key="submit" type="primary" onClick={() => {/*
+                                            dispatch(updatePackTC(pack._id, newName))*/
                                             setShowEditPackModal(false)
                                         }}>
                                             Save
