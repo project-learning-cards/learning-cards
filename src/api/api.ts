@@ -52,7 +52,7 @@ export const PacksListAPI = {
         const user__id = user_id !== undefined ? `&user_id=${user_id}` : ''
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
     },
-    addCardsPack(data: AddCardsPackDataType) {
+    addCardsPack(data: AddCardsAPIParamsType) {
         return instance.post<Array<CardsPackType>>("/cards/pack", data)
     },
     deleteCardsPack(params: { id: string }) {
@@ -195,6 +195,9 @@ export type AddCardsPackDataType = {
         type?: string
     }
 }
+
+export type AddCardsAPIParamsType = Partial<AddCardsPackDataType>
+
 export type UpdateParamsType = {
     cardsPack: {
         _id: string

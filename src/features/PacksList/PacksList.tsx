@@ -5,7 +5,6 @@ import {GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {ModalWindowAdd} from "../../components/ModalWindow/ModalWindowAdd";
 import {UrlPath} from '../Navbar/Header';
 import {updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
@@ -62,9 +61,9 @@ export const PacksList = () => {
         return <Redirect to={UrlPath.LOGIN}/>
     }
 
-  /*  if (!success) {
+    if (success) {
         return <PreloaderForApp/>
-    }*/
+    }
 
     return (
         <div className={s.wrapper}>
@@ -106,7 +105,7 @@ export const PacksList = () => {
                                 pageSizeOptions={['15']}/>
                 </div>
             </div>
-            <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>
+           {/* <ModalWindowAdd showModal={showModalAdd} setShowModal={setShowModalAdd}/>*/}
         </div>
     )
 }

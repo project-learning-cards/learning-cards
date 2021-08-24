@@ -1,4 +1,5 @@
 import {
+    AddCardsAPIParamsType,
     AddCardsPackDataType,
     CardsPackType,
     GetPacksAPIParamsType, GetPacksListParamsType,
@@ -171,9 +172,6 @@ export const updatePackListTC = (params: GetPacksListParamsType): AppThunkType =
       }
     }
 
-
-
-
 /*export const addPack =
     (data: AddCardsPackDataType): AppThunkType =>
         async (
@@ -181,7 +179,7 @@ export const updatePackListTC = (params: GetPacksListParamsType): AppThunkType =
             getState: GetAppStateType
         ) => {
             const {sortPacks, page, user_id, pageCount, packName} =
-                getState().packsList
+                getState().packsList.packsParams
             try {
                 const responseAdd = await PacksListAPI.addCardsPack(data)
                 const response = await PacksListAPI.getPacks({
@@ -197,6 +195,26 @@ export const updatePackListTC = (params: GetPacksListParamsType): AppThunkType =
             } finally {
             }
         }*/
+
+export const addPack = (data: AddCardsAPIParamsType, user_id: string | undefined): AppThunkType =>
+    async (dispatch: Dispatch<ActionPacksListType>, getState: GetAppStateType) => {
+        const {sortPacks, pageCount, packName, min, max, page} =
+            getState().packsList.packsParams
+        try {
+            const requestParams = {user_id: user_id,sortPacks, pageCount, packName, min, max, page}
+            const requestObj = {...data}
+            dispatch(StartPackListLoadingAC(requestParams))
+            await PacksListAPI.addCardsPack(requestObj)
+            const response = await PacksListAPI.getPacks(requestParams)
+            dispatch(SuccessPackListLoadingAC(response.data))
+        } catch (e) {
+            dispatch(LoadingErrorAC(e))
+        }
+    }
+
+
+
+
 
 /*export const deletePack =
     (params: { id: string }): AppThunkType =>

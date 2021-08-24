@@ -4,11 +4,12 @@ import {AppStateType} from "../../App/redux-store";
 import {Button, Input, Modal} from 'antd';
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import { useTranslation } from "react-i18next";
+import {addPack} from "../PacksList/packsList-reducer";
 
 
 type SearchPropsType = {
     setSearch: (value: string) => void
-    user_id: string | null
+    user_id: string | undefined
 }
 
 export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
@@ -25,7 +26,7 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
     useEffect(() => {
         const timeoutId = setTimeout(() => setSearch(searchValue), 500)
         return () => clearTimeout(timeoutId)
-    }, [setSearch, searchValue])
+    }, [setSearch, searchValue, user_id, newName])
 
 
     const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +42,9 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
         setNewName(e.currentTarget.value)
     }
 
-    const saveNewPackHandler = () => {/*
-        dispatch(addPack({cardsPack: {name: newName}}))*/
+    const saveNewPackHandler = () => {
+        dispatch(addPack({cardsPack: {name: newName}}, user_id/*, page*/))
+        setNewName('')
         setShowModalAddPack(false)
     }
 

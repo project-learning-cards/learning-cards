@@ -4,12 +4,14 @@ import style from "../../features/PacksList/PacksList.module.scss";
 import {MainActionButton} from "../MainActionButton/MainActionButton";
 import React, {ChangeEvent, useState} from "react";
 import {useDispatch} from "react-redux";
+import {addPack} from "../../features/PacksList/packsList-reducer";
 
 export type ModalWindowPropsType = {
     showModal: boolean
     setShowModal: (showModal: boolean) => void
 }
 
+/*
 export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
     const [packNameTitle, setPackNameTitle] = useState<string>("")
     const [gradeTitle, setGradeTitle] = useState<number>(0)
@@ -43,7 +45,7 @@ export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
         const trimmedPackName = packNameTitle.trim()
         if (trimmedPackName) {
             setCheckedPrivate(false)
-          /*  dispatch(addPack({cardsPack: {name: trimmedPackName, grade: gradeTitle, rating: ratingTitle, private: checkedPrivate}}))*/
+            dispatch(addPack({cardsPack: {name: trimmedPackName, grade: gradeTitle, rating: ratingTitle, private: checkedPrivate}}))
         } else {
             setError("Title is required")
         }
@@ -80,4 +82,4 @@ export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {
                               title={"ADD"}/>
         </div>
     </ModalWindow>;
-}
+}*/
