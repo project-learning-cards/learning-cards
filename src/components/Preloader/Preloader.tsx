@@ -16,7 +16,7 @@ export const PreloaderForApp = () => {
     return (
         <div className={style.preloaderForApp}>
             <Space size="middle">
-                <Spin size="large" />
+                <Spin wrapperClassName={style.preloader} size="large" />
             </Space>
         </div>
     )

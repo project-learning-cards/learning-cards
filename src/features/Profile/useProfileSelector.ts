@@ -18,6 +18,7 @@ interface ProfileSelector {
     id: string | undefined,
     packName: string | undefined,
     sortPacks: string,
+    successProfile: boolean
 }
 
 const profileSelector = (state: AppStateType) => {
@@ -36,6 +37,7 @@ const profileSelector = (state: AppStateType) => {
         id: state.packsList.user_id,
         packName: state.packsList.packsParams.packName,
         sortPacks: state.packsList.packsParams.sortPacks,
+        successProfile: state.profile.success
     }
 
 }

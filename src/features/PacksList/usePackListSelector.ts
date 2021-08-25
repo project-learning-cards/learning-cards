@@ -5,7 +5,7 @@ import {CardsPackType} from "../../api/api";
 interface PackListSelector {
     isAuth: boolean,
     idUser: string,
-    success: boolean,
+    successPackList: boolean,
     loadingRequest: boolean,
     cardPacksTotalCount: number,
     packsList: Array<CardsPackType>,
@@ -23,7 +23,7 @@ const packListSelector = (state: AppStateType) => {
     return {
         isAuth: state.login.logIn,
         idUser: state.profile.profile._id,
-        success: state.packsList.success,
+        successPackList: state.packsList.success,
         loadingRequest: state.login.loadingRequest,
         cardPacksTotalCount: state.packsList.cardPacksTotalCount,
         packsList: state.packsList.cardPacks,

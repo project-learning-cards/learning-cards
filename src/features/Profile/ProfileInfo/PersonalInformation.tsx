@@ -65,7 +65,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
         if (!newName) {
             setErrorNickName("Incorrect nick name")
         } else {
-            dispatch(updateProfile(file64, newName));
+            dispatch(updateProfile({avatar: file64, name: newName}));
             closeModelWindow();
         }
     }

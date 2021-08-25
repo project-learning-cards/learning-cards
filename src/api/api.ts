@@ -39,8 +39,8 @@ export const authAPI = {
     me() {
         return instance.post<LoginResponseType>("auth/me", {})
     },
-    updateProfile(avatar: string, name: string) {
-        return instance.put<ProfileResponseType>("auth/me", {avatar, name})
+    updateProfile(UserData: UserData) {
+        return instance.put<ProfileResponseType>("auth/me", UserData)
     },
     logOut() {
         return instance.delete<LogOutType>("auth/me")
@@ -198,11 +198,9 @@ export type AddCardsPackDataType = {
 
 export type AddCardsAPIParamsType = Partial<AddCardsPackDataType>
 
-export type UpdateParamsType = {
-    cardsPack: {
-        _id: string
-        name?: string
-    }
+export type UserData= {
+    name: string
+    avatar: string
 }
 
 //CardsListAPI

@@ -5,7 +5,6 @@ import {Button, Input, Modal} from 'antd';
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {useTranslation} from "react-i18next";
 import {addPack} from "../PacksList/packsList-reducer";
-import {PreloaderForApp} from "../../components/Preloader/Preloader";
 import {setSearchValueAC} from "./search-reducer";
 
 
@@ -16,7 +15,6 @@ type SearchPropsType = {
 export const SearchName: React.FC<SearchPropsType> = ({user_id}) => {
     const {Search} = Input
     const search = useSelector<AppStateType, string>(state => state.search.search)
-    const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const [searchValue, setSearchValue] = useState<string>(search)
     const [showModalAddPack, setShowModalAddPack] = useState<boolean>(false)
     const [newName, setNewName] = useState<string>('')
@@ -50,19 +48,14 @@ export const SearchName: React.FC<SearchPropsType> = ({user_id}) => {
         setNewName('')
         setShowModalAddPack(false)
     }
-
-    if (success) {
-        return <PreloaderForApp/>
-    }
-
     return (
-        <div style={{textAlign: 'center'}}>
+        <div style={{textAlign: 'center', margin: '10px auto' }}>
             <Search placeholder={t('search_text')}
                     enterButton={t('search')}
                     size="large"
                     onChange={onSearchChange}
                     value={searchValue}
-                    style={{width: '90%', margin: '20px auto'}}/>
+                    style={{width: '90%'}}/>
             {(user_id) && <Button size={"large"} onClick={() => setShowModalAddPack(true)}>{t('add')}</Button>}
             {showModalAddPack &&
             <Modal width={600} title={t('pack_info')} visible={showModalAddPack} onCancel={handleCancel}

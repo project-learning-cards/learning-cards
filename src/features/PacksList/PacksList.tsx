@@ -4,10 +4,8 @@ import React, {useEffect, useState} from "react";
 import {GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
-import {PreloaderForApp} from "../../components/Preloader/Preloader";
 import {deletePack, updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
-import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
 import {Button, Pagination, Typography} from 'antd'
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
@@ -23,8 +21,8 @@ export const PacksList = () => {
     const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
 
     const {
-        isAuth, idUser, success, loadingRequest, cardPacksTotalCount, packsList, page,
-        pageCount, min, max, id, packName, sortPacks, searchName
+        isAuth, idUser, successPackList, loadingRequest, cardPacksTotalCount, packsList, page,
+        pageCount, min, max, id, packName, sortPacks, searchName,
     } = usePackListSelector()
 
     useEffect(() => {
@@ -54,9 +52,7 @@ export const PacksList = () => {
 
 
 
-    if (success) {
-        return <PreloaderForApp/>
-    }
+
 
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
@@ -88,6 +84,7 @@ export const PacksList = () => {
                     <TableContainer packs={packsList}
                                     deletePackFun={deletePackFun}
                                     user_id={id || ''}
+                                    success={successPackList}
                     />
                 </div>
                 <div className={s.footer}>

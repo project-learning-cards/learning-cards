@@ -13,6 +13,8 @@ import {TableContainer} from "../table/TableContainer";
 import {useTranslation} from "react-i18next";
 import {useProfileSelector} from "./useProfileSelector";
 import {PATH} from "../../components/routes/Pages";
+import {PreloaderForApp} from "../../components/Preloader/Preloader";
+import {usePackListSelector} from "../PacksList/usePackListSelector";
 
 
 export const Profile = () => {
@@ -23,9 +25,11 @@ export const Profile = () => {
 
     const {
         packsList, isAuth, idUser, loadingRequest, profile, min,
-        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks, searchName
+        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks, searchName, successProfile
     } = useProfileSelector()
-
+    const {
+        successPackList
+    } = usePackListSelector()
 
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
@@ -51,6 +55,7 @@ export const Profile = () => {
         }
     }, [dispatch,packName, page, pageCount, min, max, sortPacks, id, searchName])
 
+
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
@@ -58,7 +63,7 @@ export const Profile = () => {
             <div className={s.profileInfoBlock}>
                 <div className={s.profileInfo}>
                     <div>
-                        <Avatar size={100} src={profile.avatar} icon={<UserOutlined/>}/>
+                        <Avatar size={100} src={successProfile ? <PreloaderForApp/> : profile.avatar} icon={<UserOutlined/>}/>
                     </div>
                     <div style={{float: 'left', marginBottom: '10px'}}>
                         <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
@@ -86,6 +91,7 @@ export const Profile = () => {
                 <div className={s.main}>
                     <TableContainer packs={packsList}
                                     user_id={id || ''}
+                                    success={successPackList}
                     />
                 </div>
                 <Pagination style={{textAlign: 'center', marginBottom: '10px' }}

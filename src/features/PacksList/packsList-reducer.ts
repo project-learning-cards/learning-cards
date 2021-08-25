@@ -63,6 +63,7 @@ export const packsListReducer = (state = InitialState, action: ActionPacksListTy
             return {
                 ...state,
                 isLoading: true,
+                success: true,
                 packsParams: {
                     ...state.packsParams,
                     packName: action.params.packName,
@@ -77,6 +78,7 @@ export const packsListReducer = (state = InitialState, action: ActionPacksListTy
         case 'packList/LOADING-SUCCESS':
             return {
                 ...state, isLoading: false,
+                success: false,
                 packsParams: {
                     ...state.packsParams,
                     page: 1,
