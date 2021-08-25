@@ -8,7 +8,7 @@ import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
+import {deletePack, setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
 import {setSearchValueAC} from "../search/search-reducer";

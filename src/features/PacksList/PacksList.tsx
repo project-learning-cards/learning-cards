@@ -6,7 +6,7 @@ import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
 import {UrlPath} from '../Navbar/Header';
-import {updatePackListTC} from './packsList-reducer';
+import {deletePack, updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
 import {TableContainer} from "../table/TableContainer";
@@ -43,7 +43,7 @@ export const PacksList = () => {
 
 
     const deletePackFun = (pack_id: string) => {
-       /* dispatch(deletePack({id: pack_id}))*/
+        dispatch(deletePack({id: pack_id}, idUser))
     }
 
     const setSearch = (value: string) => {

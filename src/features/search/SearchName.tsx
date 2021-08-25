@@ -5,6 +5,7 @@ import {Button, Input, Modal} from 'antd';
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import { useTranslation } from "react-i18next";
 import {addPack} from "../PacksList/packsList-reducer";
+import {PreloaderForApp} from "../../components/Preloader/Preloader";
 
 
 type SearchPropsType = {
@@ -15,6 +16,7 @@ type SearchPropsType = {
 export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
     const {Search} = Input
     const search = useSelector<AppStateType, string>(state => state.search.search)
+    const success = useSelector<AppStateType, boolean>(state => state.packsList.success)
     const [searchValue, setSearchValue] = useState(search)
     const [showModalAddPack, setShowModalAddPack] = useState<boolean>(false)
     /*const [showModalAddCard, setShowModalAddCard] = useState<boolean>(true);*/
@@ -46,6 +48,10 @@ export const SearchName: React.FC<SearchPropsType>= ({setSearch, user_id}) => {
         dispatch(addPack({cardsPack: {name: newName}}, user_id/*, page*/))
         setNewName('')
         setShowModalAddPack(false)
+    }
+
+    if (success) {
+        return <PreloaderForApp/>
     }
 
     return (
