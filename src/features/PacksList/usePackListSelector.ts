@@ -16,6 +16,7 @@ interface PackListSelector {
     id: string | undefined,
     packName: string | undefined,
     sortPacks: string | undefined,
+    searchName: string | undefined
 }
 
 const packListSelector = (state: AppStateType) => {
@@ -33,6 +34,7 @@ const packListSelector = (state: AppStateType) => {
         id: state.packsList.user_id,
         packName: state.packsList.packsParams.packName,
         sortPacks: state.packsList.packsParams.sortPacks,
+        searchName: state.search.search
     }
 
 }

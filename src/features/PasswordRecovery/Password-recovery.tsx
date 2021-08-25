@@ -7,8 +7,8 @@ import { HeaderEnterApp } from "../../components/HeaderEnterApp/HeaderEnterApp";
 import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
 import { AppStateType } from "../../App/redux-store";
 import { emailValidation } from "../../utils/validation";
-import { UrlPath } from "../Navbar/Header";
 import { passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess } from "./password-recovery-reducer";
+import {PATH} from "../../components/routes/Pages";
 
 export const PasswordRecovery = () => {
     const [email, setEmail] = useState<string>("hardtruenew39@gmail.com")
@@ -74,7 +74,7 @@ export const PasswordRecovery = () => {
                 </div>
                 <div className={s.footer}>
                     <span className={s.text}>Did you remember your password?</span>
-                    <NavLink to={UrlPath.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
+                    <NavLink to={PATH.LOGIN} className={s.footerBtn}>Try logging in</NavLink>
                 </div>
             </div>
         </div>

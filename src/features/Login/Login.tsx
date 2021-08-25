@@ -7,7 +7,6 @@ import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
 import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
 import {emailValidation, PasswordValidation} from "../../utils/validation";
-import {UrlPath} from "../Navbar/Header";
 import {loginUserTC, setServerErrorMessageLogin} from "./login-reducer";
 import {PATH} from "../../components/routes/Pages";
 import {Checkbox} from 'antd';
@@ -83,7 +82,7 @@ export const Login = () => {
                         <Checkbox checked={rememberMe} onChange={changeRememberMe}>Remember me</Checkbox>
 
                         <div className={s.forgotPasswordBtn}>
-                            <NavLink to={UrlPath.PASSWORD_RECOVERY}>Forgot Password</NavLink>
+                            <NavLink to={PATH.PASSWORD_RECOVERY}>Forgot Password</NavLink>
                         </div>
                     </div>
                     <div className={s.authBtn}>
@@ -99,7 +98,7 @@ export const Login = () => {
                 </div>
                 <div className={s.footer}>
                     <p className={s.text}>Don't have an account</p>
-                    <NavLink to={UrlPath.REGISTRATION} className={s.footerBtn}>Sing Up</NavLink>
+                    <NavLink to={PATH.REGISTRATION} className={s.footerBtn}>Sing Up</NavLink>
                 </div>
             </div>
         </div>

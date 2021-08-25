@@ -1,14 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './Registration.module.scss'
-import { useDispatch, useSelector } from "react-redux";
-import { AppStateType } from "../../App/redux-store";
-import { setRegistration, setRegistrationAC, setServerErrorMessageRegistration } from "./regidtration-reducer";
-import { NavLink, Redirect } from 'react-router-dom';
-import { InputContainer } from "../../components/InputContainer/InputContainer";
-import { HeaderEnterApp } from "../../components/HeaderEnterApp/HeaderEnterApp";
-import { MainActionButton } from "../../components/MainActionButton/MainActionButton";
-import { emailValidation, PasswordValidation } from '../../utils/validation';
-import { UrlPath } from '../Navbar/Header';
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../App/redux-store";
+import {setRegistration, setRegistrationAC, setServerErrorMessageRegistration} from "./regidtration-reducer";
+import {Redirect} from 'react-router-dom';
+import {InputContainer} from "../../components/InputContainer/InputContainer";
+import {HeaderEnterApp} from "../../components/HeaderEnterApp/HeaderEnterApp";
+import {MainActionButton} from "../../components/MainActionButton/MainActionButton";
+import {emailValidation, PasswordValidation} from '../../utils/validation';
+import {PATH} from "../../components/routes/Pages";
 
 export const Registration = () => {
     const [email, setEmail] = useState<string>("")
@@ -63,7 +63,7 @@ export const Registration = () => {
     }, [])
 
     if (isRegistration) {
-        return <Redirect to={UrlPath.LOGIN} />
+        return <Redirect to={PATH.LOGIN} />
     }
 
     const goBack = () => {

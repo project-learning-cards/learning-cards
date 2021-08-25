@@ -1,90 +1,40 @@
-.profilePageContainer {
-  max-width: 1008px;
-  min-height: 720px;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 8px;
-  background-color: #fefeff;
-}
-
-.modalBackground {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(180deg, #e6d4de, #9890c7);
-  z-index: 20;
-  left: 0;
-}
-
-.modalMessage {
-  position: fixed;
-  z-index: 21;
-  padding: 25px;
-  box-sizing: border-box;
-  height: 540px;
-  max-width: 415px;
-  width: 100%;
-  border-radius: 8px;
-  background-color: #f9f9fe;
-  left: calc(50vw - (540px / 2));
-}
 .avatarBlock {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  .avatar {
-    height: 120px;
-    width: 120px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: 50%;
-  }
-  .addedFilesContainer {
-    height: 90px;
-    .addedFiles {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  }
 }
-.avatarURL {
-  height: 76px;
-  width: 76px;
+
+.information {
+  height: auto;
+}
+
+.imagesPI {
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
   background-size: cover;
   background-position: 50%;
 }
 
-.btns {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+.inputStyleAdd {
+  display: none;
 }
 
-.btnCancel {
-  height: 36px;
-  max-width: 125px;
-  width: 100%;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #21268f;
-  font-family: SF UI Display, sans-serif;
-  opacity: 0.8;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  background-color: #d7d8ef;
-  transition: 0.2s;
-
-  &:hover {
-    background-color: #c0c1dc;
-  }
+.buttonAdd {
+  background-color: #D9D9F1;
+  border: none;
+  margin-top: 10px;
 }
 
-.blueBtnContainer {
-  max-width: 187px;
-  width: 100%;
+.inputStyleNickName {
+  width: 300px;
+  margin: 20px auto;
 }
+.changeLanguage {
+  position: absolute;
+  top: 20px;
+  right: 60px;
+}
+
+

@@ -2,16 +2,16 @@ import React, {ChangeEvent, useState} from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import s from './TableContainer.module.scss'
 import {CardsPackType} from "../../api/api";
-import {UrlPath} from "../Navbar/Header";
 import {Button, Modal} from 'antd';
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {useDispatch} from "react-redux";
+import {PATH} from "../../components/routes/Pages";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
-    deletePackFun: (pack_id: string) => void
+    deletePackFun?: (pack_id: string) => void
     user_id: string
 }
 
@@ -29,6 +29,12 @@ export const TableContainer = (props: TableContainerPropsType) => {
     const handleCancel = () => {
         setShowEditPackModal(false)
     }
+
+    const deletePack = (id: string) => {
+        if(props.deletePackFun) {
+            props.deletePackFun(id)
+        }
+    }
     return (
         <table className={s.tableContainer}>
             <thead className={s.tableHeader}>
@@ -45,17 +51,17 @@ export const TableContainer = (props: TableContainerPropsType) => {
                     <tr key={pack._id} className={s.row}>
                         <td className={s.tableCol}>
                             <Button type="link" size="large">
-                                <NavLink to={`${UrlPath.CARDS_LIST}` + pack._id}>{pack.name}</NavLink>
+                                <NavLink to={`${PATH.CARDS_LIST}` + pack._id}>{pack.name}</NavLink>
                             </Button>
                         </td>
                         <td className={s.tableCol}>{pack.cardsCount}</td>
                         <td className={s.tableCol}>{moment(pack.updated).format('DD.MM.YYYY')}</td>
                         <td className={s.tableCol}>{pack.user_name}</td>
-                        <td className={s.tableCol}>
+                        <td className={s.tableCol} style={{marginRight: '10px'}}>
                             {(props.user_id === pack.user_id) &&
                             <>
                                 <Button type="primary" danger
-                                        onClick={() => props.deletePackFun(pack._id)}>{t('delete')}</Button>
+                                        onClick={()=> props.deletePackFun?.(pack._id)}>{t('delete')}</Button>
                                 <Button onClick={() => setShowEditPackModal(true)}
                                         style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                                 >{t('edit')}</Button>
@@ -86,7 +92,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
                                     />
                                 </div>
                             </Modal>}
-                            <Button onClick={() => history.push(UrlPath.LEARN_CARDS + pack._id)}
+                            <Button onClick={() => history.push(PATH.LEARN_CARDS + pack._id)}
                                     style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                             >{t('learn')}</Button>
                         </td>

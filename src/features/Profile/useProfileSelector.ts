@@ -9,7 +9,7 @@ interface ProfileSelector {
     idUser: string,
     loadingRequest: boolean,
     profile: ProfileResponseType,
-    searchName: string,
+    searchName: string | undefined,
     min: number,
     max: number,
     page: number,
@@ -17,7 +17,7 @@ interface ProfileSelector {
     cardPacksTotalCount: number,
     id: string | undefined,
     packName: string | undefined,
-    sortPacks: string | undefined,
+    sortPacks: string,
 }
 
 const profileSelector = (state: AppStateType) => {

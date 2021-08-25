@@ -5,7 +5,6 @@ import {GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {UrlPath} from '../Navbar/Header';
 import {deletePack, updatePackListTC} from './packsList-reducer';
 import SearchName from "../search/SearchName";
 import {setSearchValueAC} from "../search/search-reducer";
@@ -14,6 +13,7 @@ import {Button, Pagination, Typography} from 'antd'
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
 import {useTranslation} from "react-i18next";
 import {usePackListSelector} from "./usePackListSelector";
+import {PATH} from "../../components/routes/Pages";
 
 
 export const PacksList = () => {
@@ -24,11 +24,10 @@ export const PacksList = () => {
 
     const {
         isAuth, idUser, success, loadingRequest, cardPacksTotalCount, packsList, page,
-        pageCount, min, max, id, packName, sortPacks
+        pageCount, min, max, id, packName, sortPacks, searchName
     } = usePackListSelector()
 
     useEffect(() => {
-
         if (!idUser) {
             if (!loadingRequest) {
                 dispatch(AuthUser())
@@ -36,7 +35,7 @@ export const PacksList = () => {
         }else {
             handleChangeParams({user_id: id})
         }
-    }, [dispatch, sortPacks, min, max, packName, loadingRequest, page, pageCount, sortPacks])
+    }, [dispatch, sortPacks, min, max, packName, loadingRequest, sortPacks, searchName])
 
 
 
@@ -46,24 +45,20 @@ export const PacksList = () => {
         dispatch(deletePack({id: pack_id}, idUser))
     }
 
-    const setSearch = (value: string) => {
-        dispatch(setSearchValueAC(value))
-    }
-
     const handleChangeParams = (params: GetPacksAPIParamsType) => {
         dispatch(updatePackListTC({
-            packName: packName || '', sortPacks: sortPacks || '',
+            packName: searchName || '', sortPacks: sortPacks || '',
             page, pageCount, min, user_id: id, max, ...params
         }))
     }
 
-    if (!isAuth) {
-        return <Redirect to={UrlPath.LOGIN}/>
-    }
+
 
     if (success) {
         return <PreloaderForApp/>
     }
+
+    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
         <div className={s.wrapper}>
@@ -87,8 +82,7 @@ export const PacksList = () => {
             <div className={s.content}>
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list')}</Title>
-                    <SearchName setSearch={setSearch}
-                                user_id={id || ''}/>
+                    <SearchName user_id={id || ''}/>
                 </div>
                 <div className={s.main}>
                     <TableContainer packs={packsList}

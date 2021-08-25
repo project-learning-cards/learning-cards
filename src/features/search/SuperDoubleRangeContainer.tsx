@@ -21,9 +21,6 @@ export const SuperDoubleRangeContainer = () => {
         dispatch(setMinMaxValueAC(values))
     }
 
-
-
-
     return (
 
         <>

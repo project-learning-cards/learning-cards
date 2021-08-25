@@ -32,17 +32,17 @@ export type InitialStateType = typeof InitialState
 type StartPackListLoadingAT = ReturnType<typeof StartPackListLoadingAC>
 type SuccessPackListLoadingAT = ReturnType<typeof SuccessPackListLoadingAC>
 type LoadingErrorAT = ReturnType<typeof LoadingErrorAC>
+type setPageNumberAT = ReturnType<typeof setPageNumberAC>
 
 export type ActionPacksListType =
     | StartPackListLoadingAT
     | SuccessPackListLoadingAT
     | LoadingErrorAT
+    | setPageNumberAT
 
 //actionC
 export const setPageNumberAC = (page: number) =>
     ({type: 'packList/SET-PAGE-NUMBER', page} as const)
-export const setTotalPacksCountAC = (cardPacksTotalCount: number) =>
-    ({type: 'packList/SET-PACKS-TOTAL-COUNT', cardPacksTotalCount} as const)
 export const StartPackListLoadingAC = (params: GetPacksListParamsType) =>
     ({type: 'packList/LOADING-START', params} as const)
 export const SuccessPackListLoadingAC = (params: ResultGetPacksAPIType) =>
@@ -53,6 +53,12 @@ export const LoadingErrorAC = (error: string) =>
 
 export const packsListReducer = (state = InitialState, action: ActionPacksListType): InitialStateType => {
     switch (action.type) {
+        case 'packList/SET-PAGE-NUMBER': {
+            return {
+                ...state,
+                packsParams: {...state.packsParams, page: action.page}
+            }
+        }
         case 'packList/LOADING-START':
             return {
                 ...state,
@@ -73,7 +79,7 @@ export const packsListReducer = (state = InitialState, action: ActionPacksListTy
                 ...state, isLoading: false,
                 packsParams: {
                     ...state.packsParams,
-                    page: action.params.page,
+                    page: 1,
                     min: action.params.minCardsCount,
                     max: action.params.maxCardsCount,
                     pageCount: action.params.pageCount

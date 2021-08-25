@@ -11,6 +11,7 @@ export const SuperDoubleRange=(props: SuperDoubleRangePropsType) => {
     return(
         <div>
             <Slider
+                style={{width: '150px', margin: '15px auto'}}
                 range
                 step={1}
                 onChange={props.onChange}

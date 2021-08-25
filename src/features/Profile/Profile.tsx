@@ -4,16 +4,15 @@ import {Redirect} from "react-router-dom";
 import {AuthUser, logOutUser} from "../Login/login-reducer";
 import s from "./Profile.module.scss";
 import {PersonalInformation} from "./ProfileInfo/PersonalInformation";
-import {UrlPath} from "../Navbar/Header";
 import {Avatar, Button, Pagination, Typography} from 'antd';
 import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
 import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {deletePack, setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
+import {setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
 import {TableContainer} from "../table/TableContainer";
-import {setSearchValueAC} from "../search/search-reducer";
 import {useTranslation} from "react-i18next";
 import {useProfileSelector} from "./useProfileSelector";
+import {PATH} from "../../components/routes/Pages";
 
 
 export const Profile = () => {
@@ -23,23 +22,18 @@ export const Profile = () => {
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
 
     const {
-        packsList, isAuth, idUser, loadingRequest, profile, searchName, min,
-        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks
+        packsList, isAuth, idUser, loadingRequest, profile, min,
+        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks, searchName
     } = useProfileSelector()
 
-    const setSearch = (value: string) => {
-        dispatch(setSearchValueAC(value))
-    }
 
-    const deletePackFun = (pack_id: string) => {
-       /* dispatch(deletePack({id: pack_id}))*/
-    }
 
     const onPageChangedHandler = useCallback((currentPage: number): void => {
         dispatch(setPageNumberAC(currentPage))
     }, [dispatch])
 
     const closeModelWindow = () => setEditModeProfile(false)
+    const logOut = () => {dispatch(logOutUser())}
 
     useEffect(() => {
         if (!idUser) {
@@ -52,18 +46,13 @@ export const Profile = () => {
     useEffect(() => {
         if (idUser) {
             dispatch(updatePackListTC({
-                packName: packName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
+                packName: searchName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
             }))
-
-
         }
-    }, [dispatch,packName, page, pageCount, min, max, sortPacks, id,])
+    }, [dispatch,packName, page, pageCount, min, max, sortPacks, id, searchName])
 
-    const logOut = () => {
-        dispatch(logOutUser())
-    }
+    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
     return (
         <div className={s.wrapper}>
             <div className={s.profileInfoBlock}>
@@ -71,7 +60,7 @@ export const Profile = () => {
                     <div>
                         <Avatar size={100} src={profile.avatar} icon={<UserOutlined/>}/>
                     </div>
-                    <div style={{float: 'left'}}>
+                    <div style={{float: 'left', marginBottom: '10px'}}>
                         <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
                         <div><b>{t('email')}:</b> {profile.email && profile.email}</div>
                         <div><b>{t('public_count')}:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}
@@ -85,25 +74,21 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className={s.doubleRange}>
-                    <div><Title level={4}>{t('number_cards')}</Title></div>
+                    <div ><Title level={4}>{t('number_cards')}</Title></div>
                     <SuperDoubleRangeContainer/>
                 </div>
             </div>
             <div className={s.profilePacksList}>
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list_with_name', {name: profile.name})}</Title>
-                    <SearchName setSearch={setSearch}
-                                user_id={id || ''}/>
+                    <SearchName user_id={id}/>
                 </div>
                 <div className={s.main}>
                     <TableContainer packs={packsList}
-                                    deletePackFun={deletePackFun}
                                     user_id={id || ''}
-
                     />
                 </div>
-
-                <Pagination style={{textAlign: 'center'}}
+                <Pagination style={{textAlign: 'center', marginBottom: '10px' }}
                             defaultCurrent={page}
                             total={cardPacksTotalCount}
                             onChange={onPageChangedHandler}

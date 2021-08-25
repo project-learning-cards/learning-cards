@@ -21,7 +21,7 @@
   "email": "Email",
   "public_count": "Личные наборы карточек",
   "edit_profile": "Редактировать профиль",
-  "number_cards": "Количество карточек в ноборе",
+  "number_cards": "Количество карточек в наборе",
   "logout": "Выйти",
   "packs_list_with_name": "Наборы {{name}}",
   "packs_list": "Наборы",
@@ -34,5 +34,7 @@
   "new_pack_name": "Введите новое название",
   "my": "МОИ",
   "all": "ВСЕ",
-  "show_packs": "Показать наборы"
+  "show_packs": "Показать наборы",
+  "personal_information": "Персональная информация",
+  "nick_name": "Прозвище"
 }

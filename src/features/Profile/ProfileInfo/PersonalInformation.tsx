@@ -5,9 +5,9 @@ import {AppStateType} from "../../../App/redux-store";
 import s from "./PersonalInformation.module.scss";
 import {updateProfile} from "../profile-reducer";
 import {InputContainer} from "../../../components/InputContainer/InputContainer";
-import {UrlPath} from "../../Navbar/Header";
-import {Avatar, Button, Modal} from "antd";
-import {UserOutlined} from "@ant-design/icons";
+import {Button, Image, Modal, Switch} from "antd";
+import {useTranslation} from "react-i18next";
+import {PATH} from "../../../components/routes/Pages";
 
 type PersonalInformationPropsType = {
     onClick: () => void
@@ -16,15 +16,26 @@ type PersonalInformationPropsType = {
 }
 
 export const PersonalInformation = React.memo((props: PersonalInformationPropsType) => {
-    const loadingStatus = useSelector<AppStateType, boolean>(state => state.registration.loadingRequest)
     const isAuth = useSelector<AppStateType, boolean>(state => state.login.logIn)
-    const dispatch = useDispatch()
-
     const [newName, setNewName] = useState<string>(props.name)
     const [errorNickName, setErrorNickName] = useState<string>('')
+    const dispatch = useDispatch()
+    const { t, i18n } = useTranslation()
+    const [checked, setChecked] = useState(true)
+
+
+    const onLanguageChange = () => {
+        if (checked) {
+            setChecked(false)
+            i18n.changeLanguage('ru')
+        } else {
+            setChecked(true)
+            i18n.changeLanguage('en')
+        }
+    }
 
     // -------------------------- FOR UPLOADING ---------------------- //
-    const [file, setFile] = useState<any>();
+    const [, setFile] = useState<any>();
     const [fileURL, setFileURL] = useState<any>();
     const [file64, setFile64] = useState<any>();
     const inRef = useRef<HTMLInputElement>(null);
@@ -39,109 +50,66 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                 setFile64(reader.result);
             };
             reader.readAsDataURL(newFile);
-
         }
     };
     //------------------------------------------------------------------//
+
     const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setNewName(e.currentTarget.value)
     }
     const closeModelWindow = () => {
         props.onClick()
     }
-    let disabledBtnSubmit = newName === props.name || !fileURL  // нужно решить этот момент
+    let disabledBtnSubmit = !newName
     const onSaveInformation = () => {
         if (!newName) {
             setErrorNickName("Incorrect nick name")
-        } else if (!fileURL) {
-            setErrorNickName("Need to upload file")
         } else {
             dispatch(updateProfile(file64, newName));
             closeModelWindow();
         }
     }
 
-
-    if (!isAuth) return <Redirect to={UrlPath.LOGIN}/>
+    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
-        <Modal width={600} title={'Personal information'} visible onCancel={closeModelWindow}
+        <Modal centered width={600} title={ t('personal_information') } visible onCancel={closeModelWindow}
                footer={[
                    <Button key="back" onClick={closeModelWindow}>
-                       Return
+                       {t('return')}
                    </Button>,
-                   <Button disabled={disabledBtnSubmit} key="submit" type="primary" onClick={onSaveInformation} loading={loadingStatus}>
-                       Save
+                   <Button disabled={disabledBtnSubmit} key="submit" type="primary" onClick={onSaveInformation}>
+                       {t('save')}
                    </Button>
                ]}>
-            <div style={{height: 'auto'}}>
+            <div className={s.information}>
                 <div className={s.avatarBlock}>
                     <div>
-                        <Avatar style={{borderRadius: '50%', backgroundSize: 'cover', backgroundPosition: '50%'}} src={props.avatar} size={200} icon={<UserOutlined />}/>
+                        <Image className={s.imagesPI}
+                            src={fileURL ? fileURL : props.avatar}
+                        />
                     </div>
-                    <input
+                    <input className={s.inputStyleAdd}
                         ref={inRef}
                         type={'file'}
-                        style={{display: 'none'}}
                         onChange={upload}
                     />
-                    <Button size={"small"} onClick={() => inRef && inRef.current && inRef.current.click()}
-                            style={{backgroundColor: "#D9D9F1", border: "none", marginTop: '10px'}}
-                    >Add</Button>
-                    <div >
-                        {fileURL && <div >
-                            <img src={fileURL} alt={'file'}/>
-                            {file && file.name}
-                        </div>}
-                    </div>
+                    <Button className={s.buttonAdd} size={"small"} onClick={() => inRef && inRef.current && inRef.current.click()}>  {t('add')}</Button>
                 </div>
-                <InputContainer
-                    title={"Nick name"}
-                    typeInput={"text"}
-                    value={newName}
-                    changeValue={onChangeName}
-                    errorMessage={errorNickName}
-                    placeholder={'enter your nick name'}
-                />
+                <div className={s.inputStyleNickName}>
+                    <InputContainer
+                        title={t("nick_name")}
+                        typeInput={"text"}
+                        value={newName}
+                        changeValue={onChangeName}
+                        errorMessage={errorNickName}
+                        placeholder={'enter your nick name'}
+                    />
+                </div>
+                <div className={s.changeLanguage}>
+                    <Switch checkedChildren="English" unCheckedChildren="Русский" checked={checked} onClick={onLanguageChange} />
+                </div>
             </div>
         </Modal>
-
-
-
-
-
-
-
-
-        /*
-          <div className={s.profilePageContainer}>
-              <>
-                  <div className={s.modalBackground} onClick={closeModelWindow}>
-                  </div>
-                  <div className={s.modalMessage}>
-                      <div className={s.modalMessageContainer}>
-                          <h2>Personal information</h2>
-                          <div className={s.avatarBlock}>
-                              <img className={s.avatar} src={props.avatar ? props.avatar : ""} alt="user_photo" />
-                              <input
-                                  ref={inRef}
-                                  type={'file'}
-                                  style={{ display: 'none' }}
-                                  onChange={upload}
-                              />
-                              <button onClick={() => inRef && inRef.current && inRef.current.click()}>add</button>
-                              <div className={s.addedFilesContainer}>
-                                  {fileURL && <div className={s.addedFiles}>
-                                      <img className={s.avatarURL} src={fileURL} alt={'file'} />
-                                      {file && file.name}
-                                  </div>}
-                              </div>
-
-
-                          </div>
-                      </div>
-                  </div>
-              </>
-          </div>*/
     )
 })

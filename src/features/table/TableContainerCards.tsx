@@ -5,9 +5,9 @@ import {useSelector} from "react-redux";
 import {AppStateType} from "../../App/redux-store";
 import {Button} from "antd";
 import moment from "moment";
-import {UrlPath} from "../Navbar/Header";
 import {useHistory} from "react-router-dom";
 import { useTranslation } from "react-i18next"
+import {PATH} from "../../components/routes/Pages";
 
 
 type TableContainerCardsPropsType = {
@@ -48,7 +48,7 @@ export const TableContainerCards = (props: TableContainerCardsPropsType) => {
                     {(props.user_id === card.user_id) &&
                     <>
                         <Button type="primary" danger onClick={() => props.deleteCardFun(card._id, card.cardsPack_id)}>{t('delete')}</Button>
-                        <Button onClick={() => history.push(UrlPath.EDIT_CARD_NAME + card._id)}
+                        <Button onClick={() => history.push(PATH.EDIT_CARD_NAME + card._id)}
                                 style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
                         >{t('edit')}</Button>
                     </>
