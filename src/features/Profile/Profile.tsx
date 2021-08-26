@@ -53,7 +53,7 @@ export const Profile = () => {
                 packName: searchName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
             }))
         }
-    }, [dispatch,packName, page, pageCount, min, max, sortPacks, id, searchName])
+    }, [dispatch, page, min, max, searchName])
 
 
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>

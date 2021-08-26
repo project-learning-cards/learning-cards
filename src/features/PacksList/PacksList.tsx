@@ -33,7 +33,7 @@ export const PacksList = () => {
         }else {
             handleChangeParams({user_id: id})
         }
-    }, [dispatch, sortPacks, min, max, packName, loadingRequest, sortPacks, searchName])
+    }, [dispatch, id, min, max, searchName])
 
 
 

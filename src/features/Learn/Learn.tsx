@@ -10,15 +10,18 @@ import {Button, Modal, Radio, RadioChangeEvent, Space} from 'antd';
 
 const grades = ["Didn't know", 'Forgot', 'Confused', 'A lot of thought', 'Knew'];
 
-export const Learn = () => {
-    const success = useSelector<AppStateType, boolean>(state => state.cardsList.success);
-    const {id} = useParams<{ id: string }>();
-    const {arrayCard} = useSelector((state: AppStateType) => state.cardsList)
+type LearnPropsType= {
+    showLearnModal: boolean
+    setShowLearnModal: (showLearnModal: boolean)=> void
+    packId: string
+}
 
+export const Learn = (props: LearnPropsType) => {
+    const success = useSelector<AppStateType, boolean>(state => state.cardsList.success);
+    const {arrayCard} = useSelector((state: AppStateType) => state.cardsList)
     const dispatch = useDispatch();
     const [isChecked, setIsChecked] = useState<boolean>(false)
     const [first, setFirst] = useState<boolean>(true)
-    const [isModalVisible, setIsModalVisible] = useState<boolean>(true)
     const [grade, setGrade] = useState<any>(grades.indexOf(grades[0]) + 1)
 
 
@@ -44,15 +47,14 @@ export const Learn = () => {
 
     useEffect(() => {
         if (first) {
-            dispatch(getCardsList({cardPack_id: id}));
+            dispatch(getCardsList({cardPack_id: props.packId}));
             setFirst(false);
         }
         if (arrayCard.length > 0) setCard(getRandomCard(arrayCard));
 
         return () => {
-            console.log('LearnContainer useEffect off');
         }
-    }, [dispatch, id, arrayCard, first]);
+    }, [dispatch, props.packId, arrayCard, first]);
 
     const onNext = (grade: number, id: string) => {
         setIsChecked(false)
@@ -64,17 +66,16 @@ export const Learn = () => {
         }
     }
 
-    if (!success) {
+    if (success) {
         return <Preloader/>
     }
 
     const handleCancel = () => {
-        window.history.go(-1);
-        setIsModalVisible(false)
+       props.setShowLearnModal(false)
     }
 
     return (
-        <Modal width={600} title={'Learn Cards'} visible={isModalVisible} onCancel={handleCancel}
+        <Modal centered width={600} title={`Learn cards`} visible onCancel={handleCancel}
                footer={[
                    <Button key="back" onClick={handleCancel}>
                        Return
@@ -86,21 +87,20 @@ export const Learn = () => {
                        Next
                    </Button>
                ]}>
-            <div style={{height: '150px'}}>
+            <div style={{height: '150px', fontSize: '16px'}}>
                 <div style={isChecked ? {marginBottom: '15px'} : {alignItems: 'center', textAlign: 'center'}}>
                     <b>Question:</b> {card.question}
                 </div>
                 {isChecked && (
                     <div style={{marginBottom: '68px', padding: '0px'}}>
-                        <div style={{marginBottom: '15px'}}> <b>Answer:</b> {card.answer}</div>
+                        <div style={{marginBottom: '15px'}}> <b>Answer:</b> {card.answer}<hr style={{opacity: '0.3'}}/></div>
+
                         <div>
                             <b>Rate yourself:</b>
                             <div style={{marginTop: '10px'}}>
                                 {grades.map((g, i) => (
-                                    <Radio.Group onChange={onRadioChange} >
-                                        <Space direction="vertical">
+                                    <Radio.Group onChange={onRadioChange} value={i}>
                                             <Radio value={i}>{g}</Radio>
-                                        </Space>
                                     </Radio.Group>
                                 ))}
                             </div>

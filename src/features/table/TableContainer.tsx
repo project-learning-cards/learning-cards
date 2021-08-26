@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import s from './TableContainer.module.scss'
 import {CardsPackType} from "../../api/api";
 import {Button, Modal} from 'antd';
@@ -8,6 +8,7 @@ import {useTranslation} from "react-i18next";
 import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {PATH} from "../../components/routes/Pages";
 import {PreloaderForApp} from "../../components/Preloader/Preloader";
+import {Learn} from "../Learn/Learn";
 
 type TableContainerPropsType = {
     packs: Array<CardsPackType>
@@ -17,9 +18,9 @@ type TableContainerPropsType = {
 }
 
 export const TableContainer = (props: TableContainerPropsType) => {
-    const history = useHistory()
     const {t} = useTranslation()
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
+    const [showLearnModal, setShowLearnModal] = useState<boolean>(false);
     const [newName, setNewName] = useState<string>('')
     const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewName(e.currentTarget.value)
@@ -28,6 +29,9 @@ export const TableContainer = (props: TableContainerPropsType) => {
     const handleCancel = () => {
         setShowEditPackModal(false)
     }
+
+
+
 
     return (<>
             {props.success ? <PreloaderForApp/> :
@@ -89,12 +93,17 @@ export const TableContainer = (props: TableContainerPropsType) => {
                                         />
                                     </div>
                                 </Modal>}
-                                <Button onClick={() => history.push(PATH.LEARN_CARDS + pack._id)}
-                                        style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                                >{t('learn')}</Button>
+
+                                <Button className={s.learnButton}
+                                        onClick={()=> setShowLearnModal(true)}>{t('learn')}</Button>
+
+
+
                             </td>
                         </tr>
                     ))}
+                    {showLearnModal && <Learn showLearnModal={showLearnModal} packId={''} setShowLearnModal={setShowLearnModal}/>}
+
                     </tbody>
                 </table>
             }
