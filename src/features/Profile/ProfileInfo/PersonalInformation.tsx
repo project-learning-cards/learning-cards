@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../../App/redux-store";
 import s from "./PersonalInformation.module.scss";
-import {updateProfile} from "../profile-reducer";
+import {UpdateLanguageAC, updateProfile} from "../profile-reducer";
 import {InputContainer} from "../../../components/InputContainer/InputContainer";
 import {Button, Image, Modal, Switch} from "antd";
 import {useTranslation} from "react-i18next";
@@ -21,15 +21,14 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
     const [errorNickName, setErrorNickName] = useState<string>('')
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation()
-    const [checked, setChecked] = useState(true)
-
+    const isLanguage = useSelector<AppStateType, boolean>(state => state.profile.isLanguage)
 
     const onLanguageChange = () => {
-        if (checked) {
-            setChecked(false)
+        if (isLanguage) {
+           dispatch(UpdateLanguageAC(false))
             i18n.changeLanguage('ru')
         } else {
-            setChecked(true)
+            dispatch(UpdateLanguageAC(true))
             i18n.changeLanguage('en')
         }
     }
@@ -107,7 +106,7 @@ export const PersonalInformation = React.memo((props: PersonalInformationPropsTy
                     />
                 </div>
                 <div className={s.changeLanguage}>
-                    <Switch checkedChildren="English" unCheckedChildren="Русский" checked={checked} onClick={onLanguageChange} />
+                    <Switch checkedChildren="English" unCheckedChildren="Русский" checked={isLanguage} onClick={onLanguageChange} />
                 </div>
             </div>
         </Modal>

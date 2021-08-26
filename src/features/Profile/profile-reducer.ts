@@ -20,6 +20,7 @@ const initialStateProfile = {
     tokenDeathTime: 0,
     isLoading: true as boolean,
     success: false,
+    isLanguage: true,
 }
 
 export const profileReducer = (state: InitialProfileType = initialStateProfile, action: ActionsProfileType) => {
@@ -52,6 +53,12 @@ export const profileReducer = (state: InitialProfileType = initialStateProfile, 
         }
         case 'PROFILE/LOADING-ERROR':
             return {...state, success: false, isLoading: false}
+
+        case "PROFILE/UPDATE-LANGUAGE": {
+            return {...state, isLanguage: action.isLanguage}
+        }
+
+
         /* case "PROFILE/LOADING-REQUEST":
              return {...state, ...action.payload}*/
 
@@ -91,6 +98,8 @@ export const SuccessProfileLoadingAC = (params: ProfileResponseType) =>
     ({type: 'PROFILE/LOADING-SUCCESS', params} as const)
 export const LoadingErrorAC = (error: string) =>
     ({type: 'PROFILE/LOADING-ERROR', error} as const)
+export const UpdateLanguageAC = (isLanguage: boolean) =>
+    ({type: 'PROFILE/UPDATE-LANGUAGE', isLanguage} as const)
 
 
 //thunkC
@@ -142,6 +151,7 @@ export type ActionsProfileType =
     | ReturnType<typeof setProfileAC>
     | ReturnType<typeof SuccessProfileLoadingAC>
     | ReturnType<typeof LoadingErrorAC>
+    | ReturnType<typeof UpdateLanguageAC>
 
 export type ProfileResponseType = {
     _id: string
