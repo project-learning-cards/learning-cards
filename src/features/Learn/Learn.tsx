@@ -1,19 +1,19 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {getCardsList, gradeCardTC} from "../CardsList/cardsList-reducer";
-import {useParams} from "react-router-dom";
 import {AppStateType} from "../../App/redux-store";
 import {CardType} from "../../api/api";
-import {Preloader} from "../../components/Preloader/Preloader";
 import {getRandomCard} from "./random";
-import {Button, Modal, Radio, RadioChangeEvent, Space} from 'antd';
+import {Button, Modal} from 'antd';
+import SuperRadio from "../../components/SuperRadio/SuperRadio";
+import s from './Learn.module.scss'
 
 const grades = ["Didn't know", 'Forgot', 'Confused', 'A lot of thought', 'Knew'];
 
 type LearnPropsType= {
     showLearnModal: boolean
     setShowLearnModal: (showLearnModal: boolean)=> void
-    packId: string
+    cardPackId: string
 }
 
 export const Learn = (props: LearnPropsType) => {
@@ -40,21 +40,18 @@ export const Learn = (props: LearnPropsType) => {
         _id: 'fake'
     });
 
-    const onRadioChange = (e: RadioChangeEvent) => {
-        setGrade && setGrade(e.target.value)
-    };
 
 
     useEffect(() => {
         if (first) {
-            dispatch(getCardsList({cardPack_id: props.packId}));
+            dispatch(getCardsList({cardPack_id: props.cardPackId}));
             setFirst(false);
         }
         if (arrayCard.length > 0) setCard(getRandomCard(arrayCard));
 
         return () => {
         }
-    }, [dispatch, props.packId, arrayCard, first]);
+    }, [dispatch, props.cardPackId, arrayCard, first]);
 
     const onNext = (grade: number, id: string) => {
         setIsChecked(false)
@@ -65,10 +62,10 @@ export const Learn = (props: LearnPropsType) => {
 
         }
     }
-
+/*
     if (success) {
         return <Preloader/>
-    }
+    }*/
 
     const handleCancel = () => {
        props.setShowLearnModal(false)
@@ -87,23 +84,20 @@ export const Learn = (props: LearnPropsType) => {
                        Next
                    </Button>
                ]}>
-            <div style={{height: '150px', fontSize: '16px'}}>
+            <div style={isChecked ? {height: 'auto', fontSize: '16px'} : {height: '150px', fontSize: '16px'}}>
                 <div style={isChecked ? {marginBottom: '15px'} : {alignItems: 'center', textAlign: 'center'}}>
                     <b>Question:</b> {card.question}
                 </div>
                 {isChecked && (
-                    <div style={{marginBottom: '68px', padding: '0px'}}>
+                    <div className={s.answerBlock}>
                         <div style={{marginBottom: '15px'}}> <b>Answer:</b> {card.answer}<hr style={{opacity: '0.3'}}/></div>
 
-                        <div>
+                        <div className={s.answer}>
                             <b>Rate yourself:</b>
-                            <div style={{marginTop: '10px'}}>
-                                {grades.map((g, i) => (
-                                    <Radio.Group onChange={onRadioChange} value={i}>
-                                            <Radio value={i}>{g}</Radio>
-                                    </Radio.Group>
-                                ))}
-                            </div>
+                            <SuperRadio name={'radio'}
+                                        value={grade}
+                                        options={grades}
+                                        onChangeOption={setGrade}/>
                         </div>
                     </div>
                 )}

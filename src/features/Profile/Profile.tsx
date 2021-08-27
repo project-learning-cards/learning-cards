@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {AuthUser, logOutUser} from "../Login/login-reducer";
@@ -25,7 +25,7 @@ export const Profile = () => {
 
     const {
         packsList, isAuth, idUser, loadingRequest, profile, min,
-        max, page, pageCount, cardPacksTotalCount, id, packName, sortPacks, searchName, successProfile
+        max, page, pageCount, cardPacksTotalCount, id, sortPacks, searchName, successProfile
     } = useProfileSelector()
     const {
         successPackList
@@ -55,6 +55,7 @@ export const Profile = () => {
         }
     }, [dispatch, page, min, max, searchName])
 
+    const titles = useMemo(() => [t('name_2'),t('cards_count'), t('last_update'), t('created'), t('actions')], []);
 
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
@@ -92,6 +93,8 @@ export const Profile = () => {
                     <TableContainer packs={packsList}
                                     user_id={id || ''}
                                     success={successPackList}
+                                    type={"pack"}
+                                    titles={titles}
                     />
                 </div>
                 <Pagination style={{textAlign: 'center', marginBottom: '10px' }}

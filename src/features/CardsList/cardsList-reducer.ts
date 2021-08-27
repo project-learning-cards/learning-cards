@@ -33,7 +33,7 @@ export type ActionCardsListType = GetCardsListAT | SetSuccessAT | setGradeCardAT
 //actionC
 export const GetCardsListAC = (params: Array<CardType>) => ({type: "cardList/GET-CARDSLIST", params} as const)
 export const SetSuccessAC = (success: boolean) => ({type: "cardList/SET-SUCCESS", success} as const)
-export const setGradeCardAC = (grade: number) => ({ type: "SET-GRADE", grade } as const)
+export const setGradeCardAC = (grade: number) => ({type: "SET-GRADE", grade} as const)
 
 export const cardsListReducer = (state = initialState, action: ActionCardsListType): InitialStateType => {
     switch (action.type) {
@@ -42,7 +42,7 @@ export const cardsListReducer = (state = initialState, action: ActionCardsListTy
         case "cardList/SET-SUCCESS":
             return {...state, success: action.success}
         case "SET-GRADE": {
-            return { ...state, grade: action.grade };
+            return {...state, grade: action.grade};
         }
         default:
             return state
@@ -79,7 +79,7 @@ export const addCard = (data: AddCardDataType): AppThunkType => async (dispatch:
     }
 }
 
-export const deleteCard = (params: {id: string, cardPack_id: string}): AppThunkType => async (dispatch: Dispatch<ActionCardsListType>) => {
+export const deleteCard = (params: { id: string, cardPack_id: string }): AppThunkType => async (dispatch: Dispatch<ActionCardsListType>) => {
 
     try {
         const responseDelete = await CardsListAPI.deleteCard(params)
@@ -107,13 +107,14 @@ export const updateCard = (_id: string, question: string, answer: string): AppTh
     }
 }
 
-export const gradeCardTC = (grade:number, card_id:string) => async (dispatch: Dispatch<ActionCardsListType>) => {
+export const gradeCardTC = (grade: number, card_id: string) => async (dispatch: Dispatch<ActionCardsListType>) => {
 
     try {
         await CardsListAPI.setCardGrade(grade, card_id)
     } catch (e) {
         console.log('GRADE_CARD_ERROR: ', {...e})
     } finally {
+
     }
 }
 

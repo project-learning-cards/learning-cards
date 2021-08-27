@@ -1,6 +1,6 @@
 import s from "./PacksList.module.scss";
 import {useDispatch} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo} from "react";
 import {GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
@@ -17,12 +17,12 @@ import {PATH} from "../../components/routes/Pages";
 export const PacksList = () => {
     const {Title} = Typography;
     const {t} = useTranslation()
-    const dispatch = useDispatch();
-    const [showModalAdd, setShowModalAdd] = useState<boolean>(false)
+    const dispatch = useDispatch();/*
+    const [showModalAdd, setShowModalAdd] = useState<boolean>(false)*/
 
     const {
         isAuth, idUser, successPackList, loadingRequest, cardPacksTotalCount, packsList, page,
-        pageCount, min, max, id, packName, sortPacks, searchName,
+        pageCount, min, max, id, sortPacks, searchName,
     } = usePackListSelector()
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export const PacksList = () => {
         }
     }, [dispatch, id, min, max, searchName])
 
-
+    const titles = useMemo(() => [t('name_2'),t('cards_count'), t('last_update'), t('created'), t('actions')], []);
 
 
 
@@ -85,6 +85,8 @@ export const PacksList = () => {
                                     deletePackFun={deletePackFun}
                                     user_id={id || ''}
                                     success={successPackList}
+                                    type={"pack"}
+                                    titles={titles}
                     />
                 </div>
                 <div className={s.footer}>

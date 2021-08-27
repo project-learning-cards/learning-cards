@@ -1,39 +1,89 @@
-import React, {ChangeEvent, useState} from "react";
+import React from "react";
 import {NavLink} from "react-router-dom";
-import s from './TableContainer.module.scss'
-import {CardsPackType} from "../../api/api";
-import {Button, Modal} from 'antd';
+import {CardsPackType, CardType} from "../../api/api";
+import {Button} from 'antd';
 import moment from "moment";
-import {useTranslation} from "react-i18next";
-import {InputContainer} from "../../components/InputContainer/InputContainer";
 import {PATH} from "../../components/routes/Pages";
-import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {Learn} from "../Learn/Learn";
+import {Buttons} from "./buttons/Buttons";
+import {Table} from "./Table";
 
 type TableContainerPropsType = {
-    packs: Array<CardsPackType>
+    type: 'card' | 'pack'
+    packs?: Array<CardsPackType>
     deletePackFun?: (pack_id: string) => void
-    user_id: string
-    success: boolean
+    user_id?: string
+    success?: boolean
+    deleteCardFun?: (id: string, cardPack_id: string) => void
+    cards?: Array<CardType>
+    titles: Array<string>
 }
 
 export const TableContainer = (props: TableContainerPropsType) => {
-    const {t} = useTranslation()
+   /* const {t} = useTranslation()
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
     const [showLearnModal, setShowLearnModal] = useState<boolean>(false);
-    const [newName, setNewName] = useState<string>('')
-    const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const [newName, setNewName] = useState<string>('')*/
+
+   /* const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewName(e.currentTarget.value)
-    }
+    }*/
 
-    const handleCancel = () => {
+  /*  const handleCancel = () => {
         setShowEditPackModal(false)
+    }*/
+
+    const array = [];
+
+    if (props.packs) {
+        for (let i = 0; i < props.packs.length; i++) {
+            let arr = []
+            arr.push(<Button type="link" size="large"><NavLink
+                to={`${PATH.CARDS_LIST}` + props.packs[i]._id}>{props.packs[i].name.length > 25 ? props.packs[i].name.slice(0, 25) + '...' : props.packs[i].name}</NavLink></Button>)
+            arr.push(props.packs[i].cardsCount)
+            arr.push(moment(props.packs[i].updated).format('DD.MM.YYYY'))
+            arr.push(props.packs[i].user_name.length > 25 ? props.packs[i].user_name.slice(0, 25) + '...' : props.packs[i].user_name)
+            arr.push(
+                <Buttons user_id={props.user_id}
+                         userId={props.packs[i].user_id}
+                         id={props.packs[i]._id}
+                         packName={props.packs[i].name}
+                         type={'pack'}
+                         deletePackFun={props.deletePackFun}
+                />
+            )
+            array.push(arr)
+        }
+    }
+
+    if (props.cards) {
+        for (let i = 0; i < props.cards.length; i++) {
+            let arr = []
+            arr.push(props.cards[i].question.length > 25 ? props.cards[i].question.slice(0, 25) + '...' : props.cards[i].question)
+            arr.push(props.cards[i].answer.length > 25 ? props.cards[i].answer.slice(0, 25) + '...' : props.cards[i].answer)
+            arr.push(props.cards[i].grade)
+            arr.push(moment(props.cards[i].updated).format('DD.MM.YYYY'))
+            arr.push(
+                <Buttons user_id={props.user_id}
+                         userId={props.cards[i].user_id}
+                         id={props.cards[i]._id}
+                         answer={props.cards[i].answer}
+                         type={'pack'}
+                         question= {props.cards[i].question}
+                         deleteCardFun= {props.deleteCardFun}
+                />
+            )
+            array.push(arr)
+        }
     }
 
 
+    return (
+        <Table items={array} titles={props.titles}/>
+    )
+}
 
 
-    return (<>
+/*(<>
             {props.success ? <PreloaderForApp/> :
                 <table className={s.tableContainer}>
                     <thead className={s.tableHeader}>
@@ -75,8 +125,8 @@ export const TableContainer = (props: TableContainerPropsType) => {
                                            <Button key="back" onClick={handleCancel}>
                                                Return
                                            </Button>,
-                                           <Button key="submit" type="primary" onClick={() => {/*
-                                            dispatch(updatePackTC(pack._id, newName))*/
+                                           <Button key="submit" type="primary" onClick={() => {/!*
+                                            dispatch(updatePackTC(pack._id, newName))*!/
                                                setShowEditPackModal(false)
                                            }}>
                                                Save
@@ -109,7 +159,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
             }
         </>
     )
-}
+}*/
 
 
 /*
