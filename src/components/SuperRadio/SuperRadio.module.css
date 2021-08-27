@@ -1,41 +1,6 @@
-.inputRadio input {
-    z-index: -1;
-    opacity: 0;
-    margin: 12px -20px 0 7px;
-}
-.inputText {
-    position: relative;
-    padding: 0 0 0 35px;
+.default {
     cursor: pointer;
 }
-.inputText:before {
-    content: '';
-    position: absolute;
-    top: -1.7px;
-    left: 1px;
-    width: 15px;
-    height: 15px;
-    border: 1px solid #CDD1DA;
-    border-radius: 50%;
-    background: #FFF;
-    opacity: 0.3;
-}
-.inputText:after {
-    content: '';
-    position: absolute;
-    top: 0.1em;
-    left: 0.32em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #1890ff;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.5);
-    opacity: 0;
-    transition: .2s;
-}
-.inputRadio input:checked + .inputText:after {
-    opacity: 1;
-}
-.inputRadio input:focus + .inputText:before {
-    box-shadow: 0 0 0 3px rgb(24, 144, 255);
+.default input{
+    margin-right: 10px;
 }
