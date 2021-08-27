@@ -52,7 +52,7 @@ export const pages: PageType[] = [
         page: <AuthRedirectPage><PacksList /></AuthRedirectPage>
     },
     {
-        _id: 9, title: "cards", path: PATH.CARDS_LIST, params: "/:id", exact: true,
+        _id: 9, title: "cards", path: PATH.CARDS_LIST, params: ":id", exact: true,
         page: <AuthRedirectPage><CardsList /></AuthRedirectPage>
     },
 
