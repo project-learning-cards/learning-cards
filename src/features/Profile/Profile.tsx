@@ -1,25 +1,28 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {useDispatch} from "react-redux";
-import {Redirect} from "react-router-dom";
-import {AuthUser, logOutUser} from "../Login/login-reducer";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { AuthUser, logOutUser } from "../Login/login-reducer";
 import s from "./Profile.module.scss";
-import {PersonalInformation} from "./ProfileInfo/PersonalInformation";
-import {Avatar, Button, Pagination, Typography} from 'antd';
-import {PoweroffOutlined, UserOutlined} from '@ant-design/icons';
-import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
-import {setPageNumberAC, updatePackListTC} from "../PacksList/packsList-reducer";
+import { PersonalInformation } from "./ProfileInfo/PersonalInformation";
+import { Avatar, Button, Pagination, Typography } from 'antd';
+import { PoweroffOutlined, UserOutlined } from '@ant-design/icons';
+import { SuperDoubleRangeContainer } from "../search/SuperDoubleRangeContainer";
+import { setPageNumberAC, updatePackListTC } from "../PacksList/packsList-reducer";
 import SearchName from "../search/SearchName";
-import {TableContainer} from "../table/TableContainer";
-import {useTranslation} from "react-i18next";
-import {useProfileSelector} from "./useProfileSelector";
-import {PATH} from "../../components/routes/Pages";
-import {PreloaderForApp} from "../../components/Preloader/Preloader";
-import {usePackListSelector} from "../PacksList/usePackListSelector";
+import { TableContainer } from "../table/TableContainer";
+import { useTranslation } from "react-i18next";
+import { useProfileSelector } from "./useProfileSelector";
+import { PATH } from "../../components/routes/Pages";
+import { PreloaderForApp } from "../../components/Preloader/Preloader";
+import { usePackListSelector } from "../PacksList/usePackListSelector";
+import { useWindowSize } from "../../components/useWindowSize/useWindowSize";
 
 
 export const Profile = () => {
-    const {Title} = Typography;
-    const {t} = useTranslation()
+    const { width } = useWindowSize()
+    const [editMode, setEditMode] = useState(true)
+    const { Title } = Typography;
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const [editModeProfile, setEditModeProfile] = useState<boolean>(false)
 
@@ -37,7 +40,7 @@ export const Profile = () => {
     }, [dispatch])
 
     const closeModelWindow = () => setEditModeProfile(false)
-    const logOut = () => {dispatch(logOutUser())}
+    const logOut = () => { dispatch(logOutUser()) }
 
     useEffect(() => {
         if (!idUser) {
@@ -45,9 +48,9 @@ export const Profile = () => {
                 dispatch(AuthUser())
             }
         }
-    }, [dispatch,idUser, loadingRequest])
+    }, [dispatch, idUser, loadingRequest])
 
-    const titles = [t('name_2'),t('cards_count'), t('last_update'), t('created'), t('actions')];
+    const titles = [t('name_2'), t('cards_count'), t('last_update'), t('created'), t('actions')];
 
     useEffect(() => {
         if (idUser) {
@@ -55,20 +58,29 @@ export const Profile = () => {
                 packName: searchName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
             }))
         }
-    }, [dispatch,page, min, max, searchName])
+    }, [dispatch, page, min, max, searchName])
 
+    const onClickHandler = () => {
+        setEditMode(!editMode)
+    }
 
-
-    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
+    if (!isAuth) return <Redirect to={PATH.LOGIN} />
 
     return (
         <div className={s.wrapper}>
-            <div className={s.profileInfoBlock}>
+            <div className={s.navBurger} onClick={onClickHandler}>
+                <svg viewBox="0 0 100 80" width="30" height="30">
+                    <rect width="100" height="20"></rect>
+                    <rect y="30" width="100" height="20"></rect>
+                    <rect y="60" width="100" height="20"></rect>
+                </svg>
+            </div>
+            <div className={width! > 700 ? s.profileInfoBlock : editMode ? s.mobileProfilePage : s.profileInfoBlock}>
                 <div className={s.profileInfo}>
                     <div>
-                        <Avatar size={100} src={successProfile ? <PreloaderForApp/> : profile.avatar} icon={<UserOutlined/>}/>
+                        <Avatar size={100} src={successProfile ? <PreloaderForApp /> : profile.avatar} icon={<UserOutlined />} />
                     </div>
-                    <div style={{float: 'left', marginBottom: '10px'}}>
+                    <div style={{ float: 'left', marginBottom: '10px' }}>
                         <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
                         <div><b>{t('email')}:</b> {profile.email && profile.email}</div>
                         <div><b>{t('public_count')}:</b> {profile.publicCardPacksCount && profile.publicCardPacksCount}
@@ -76,38 +88,42 @@ export const Profile = () => {
                     </div>
                     <div>
                         <Button type="primary" size="small"
-                                onClick={() => setEditModeProfile(true)}>{t('edit_profile')}</Button>
-                        <Button type="primary" size="small" danger onClick={logOut} icon={<PoweroffOutlined/>}
-                                loading={loadingRequest}>{t('logout')}</Button>
+                            onClick={() => setEditModeProfile(true)}>{t('edit_profile')}</Button>
+                        <Button type="primary" size="small" danger onClick={logOut} icon={<PoweroffOutlined />}
+                            loading={loadingRequest}>{t('logout')}</Button>
                     </div>
                 </div>
                 <div className={s.doubleRange}>
                     <div ><Title level={4}>{t('number_cards')}</Title></div>
-                    <SuperDoubleRangeContainer/>
+                    <SuperDoubleRangeContainer />
+                </div>
+                <div className={s.promotion}>
+                    Здесь могла бы быть ваша реклама.
                 </div>
             </div>
-            <div className={s.profilePacksList}>
+            <div className={width! > 700 ? s.profilePacksList : !editMode ? s.mobileProfilePage : s.profilePacksList}>
                 <div className={s.header}>
-                    <Title className={s.title} level={2}>{t('packs_list_with_name', {name: profile.name})}</Title>
-                    <SearchName user_id={id}/>
+
+                    <Title className={s.title} level={2}>{t('packs_list_with_name', { name: profile.name })}</Title>
+                    <SearchName user_id={id} />
                 </div>
                 <div className={s.main}>
                     <TableContainer packs={packsList}
-                                    user_id={id || ''}
-                                    success={successPackList}
-                                    type={"pack"}
-                                    titles={titles}
+                        user_id={id || ''}
+                        success={successPackList}
+                        type={"pack"}
+                        titles={titles}
                     />
                 </div>
-                <Pagination style={{textAlign: 'center', marginBottom: '10px' }}
-                            defaultCurrent={page}
-                            total={cardPacksTotalCount}
-                            onChange={onPageChangedHandler}
-                            defaultPageSize={pageCount}
-                            pageSizeOptions={['10']}/>
+                <Pagination style={{ textAlign: 'center', marginBottom: '10px' }}
+                    defaultCurrent={page}
+                    total={cardPacksTotalCount}
+                    onChange={onPageChangedHandler}
+                    defaultPageSize={pageCount}
+                    pageSizeOptions={['10']} />
             </div>
             {editModeProfile && <PersonalInformation onClick={closeModelWindow} name={profile.name}
-                                                     avatar={profile.avatar}/>
+                avatar={profile.avatar} />
             }
         </div>
     )

@@ -1,6 +1,6 @@
 import s from "./PacksList.module.scss";
 import {useDispatch} from "react-redux";
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {GetPacksAPIParamsType} from "../../api/api";
 import {Redirect} from "react-router-dom";
 import {AuthUser} from "../Login/login-reducer";
@@ -12,9 +12,12 @@ import {SuperDoubleRangeContainer} from "../search/SuperDoubleRangeContainer";
 import {useTranslation} from "react-i18next";
 import {usePackListSelector} from "./usePackListSelector";
 import {PATH} from "../../components/routes/Pages";
+import { useWindowSize } from "../../components/useWindowSize/useWindowSize";
 
 
 export const PacksList = () => {
+    const { width } = useWindowSize()
+    const [editMode, setEditMode] = useState(true)
     const {Title} = Typography;
     const {t} = useTranslation()
     const dispatch = useDispatch();/*
@@ -52,13 +55,22 @@ export const PacksList = () => {
 
 
 
-
+    const onClickHandler = () => {
+        setEditMode(!editMode)
+    }
 
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
         <div className={s.wrapper}>
-            <div className={s.sidebar}>
+            <div className={s.navBurger} onClick={onClickHandler}>
+                <svg viewBox="0 0 100 80" width="30" height="30">
+                    <rect width="100" height="20"></rect>
+                    <rect y="30" width="100" height="20"></rect>
+                    <rect y="60" width="100" height="20"></rect>
+                </svg>
+            </div>
+            <div className={width! > 700 ? s.sidebar : editMode ? s.mobilePage : s.sidebar}>
                 <div className={s.sidebarsBtns}>
                     <Title level={4}>{t('show_packs')}</Title>
                     <div>
@@ -68,14 +80,15 @@ export const PacksList = () => {
                                 onClick={() => handleChangeParams({user_id: undefined, min: 0})}>{t('all')}</Button>
                     </div>
                 </div>
-
                 <div className={s.doubleRange}>
                     <div><Title level={4}>{t('number_cards')}</Title></div>
                     <SuperDoubleRangeContainer/>
                 </div>
+                <div className={s.promotion}>
+                    Здесь могла бы быть ваша реклама.
+                </div>
             </div>
-
-            <div className={s.content}>
+            <div className={width! > 700 ? s.content : !editMode ? s.mobilePage : s.content}>
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list')}</Title>
                     <SearchName user_id={id || ''}/>

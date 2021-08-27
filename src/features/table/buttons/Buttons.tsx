@@ -4,6 +4,7 @@ import {Button, Modal} from 'antd';
 import {useTranslation} from "react-i18next";
 import {InputContainer} from "../../../components/InputContainer/InputContainer";
 import {Learn} from "../../Learn/Learn";
+import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 
 type TableContainerPropsType = {
     user_id: string | undefined
@@ -36,12 +37,8 @@ export const Buttons = (props: TableContainerPropsType) => {
             <>
                 <div className={s.btnsWrapper}>
                     {props.user_id === props.userId && <>
-                        <Button type="primary" danger
-                                onClick={() => {
-                                }}>{t('delete')}</Button>
-                        <Button onClick={() => setShowEditPackModal(true)}
-                                style={{backgroundColor: "#D9D9F1", border: "none", marginLeft: '0'}}
-                        >{t('edit')}</Button>
+                        <DeleteTwoTone onClick={() => setShowEditPackModal(true)}  />
+                        <EditTwoTone onClick={() => setShowEditPackModal(true)} />
                     </>}
                     <Button className={s.learnButton}
                             onClick={() => setShowLearnModal(true)}>{t('learn')}</Button>

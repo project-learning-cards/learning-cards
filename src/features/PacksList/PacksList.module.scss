@@ -1,20 +1,43 @@
 @import '../../styles/mixins.scss';
-
+@import '../../styles/variables.scss';
 .wrapper {
-  width: 1100px;
-  height: 550px;
+  width: 80vw;
+  height: 80vh;
   display: flex;
   background: #fefeff;
   border-radius: 8px;
-
+  position: relative;
+  @media only screen and (max-width : 1000px) {
+    width: 100vw;
+  }
+  .navBurger {
+    @media  screen and (min-width : 700px) {
+      display: none;
+    }
+    position: absolute;
+    
+  }
   .sidebar {
     width: 30%;
     padding: 20px;
-    display: flex;
+    @include flexCenter();
     flex-direction: column;
-
+    @media  screen and (max-width : 700px) {
+      width: 100%;
+    }
     .sidebarBtns {
       width: 100%;
+      @include flexCenter();
+    }
+    .doubleRange {
+      @include flexCenter();
+      justify-content: start;
+      flex-direction: column;
+    }
+    .promotion{
+      border: 1px solid $mainColor;
+      width: 90%;
+      height: 100%;
       @include flexCenter();
     }
   }
@@ -24,10 +47,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media  screen and (max-width : 700px) {
+      width: 100%;
+    }
     .header {
       .title {
         text-align: start;
         margin: 10px;
+        padding-left: 25px;
       }
     }
     .main {
@@ -35,4 +62,8 @@
       overflow: auto;
     }
   }
+}
+
+.mobilePage {
+  display: none;
 }
