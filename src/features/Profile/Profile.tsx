@@ -75,7 +75,7 @@ export const Profile = () => {
                     <rect y="60" width="100" height="20"></rect>
                 </svg>
             </div>
-            <div className={width! > 700 ? s.profileInfoBlock : editMode ? s.mobileProfilePage : s.profileInfoBlock}>
+            <div className={width! > 768 ? s.profileInfoBlock : editMode ? s.mobileProfilePage : s.profileInfoBlock}>
                 <div className={s.profileInfo}>
                     <div>
                         <Avatar size={100} src={successProfile ? <PreloaderForApp /> : profile.avatar} icon={<UserOutlined />} />
@@ -101,7 +101,7 @@ export const Profile = () => {
                     Здесь могла бы быть ваша реклама.
                 </div>
             </div>
-            <div className={width! > 700 ? s.profilePacksList : !editMode ? s.mobileProfilePage : s.profilePacksList}>
+            <div className={width! > 768 ? s.profilePacksList : !editMode ? s.mobileProfilePage : s.profilePacksList}>
                 <div className={s.header}>
 
                     <Title className={s.title} level={2}>{t('packs_list_with_name', { name: profile.name })}</Title>

@@ -70,7 +70,7 @@ export const PacksList = () => {
                     <rect y="60" width="100" height="20"></rect>
                 </svg>
             </div>
-            <div className={width! > 700 ? s.sidebar : editMode ? s.mobilePage : s.sidebar}>
+            <div className={width! > 768 ? s.sidebar : editMode ? s.mobilePage : s.sidebar}>
                 <div className={s.sidebarsBtns}>
                     <Title level={4}>{t('show_packs')}</Title>
                     <div>
@@ -88,7 +88,7 @@ export const PacksList = () => {
                     Здесь могла бы быть ваша реклама.
                 </div>
             </div>
-            <div className={width! > 700 ? s.content : !editMode ? s.mobilePage : s.content}>
+            <div className={width! > 768 ? s.content : !editMode ? s.mobilePage : s.content}>
                 <div className={s.header}>
                     <Title className={s.title} level={2}>{t('packs_list')}</Title>
                     <SearchName user_id={id || ''}/>
