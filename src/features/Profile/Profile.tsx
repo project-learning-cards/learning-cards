@@ -45,7 +45,9 @@ export const Profile = () => {
                 dispatch(AuthUser())
             }
         }
-    }, [dispatch, idUser, loadingRequest])
+    }, [dispatch,idUser, loadingRequest])
+
+    const titles = [t('name_2'),t('cards_count'), t('last_update'), t('created'), t('actions')];
 
     useEffect(() => {
         if (idUser) {
@@ -53,9 +55,9 @@ export const Profile = () => {
                 packName: searchName || '', page, pageCount, max, sortPacks: sortPacks || '', min: 1
             }))
         }
-    }, [dispatch, page, min, max, searchName])
+    }, [dispatch,page, min, max, searchName])
 
-    const titles = useMemo(() => [t('name_2'),t('cards_count'), t('last_update'), t('created'), t('actions')], []);
+
 
     if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 

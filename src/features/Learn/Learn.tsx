@@ -7,12 +7,13 @@ import {getRandomCard} from "./random";
 import {Button, Modal} from 'antd';
 import SuperRadio from "../../components/SuperRadio/SuperRadio";
 import s from './Learn.module.scss'
+import {Preloader} from "../../components/Preloader/Preloader";
 
 const grades = ["Didn't know", 'Forgot', 'Confused', 'A lot of thought', 'Knew'];
 
-type LearnPropsType= {
+type LearnPropsType = {
     showLearnModal: boolean
-    setShowLearnModal: (showLearnModal: boolean)=> void
+    setShowLearnModal: (showLearnModal: boolean) => void
     cardPackId: string
 }
 
@@ -41,7 +42,6 @@ export const Learn = (props: LearnPropsType) => {
     });
 
 
-
     useEffect(() => {
         if (first) {
             dispatch(getCardsList({cardPack_id: props.cardPackId}));
@@ -62,13 +62,12 @@ export const Learn = (props: LearnPropsType) => {
 
         }
     }
-/*
-    if (success) {
-        return <Preloader/>
-    }*/
+    /*  if (success) {
+          return <Preloader/>
+      }*/
 
     const handleCancel = () => {
-       props.setShowLearnModal(false)
+        props.setShowLearnModal(false)
     }
 
     return (
@@ -80,7 +79,7 @@ export const Learn = (props: LearnPropsType) => {
                    !isChecked && <Button key="submit" type="primary" onClick={() => setIsChecked(true)}>
                        Show answer
                    </Button>,
-                   isChecked && <Button key="submit" type="primary" onClick={ () => onNext(grade, card._id)}>
+                   isChecked && <Button key="submit" type="primary" onClick={() => onNext(grade, card._id)}>
                        Next
                    </Button>
                ]}>
@@ -90,7 +89,9 @@ export const Learn = (props: LearnPropsType) => {
                 </div>
                 {isChecked && (
                     <div className={s.answerBlock}>
-                        <div style={{marginBottom: '15px'}}> <b>Answer:</b> {card.answer}<hr style={{opacity: '0.3'}}/></div>
+                        <div style={{marginBottom: '15px'}}><b>Answer:</b> {card.answer}
+                            <hr style={{opacity: '0.3'}}/>
+                        </div>
 
                         <div className={s.answer}>
                             <b>Rate yourself:</b>
