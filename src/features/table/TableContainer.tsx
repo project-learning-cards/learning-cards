@@ -7,6 +7,8 @@ import {PATH} from "../../components/routes/Pages";
 import {Buttons} from "./buttons/Buttons";
 import {Table} from "./Table";
 import s from "../../components/Header/Header.module.scss";
+import { useDispatch } from "react-redux";
+import { setPackName } from "../CardsList/cardsList-reducer";
 
 type TableContainerPropsType = {
     type: 'card' | 'pack'
@@ -20,9 +22,9 @@ type TableContainerPropsType = {
 }
 
 export const TableContainer = (props: TableContainerPropsType) => {
-    const [choosen, setChoosen] = useState(true)
-    const onCardsClick = () => {
-        setChoosen(true)
+    const dispatch = useDispatch()
+    const onCardsClick = (name: string) => {
+        dispatch(setPackName(name))
     }
    /* const {t} = useTranslation()
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
@@ -43,7 +45,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
         for (let i = 0; i < props.packs.length; i++) {
             let arr = []
             arr.push(<Button type="link" size="large"><NavLink
-                to={`${PATH.CARDS_LIST}` + props.packs[i]._id} onClick={onCardsClick}>{props.packs[i].name.length > 25 ? props.packs[i].name.slice(0, 25) + '...' : props.packs[i].name}</NavLink></Button>)
+                to={`${PATH.CARDS_LIST}` + props.packs[i]._id} onClick={() => onCardsClick(props.packs![i].name)}>{props.packs[i].name.length > 25 ? props.packs[i].name.slice(0, 25) + '...' : props.packs[i].name}</NavLink></Button>)
             /*<NavLink onClick={onCardsClick} className={`${s.link} + ${!choosen ? s.chosenBtn : s.MainBtn}`}
             to={PATH.PACKS_LIST}>{t('packs_lists')}
         </NavLink>

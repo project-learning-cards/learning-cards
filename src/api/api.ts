@@ -48,6 +48,7 @@ export const authAPI = {
 }
 export const PacksListAPI = {
     getPacks(params: GetPacksAPIParamsType) {
+        debugger
         const {page,max,min,packName,pageCount,user_id} = params
         const user__id = user_id !== undefined ? `&user_id=${user_id}` : ''
         return instance.get(`cards/pack?page=${page}&pageCount=${pageCount}&packName=${packName}&min=${min}&max=${max}${user__id}`)
@@ -58,7 +59,8 @@ export const PacksListAPI = {
     deleteCardsPack(params: { id: string }) {
         return instance.delete<Array<CardsPackType>>("/cards/pack", {params})
     },
-    changeCardsPack(_id: string, name ?: string) {
+    changeCardsPack(_id: string, name: string) {
+        debugger
         return instance.put("/cards/pack", {cardsPack: {_id, name}})
     },
 }

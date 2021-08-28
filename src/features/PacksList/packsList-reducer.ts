@@ -151,7 +151,22 @@ export const deletePack = (params: { id: string }, _id: string): AppThunkType =>
 
 
 
-
+    export const updatePackTitle = (_id: string, name: string): AppThunkType =>
+    async (dispatch: Dispatch<ActionPacksListType>, getState: GetAppStateType) => {
+        debugger
+        const {sortPacks, pageCount, packName, min, max, page} =
+            getState().packsList.packsParams
+        const userId = getState().profile.profile._id
+            const requestParams = {sortPacks, pageCount, packName, min, max, page, user_id: userId}
+        try {
+            debugger
+            await PacksListAPI.changeCardsPack(_id, name)
+            const response = await PacksListAPI.getPacks(requestParams)
+            dispatch(SuccessPackListLoadingAC(response.data))
+        } catch (e) {
+            dispatch(LoadingErrorAC(e))
+        }
+    }
 
 
 
