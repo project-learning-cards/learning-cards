@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePackTitle } from "../../PacksList/packsList-reducer";
 import { AppStateType } from "../../../App/redux-store";
 import { ProfileResponseType } from "../../Profile/profile-reducer";
+import { updateCard } from "../../CardsList/cardsList-reducer";
 
 type TableContainerPropsType = {
     user_id: string | undefined
     userId: string
     id: string
     packName?: string
+    cardsPackId?: string
     type: 'pack' | 'card'
     answer?: string
     question?: string
@@ -39,7 +41,6 @@ export const Buttons = (props: TableContainerPropsType) => {
         setShowEditPackModal(false)
     }
     const onSaveHandler = () => {
-        debugger
         dispatch(updatePackTitle(props.id, newName))
         setShowEditPackModal(false)
     }
@@ -47,6 +48,7 @@ export const Buttons = (props: TableContainerPropsType) => {
     useEffect(() => {
         setNewName(props.packName!)
     }, [props.packName]);
+
     useEffect(() => {
         setAnswer(props.answer);
         setQuestion(props.question)
@@ -55,17 +57,10 @@ export const Buttons = (props: TableContainerPropsType) => {
         setShowModal(false)
     }
     const onSaveHandler2 = () => {
-        // const payload = {
-        //     card: {
-        //         cardsPack_id: id,
-        //         question,
-        //         answer
-        //     }
-        // }
-        // dispatch(addCard(payload))
+        dispatch(updateCard(props.id, props.cardsPackId!, question!, answer!))
         setQuestion('')
         setAnswer('')
-        handleCancel()
+        handleCancel2()
     }
     const questionOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.currentTarget.value)
@@ -117,36 +112,36 @@ export const Buttons = (props: TableContainerPropsType) => {
 
             {props.type === 'card' &&
                 <>
-                {showModal &&
-                <Modal width={600} title={'Edit card'} visible={showModal}
-                    onCancel={handleCancel2}
-                    footer={[
-                        <Button key="back" onClick={handleCancel2}>
-                            Return
-                        </Button>,
-                        <Button key="submit" type="primary" onClick={onSaveHandler2}>
-                            Save
-                        </Button>
-                    ]}>
-                    <div style={{ height: '150px' }}>
-                        <InputContainer
-                            title={""}
-                            placeholder={"Question"}
-                            changeValue={questionOnChange}
-                            errorMessage={""}
-                            typeInput={"text"}
-                            value={question!}
-                        />
-                        <InputContainer
-                            title={""}
-                            placeholder={"answer"}
-                            changeValue={answerOnChange}
-                            errorMessage={""}
-                            typeInput={"text"}
-                            value={answer!}
-                        />
-                    </div>
-                </Modal>}
+                    {showModal &&
+                        <Modal width={600} title={'Edit card'} visible={showModal}
+                            onCancel={handleCancel2}
+                            footer={[
+                                <Button key="back" onClick={handleCancel2}>
+                                    Return
+                                </Button>,
+                                <Button key="submit" type="primary" onClick={onSaveHandler2}>
+                                    Save
+                                </Button>
+                            ]}>
+                            <div style={{ height: '150px' }}>
+                                <InputContainer
+                                    title={""}
+                                    placeholder={"Question"}
+                                    changeValue={questionOnChange}
+                                    errorMessage={""}
+                                    typeInput={"text"}
+                                    value={question!}
+                                />
+                                <InputContainer
+                                    title={""}
+                                    placeholder={"answer"}
+                                    changeValue={answerOnChange}
+                                    errorMessage={""}
+                                    typeInput={"text"}
+                                    value={answer!}
+                                />
+                            </div>
+                        </Modal>}
                     {profile._id === props.userId && <div className={s.btnsWrapper}>
                         <DeleteTwoTone onClick={() => props.deletePackFun!(props.id)} />
                         <EditTwoTone onClick={() => {
