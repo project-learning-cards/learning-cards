@@ -5,8 +5,10 @@ import { useTranslation } from "react-i18next";
 import { InputContainer } from "../../../components/InputContainer/InputContainer";
 import { Learn } from "../../Learn/Learn";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePackTitle } from "../../PacksList/packsList-reducer";
+import { AppStateType } from "../../../App/redux-store";
+import { ProfileResponseType } from "../../Profile/profile-reducer";
 
 type TableContainerPropsType = {
     user_id: string | undefined
@@ -21,7 +23,11 @@ type TableContainerPropsType = {
 }
 
 export const Buttons = (props: TableContainerPropsType) => {
+    const profile = useSelector<AppStateType, ProfileResponseType>(state => state.profile.profile)
     const { t } = useTranslation()
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [question, setQuestion] = useState(props.question);
+    const [answer, setAnswer] = useState(props.answer);
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
     const [showLearnModal, setShowLearnModal] = useState<boolean>(false);
     const [newName, setNewName] = useState(props.packName!)
@@ -41,6 +47,32 @@ export const Buttons = (props: TableContainerPropsType) => {
     useEffect(() => {
         setNewName(props.packName!)
     }, [props.packName]);
+    useEffect(() => {
+        setAnswer(props.answer);
+        setQuestion(props.question)
+    }, [props.answer, props.question]);
+    const handleCancel2 = () => {
+        setShowModal(false)
+    }
+    const onSaveHandler2 = () => {
+        // const payload = {
+        //     card: {
+        //         cardsPack_id: id,
+        //         question,
+        //         answer
+        //     }
+        // }
+        // dispatch(addCard(payload))
+        setQuestion('')
+        setAnswer('')
+        handleCancel()
+    }
+    const questionOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuestion(e.currentTarget.value)
+    }
+    const answerOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setAnswer(e.currentTarget.value)
+    }
     return (
         <div>
             {props.type === 'pack' &&
@@ -49,9 +81,9 @@ export const Buttons = (props: TableContainerPropsType) => {
                         {props.user_id === props.userId && <>
                             <DeleteTwoTone onClick={() => props.deletePackFun!(props.id)} />
                             <EditTwoTone onClick={() => {
-                                console.log(props.packName);
-                                setShowEditPackModal(true)} 
-                            }/>
+                                setShowEditPackModal(true)
+                            }
+                            } />
                         </>}
                         <Button className={s.learnButton}
                             onClick={() => setShowLearnModal(true)}>{t('learn')}</Button>
@@ -85,18 +117,43 @@ export const Buttons = (props: TableContainerPropsType) => {
 
             {props.type === 'card' &&
                 <>
-                    {props.user_id === props.userId && <div className={s.btnsWrapper}>
-                        <Button type="primary" danger onClick={() => { }}>{t('delete')}</Button>
-                        <Button onClick={() => { }}
-                            style={{ backgroundColor: "#D9D9F1", border: "none", marginLeft: '0' }}
-                        >{t('edit')}</Button>
+                {showModal &&
+                <Modal width={600} title={'Edit card'} visible={showModal}
+                    onCancel={handleCancel2}
+                    footer={[
+                        <Button key="back" onClick={handleCancel2}>
+                            Return
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={onSaveHandler2}>
+                            Save
+                        </Button>
+                    ]}>
+                    <div style={{ height: '150px' }}>
+                        <InputContainer
+                            title={""}
+                            placeholder={"Question"}
+                            changeValue={questionOnChange}
+                            errorMessage={""}
+                            typeInput={"text"}
+                            value={question!}
+                        />
+                        <InputContainer
+                            title={""}
+                            placeholder={"answer"}
+                            changeValue={answerOnChange}
+                            errorMessage={""}
+                            typeInput={"text"}
+                            value={answer!}
+                        />
+                    </div>
+                </Modal>}
+                    {profile._id === props.userId && <div className={s.btnsWrapper}>
+                        <DeleteTwoTone onClick={() => props.deletePackFun!(props.id)} />
+                        <EditTwoTone onClick={() => {
+                            setShowModal(true)
+                        }
+                        } />
                     </div>}
-
-
-
-
-
-
                 </>
             }
         </div>)

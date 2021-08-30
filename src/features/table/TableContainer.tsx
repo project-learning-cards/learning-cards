@@ -79,7 +79,7 @@ export const TableContainer = (props: TableContainerPropsType) => {
                          userId={props.cards[i].user_id}
                          id={props.cards[i]._id}
                          answer={props.cards[i].answer}
-                         type={'pack'}
+                         type={'card'}
                          question= {props.cards[i].question}
                          deleteCardFun= {props.deleteCardFun}
                 />

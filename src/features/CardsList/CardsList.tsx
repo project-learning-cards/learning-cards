@@ -13,7 +13,10 @@ import { useTranslation } from "react-i18next";
 import { Button, Modal } from "antd";
 import s from './CardsList.module.scss'
 import { InputContainer } from "../../components/InputContainer/InputContainer";
+import { usePackListSelector } from "../PacksList/usePackListSelector";
+
 export const CardsList = () => {
+    const { packsList } = usePackListSelector()
     const [showModal, setShowModal] = useState<boolean>(false);
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
@@ -25,7 +28,7 @@ export const CardsList = () => {
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cardsList.arrayCard)
     const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>()
-
+    let packUserId = packsList.find(p => p._id === id)?.user_id
     useEffect(() => {
         if (!profile._id) {
             dispatch(AuthUser())
@@ -111,7 +114,7 @@ export const CardsList = () => {
             <div className={s.header}>pack title: {packName}</div>
             <TableContainer type={"card"} deleteCardFun={deleteCardFun} cards={cards} titles={titles} />
             <div className={s.footer}>
-                <button onClick={() => setShowModal(true)}>add card</button>
+                {packUserId === profile._id && <button onClick={() => setShowModal(true)}>add card</button>}
                 <NavLink to={PATH.PACKS_LIST}>back to packs</NavLink>
             </div>
         </div>
