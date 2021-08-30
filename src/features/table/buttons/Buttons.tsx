@@ -143,7 +143,7 @@ export const Buttons = (props: TableContainerPropsType) => {
                             </div>
                         </Modal>}
                     {profile._id === props.userId && <div className={s.btnsWrapper}>
-                        <DeleteTwoTone onClick={() => props.deletePackFun!(props.id)} />
+                        <DeleteTwoTone onClick={() => props.deleteCardFun!(props.id, props.cardsPackId!)} />
                         <EditTwoTone onClick={() => {
                             setShowModal(true)
                         }
