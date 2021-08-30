@@ -1,28 +1,26 @@
 {
   "files": {
-    "main.css": "/learning-cards/static/css/main.e5d01566.chunk.css",
-    "main.js": "/learning-cards/static/js/main.d09db3e5.chunk.js",
-    "main.js.map": "/learning-cards/static/js/main.d09db3e5.chunk.js.map",
-    "runtime-main.js": "/learning-cards/static/js/runtime-main.cd10330e.js",
-    "runtime-main.js.map": "/learning-cards/static/js/runtime-main.cd10330e.js.map",
-    "static/css/2.bb0da62a.chunk.css": "/learning-cards/static/css/2.bb0da62a.chunk.css",
-    "static/js/2.8f66dd38.chunk.js": "/learning-cards/static/js/2.8f66dd38.chunk.js",
-    "static/js/2.8f66dd38.chunk.js.map": "/learning-cards/static/js/2.8f66dd38.chunk.js.map",
-    "static/js/3.4120d3a6.chunk.js": "/learning-cards/static/js/3.4120d3a6.chunk.js",
-    "static/js/3.4120d3a6.chunk.js.map": "/learning-cards/static/js/3.4120d3a6.chunk.js.map",
+    "main.css": "/learning-cards/static/css/main.75619bc0.chunk.css",
+    "main.js": "/learning-cards/static/js/main.19499a12.chunk.js",
+    "main.js.map": "/learning-cards/static/js/main.19499a12.chunk.js.map",
+    "runtime-main.js": "/learning-cards/static/js/runtime-main.ef693a7f.js",
+    "runtime-main.js.map": "/learning-cards/static/js/runtime-main.ef693a7f.js.map",
+    "static/css/2.5f5f9133.chunk.css": "/learning-cards/static/css/2.5f5f9133.chunk.css",
+    "static/js/2.eafec434.chunk.js": "/learning-cards/static/js/2.eafec434.chunk.js",
+    "static/js/2.eafec434.chunk.js.map": "/learning-cards/static/js/2.eafec434.chunk.js.map",
+    "static/js/3.21545b73.chunk.js": "/learning-cards/static/js/3.21545b73.chunk.js",
+    "static/js/3.21545b73.chunk.js.map": "/learning-cards/static/js/3.21545b73.chunk.js.map",
     "index.html": "/learning-cards/index.html",
-    "static/css/2.bb0da62a.chunk.css.map": "/learning-cards/static/css/2.bb0da62a.chunk.css.map",
-    "static/css/main.e5d01566.chunk.css.map": "/learning-cards/static/css/main.e5d01566.chunk.css.map",
-    "static/js/2.8f66dd38.chunk.js.LICENSE.txt": "/learning-cards/static/js/2.8f66dd38.chunk.js.LICENSE.txt",
-    "static/media/Spinner.31c2669a.gif": "/learning-cards/static/media/Spinner.31c2669a.gif",
-    "static/media/checkEmail.bc3a4042.svg": "/learning-cards/static/media/checkEmail.bc3a4042.svg",
-    "static/media/loadingBtn.8c4b4840.svg": "/learning-cards/static/media/loadingBtn.8c4b4840.svg"
+    "static/css/2.5f5f9133.chunk.css.map": "/learning-cards/static/css/2.5f5f9133.chunk.css.map",
+    "static/css/main.75619bc0.chunk.css.map": "/learning-cards/static/css/main.75619bc0.chunk.css.map",
+    "static/js/2.eafec434.chunk.js.LICENSE.txt": "/learning-cards/static/js/2.eafec434.chunk.js.LICENSE.txt",
+    "static/media/getFetch.cjs": "/learning-cards/static/media/getFetch.582d29c4.cjs"
   },
   "entrypoints": [
-    "static/js/runtime-main.cd10330e.js",
-    "static/css/2.bb0da62a.chunk.css",
-    "static/js/2.8f66dd38.chunk.js",
-    "static/css/main.e5d01566.chunk.css",
-    "static/js/main.d09db3e5.chunk.js"
+    "static/js/runtime-main.ef693a7f.js",
+    "static/css/2.5f5f9133.chunk.css",
+    "static/js/2.eafec434.chunk.js",
+    "static/css/main.75619bc0.chunk.css",
+    "static/js/main.19499a12.chunk.js"
   ]
 }
