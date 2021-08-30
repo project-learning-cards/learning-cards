@@ -30,7 +30,7 @@
       }
       .profileInfo {
         width: 100%;
-        height: 216px;
+        height: 236px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -38,7 +38,10 @@
         background-color: #d9d9f1;
         border-radius: 8px 0 8px 8px;
         padding: 10px 10px 16px;
-
+        .profilePhoto {
+          height: 100px;
+          @include flexCenter;
+        }
         & img {
           height: 96px;
           width: 96px;

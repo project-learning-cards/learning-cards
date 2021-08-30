@@ -11,7 +11,7 @@ import { passwordRecoveryThunk, setServerErrorMessageRecovery, setSuccess } from
 import {PATH} from "../../components/routes/Pages";
 
 export const PasswordRecovery = () => {
-    const [email, setEmail] = useState<string>("hardtruenew39@gmail.com")
+    const [email, setEmail] = useState<string>("")
     const [error, setError] = useState<string>("")
     const disabledBtnSubmit = !email
 

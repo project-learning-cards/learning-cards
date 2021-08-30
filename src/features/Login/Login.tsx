@@ -13,8 +13,8 @@ import {Checkbox} from 'antd';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export const Login = () => {
-    const [emailValue, setEmailValue] = useState<string>("")
-    const [passwordValue, setPasswordValue] = useState<string>("")
+    const [emailValue, setEmailValue] = useState<string>("mapeducationstudio@yandex.ru")
+    const [passwordValue, setPasswordValue] = useState<string>("map123456789")
     const [rememberMe, setRememberMe] = useState<boolean>(false)
 
     const dispatch = useDispatch()

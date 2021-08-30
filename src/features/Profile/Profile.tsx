@@ -77,8 +77,8 @@ export const Profile = () => {
             </div>
             <div className={width! > 768 ? s.profileInfoBlock : editMode ? s.mobileProfilePage : s.profileInfoBlock}>
                 <div className={s.profileInfo}>
-                    <div>
-                        <Avatar size={100} src={successProfile ? <PreloaderForApp /> : profile.avatar} icon={<UserOutlined />} />
+                    <div className={s.profilePhoto}>
+                        <Avatar  size={100} src={successProfile ? <PreloaderForApp /> : profile.avatar} icon={<UserOutlined />} />
                     </div>
                     <div style={{ float: 'left', marginBottom: '10px' }}>
                         <div><b>{t('name')}:</b> {profile.name && profile.name}</div>
