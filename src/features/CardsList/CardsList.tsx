@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { deleteCard, getCardsList } from "./cardsList-reducer";
+import { addCard, deleteCard, getCardsList } from "./cardsList-reducer";
 import { AppStateType } from "../../App/redux-store";
 import { Redirect, useParams } from "react-router-dom";
 import { AuthUser } from "../Login/login-reducer";
@@ -41,6 +41,14 @@ export const CardsList = () => {
         
     }
     const onSaveHandler = () => {
+        const payload = {
+            card: {
+                cardsPack_id: id,
+                question,
+                answer
+            }
+        }
+        dispatch(addCard(payload)) 
         setQuestion('')
         setAnswer('')
         handleCancel()
