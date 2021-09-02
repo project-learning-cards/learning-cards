@@ -12,8 +12,8 @@
     position: absolute;
     top: 15px;
     left: 60px;
-    @media  screen and (max-width : 450px) {
-     display: none;
+    @media screen and (max-width: 450px) {
+      display: none;
     }
   }
 
@@ -24,18 +24,15 @@
     background-color: $mainColor;
     border-bottom: 3px solid $secondaryColor;
   }
-  .MainBtn {
+  .mainBtn {
     @include flexCenter;
     width: 173px;
     height: 100%;
+    color: black;
   }
   .changeLanguage {
     position: absolute;
     top: 15px;
     right: 60px;
   }
-}
-
-.link {
-  color: black;
 }

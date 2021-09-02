@@ -5,17 +5,17 @@
   padding: 2px;
   box-sizing: border-box;
   line-height: 19px;
-  background-color: #21268F;
-  color: #ECECF9;
+  background-color: #21268f;
+  color: #ececf9;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: SF UI Display, sans-serif;
   box-shadow: 0 4px 18px 2px rgba(33, 38, 143, 0.35);
-  transition: .2s;
+  transition: 0.2s;
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   &:active {
@@ -23,7 +23,7 @@
   }
 
   &[disabled] {
-    opacity: .8;
+    opacity: 0.8;
     cursor: default;
   }
 }

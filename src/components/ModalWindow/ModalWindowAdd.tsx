@@ -1,15 +1,15 @@
-import {ModalWindow} from "./ModalWindow";
-import {InputContainer} from "../InputContainer/InputContainer";
-import style from "../../features/PacksList/PacksList.module.scss";
-import {MainActionButton} from "../MainActionButton/MainActionButton";
-import React, {ChangeEvent, useState} from "react";
-import {useDispatch} from "react-redux";
-import {addPack} from "../../features/PacksList/packsList-reducer";
+import { ModalWindow } from './ModalWindow';
+import { InputContainer } from '../InputContainer/InputContainer';
+import style from '../../features/PacksList/PacksList.module.scss';
+import { MainActionButton } from '../MainActionButton/MainActionButton';
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addPack } from '../../features/PacksList/packsList-reducer';
 
 export type ModalWindowPropsType = {
-    showModal: boolean
-    setShowModal: (showModal: boolean) => void
-}
+  showModal: boolean;
+  setShowModal: (showModal: boolean) => void;
+};
 
 /*
 export const ModalWindowAdd: React.FC<ModalWindowPropsType> = (props) => {

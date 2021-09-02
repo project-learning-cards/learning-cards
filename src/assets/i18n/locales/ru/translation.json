@@ -36,5 +36,9 @@
   "all": "ВСЕ",
   "show_packs": "Показать наборы",
   "personal_information": "Персональная информация",
-  "nick_name": "Прозвище"
+  "nick_name": "Прозвище",
+  "pack_title": "Имя набора",
+  "back_to_packs": "Назад в наборы",
+  "add_card": "Добавить карту",
+  "your_ad_could_be_here": "Здесь могла бы быть ваша реклама"
 }

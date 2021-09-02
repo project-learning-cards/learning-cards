@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 export type ModalWindowPropsType = {
-    packId: string
-    showModal: boolean
-    setShowModal: (showModal: boolean) => void
-}
+  packId: string;
+  showModal: boolean;
+  setShowModal: (showModal: boolean) => void;
+};
 /*
 
 export const ModalWindowUpdate: React.FC<ModalWindowPropsType> = (props) => {

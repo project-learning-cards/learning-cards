@@ -11,15 +11,14 @@
     flex-direction: column;
     justify-content: space-around;
     .header {
-        @include flexCenter();
+      @include flexCenter();
     }
     .table {
-        flex-grow: 1;
-        overflow: auto;
+      flex-grow: 1;
+      overflow: auto;
     }
     .footer {
-        @include flexCenter();
+      @include flexCenter();
     }
-    
   }
 }

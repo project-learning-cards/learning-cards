@@ -35,5 +35,10 @@
   "my": "MY",
   "all": "ALL",
   "personal_information": "Personal information",
-  "nick_name": "Nick name"
+  "nick_name": "Nick name",
+  "show_packs": "Show packs",
+  "pack_title": "Pack title",
+  "back_to_packs": "Back to packs",
+  "add_card": "Add card",
+  "your_ad_could_be_here": "Your ad could be here"
 }
